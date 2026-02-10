@@ -169,8 +169,8 @@ Resources:
 1. Official latest [cores](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
 2. Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
 3. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
-4. [RetroArch folder](https://drive.google.com/file/d/1lfP_vgm0dOTNdJITipk58iABIcoD-Srf/view?usp=drive_link) (Place on SD card for new firmware features).
-5. [M88 upgraded image](https://drive.google.com/file/d/1VrmjSrvCVmwFbfdk5CUOv72VwNMem2My/view?usp=drive_link).
+4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/RetroArch.7z).
+5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
 
@@ -248,7 +248,7 @@ Use [7-zip](https://www.7-zip.org/download.html) to open your USER image, it wil
 
 ### Write to eMMC
 
-1. Download, unpack and verify sha512 of [patched image](https://drive.google.com/file/d/1VrmjSrvCVmwFbfdk5CUOv72VwNMem2My/view?usp=drive_link).
+1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
 2. Download the [scatter](resources/m88/M88_scatter.txt) file and use it instead of empty one. Place your 
 preloader, scatter and patched image in the same folder.
 3. Check the size of the image, edit if needed:
@@ -256,6 +256,7 @@ preloader, scatter and patched image in the same folder.
 partition_size: 0x1d2000000
 ```
 0x1d2000000 = 7818182656 bytes.
+
 4. Open Flash Tool.
 
 You have two options (both include **FORMATTING** the device).
@@ -287,7 +288,8 @@ Option two:
 ![flashTool5](resources/images/flashTool5.webp)
 
 ## RetroArch Setup
-After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download [RetroArch archive](https://drive.google.com/file/d/1lfP_vgm0dOTNdJITipk58iABIcoD-Srf/view?usp=drive_link) 
+After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download 
+[RetroArch archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/RetroArch.7z) 
 and unpack it into root of your sd card. (sdcard/RetroArch).
 
 What is inside:
