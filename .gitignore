@@ -207,3 +207,8 @@ marimo/_lsp/
 __marimo__/
 
 .idea
+/src/img/original/*
+!/src/img/original
+/src/img/updated/
+/src/res/*
+!/src/res
