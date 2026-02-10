@@ -30,18 +30,19 @@
 
 ![M88Board](resources/images/M88Board.webp)
 
-M88 is a Chinese game-stick which comes with a locked-down system, some unfinished features and deceptive marketing. It
-does not have any passive culling and in hard 3d may overheat quickly. The game-stick has next hardware:
+M88 is a Chinese game-stick which comes with a locked-down system, unfinished features and deceptive marketing. Without
+passive culling it may overheat quickly in hard 3D.
 
-1. [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) chip.
-2. [eMMC 5.1](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar storage.
-3. [DDR4 16Gb d / 2GB](https://semiconductor.samsung.com/dram/lpddr/lpddr4/k4f6e3s4hm-ghcl/) or similar ram.
+Hardware:
 
-The manufacturer claims PS2 emulation, but providing quite mediocre processor with 
-only 2GB memory chip on board it is basically unplayable. AetherSX2 / NetherSX2 officially recommend 4-8 GB, for that reason
-no PS2 patch / update is included.
+1. [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) chipset.
+2. [eMMC 5.1](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar.
+3. [DDR4 16Gb d / 2GB](https://semiconductor.samsung.com/dram/lpddr/lpddr4/k4f6e3s4hm-ghcl/) or similar.
 
-This guide helps you to bypass some of the platform limitations and gives the ability to customize RetroArch:
+The manufacturer claims PS2 emulation, but with P65 chipset + only 2GB memory chip on board it's basically unplayable. 
+AetherSX2 / NetherSX2 officially recommend 4-8 GB, for that reason no PS2 patch / update is included.
+
+This guide shows how to upgrade M88 firmware which allows:
 
 1. Button mapping (RealPad->RetroPad).    
 2. Setup hotkeys.
@@ -53,7 +54,7 @@ This guide helps you to bypass some of the platform limitations and gives the ab
 8. Unlock multiple save / load slots.
 9. Missed BIOSes fixed.
 10. Standard RetroArch menu with settings.
-11. Replace mupen64plusae on RetroArch (mupen64plus_next_gles3_libretro_android.so)
+11. Replace mupen64plusae to RetroArch (mupen64plus_next_gles3_libretro_android.so)
 
 ![shader](resources/images/shader.webp)
 
@@ -126,15 +127,15 @@ am start --user 0 -n com.emu/.browser.retroactivity.RetroActivityFuture -e ROM "
 The old RetroArch is hidden under custom menu with few options. The system has:
 
 1. No core settings.
-2. No controller settings. (It is even impossible to play some games: Lost vikings, Duke Nukem etc.).
+2. No controller settings. (It is impossible to play some games: Lost vikings, Duke Nukem etc.).
 3. No hotkeys.
 4. No shaders.
 5. Only single save / load slot for RetroArch platforms.
 6. No ability to reset a game.
-7. No ability to update cores (Only provided works and not always as some owners reported).
-8. No ability to choose among several cores for a particular platform.
+7. No ability to update cores.
+8. No ability to choose a core for a particular platform.
 9. PSX running on old Rearmed core (1x upscale, software rendering).
-10. N64 running on mupen with zero menu settings.
+10. N64 running on mupen64plus with zero menu settings.
 
 ### Patch Overview
 
@@ -151,9 +152,9 @@ The fixes include:
 
 To fix your stick read [Firmware Upgrade](#firmware-upgrade), [RetroArch Setup](#retroarch-setup) and [Game Won't Start](#game-wont-start).
 
-**BE AWARE**, firmware upgrade might potentially brick your device, do it at your own risk.
+**NOTE**, firmware upgrade might potentially brick your device, do it at your own risk.
 
-You can also patch your own image (if it's M88-P65-V1.8) using this [script](src/Main.py):
+You can also patch your own image (M88-P65-V1.8) using this [script](src/Main.py):
 
 1. Put your USER.img [here](src/img/original).
 2. Open the script in your IDE.
@@ -171,21 +172,23 @@ Resources:
 4. [RetroArch folder](https://drive.google.com/file/d/1lfP_vgm0dOTNdJITipk58iABIcoD-Srf/view?usp=drive_link) (Place on SD card for new firmware features).
 5. [M88 upgraded image](https://drive.google.com/file/d/1VrmjSrvCVmwFbfdk5CUOv72VwNMem2My/view?usp=drive_link).
 
-\* *New cores are contained in RetroArch folder and will work only with upgraded firmware.*
+\* *New cores are contained in RetroArch folder only for upgraded firmware.*
+
 ## Firmware Upgrade
 
 Steps bellow are intended for sticks based on MediaTek chipsets. If you have different processor model your steps will be similar,
 but drivers and tools must be replaced to suit your chip.
 
-The stick can be connected in **BROM mode** (Boot ROM mode is a low-level mode that allows reading/writing the eMMC flash).
+The stick supports only **BROM mode** (Boot ROM mode is a low-level mode that allows reading/writing the eMMC flash).
 
 ### Enter BROM Mode
 1. Prepare a cable USB-A <-> USB-A (you can use common USB-C phone cable + adapter USB-C to USB-A)
 2. Prepare a toothpick (To press the 'upgrade' button in the hole of the stick).
-3. Remove dongle from the stick to insert the cable in it later.
+3. Remove dongle from the stick to insert the cable in it.
 4. Connect one end of the cable to your laptop / computer.
 5. Push the button in the stick's hole with a toothpick and hold.
 6. Connect the other end of the cable into dongle's socket.
+7. Release the 'upgrade' button after the connection is established.
 
 ![stick](resources/images/stick.webp)
 
@@ -197,17 +200,18 @@ In Device Manager select "Show Hidden Devices" and find new unknown device. Its 
 
 ![DeviceProps](resources/images/deviceProperty.webp)
 
-The actual window for you will be different, as your device is yet unknown, the key is to find VID like VID_0E8D.
+On your window the device is yet unknown, the key is to find VID like VID_0E8D to confirm the model.
 
 1. For MediaTek device install the [driver](https://mtkdriver.com/install-mtk-driver)*.
 2. Install [software](https://spflashtools.com/windows/sp-flash-tool-v5-2404) to perform read / write operations.
 3. For MT6768 download the [preloader](resources/m88/preloader_tb8786p1_64_k419.bin)**. (Check its [sha512](resources/m88/sha512.txt)).
 4. Download the [empty scatter](resources/m88/M88_empty_scatter.txt) file***.
 
-\* *If your driver does not have digital signature you can read [this](https://photobyte.org/installing-unsigned-drivers-on-windows-10-or-11/).*
+\* *If your driver does not have digital signature read [this](https://photobyte.org/installing-unsigned-drivers-on-windows-10-or-11/).*
 
 \** *Without a preloader you will not be able to write to and read from eMMC.
 If the provided preloader does not fit then use [mtk client](https://github.com/bkerler/mtkclient) to get one:*
+
 1. Install mtk client.
 2. Open cmd in mtk client folder.
 3. Type `mtk printgpt`.
@@ -238,13 +242,13 @@ and connect your device as described in [Enter BROM Mode](#enter-brom-mode). You
 If operation fails your preloader / device model is different (popup should show you the actual chip model),
 use *mtk client* as described above to get correct preloader and info about your device.
 
-You can use [7-zip](https://www.7-zip.org/download.html) to open your USER image, it will look something like this:
+Use [7-zip](https://www.7-zip.org/download.html) to open your USER image, it will look like this:
 
 ![7zip](resources/images/zip.webp)
 
 ### Write to eMMC
 
-1. Download, unpack and verify sha512 of [patched image](https://drive.google.com/file/d/1VrmjSrvCVmwFbfdk5CUOv72VwNMem2My/view?usp=drive_link) or use your backup or any other image to try.
+1. Download, unpack and verify sha512 of [patched image](https://drive.google.com/file/d/1VrmjSrvCVmwFbfdk5CUOv72VwNMem2My/view?usp=drive_link).
 2. Download the [scatter](resources/m88/M88_scatter.txt) file and use it instead of empty one. Place your 
 preloader, scatter and patched image in the same folder.
 3. Check the size of the image, edit if needed:
@@ -283,7 +287,8 @@ Option two:
 ![flashTool5](resources/images/flashTool5.webp)
 
 ## RetroArch Setup
-After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download [RetroArch archive](https://drive.google.com/file/d/1lfP_vgm0dOTNdJITipk58iABIcoD-Srf/view?usp=drive_link) and unpack it into root of your sd card. (sdcard/RetroArch).
+After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download [RetroArch archive](https://drive.google.com/file/d/1lfP_vgm0dOTNdJITipk58iABIcoD-Srf/view?usp=drive_link) 
+and unpack it into root of your sd card. (sdcard/RetroArch).
 
 What is inside:
 1. **assets** folder. Menus and others.
@@ -300,7 +305,7 @@ What is inside:
 12. **overlays** folder. Buttons on the screen.
 13. **playlists** folder. Similar to history.
 14. **shaders** folder. Shader programs.
-15. **system** folder. Bioses.
+15. **system** folder. BIOSes.
 16. **temp** folder. Temporary files.
 17. **thumbnails** folder. Art, screenshots etc.
 18. **retroarch.cfg** file. Main file to control RetroArch behaviour.
@@ -454,7 +459,7 @@ You can also create .rmp file with appropriate mapping via RetroArch quick menu:
 ![config menu](resources/images/configMenu.webp)
 
 ### Shaders
-To assign global shader go to and open *sdcard/RetroArch/config/global.glslp* and set a reference - path to a global shader you want to use,
+To assign global shader go to and open *sdcard/RetroArch/config/global.glslp* then set a reference - path to a global shader you want to use,
 for example: `#reference "../shaders/shaders_glsl/xbr/xbr-lv3-multipass.glslp`. 
 Shader can be disabled or enabled by using default hotkey - **select + r3**.
 They are also accessible from the quick menu:
@@ -482,7 +487,7 @@ whenever a game starts the system creates a file with rom's name and a core's na
 
 To assign specific core for N64 platform set a name of core in *sdcard/RetroArch/n64core.cfg* like: `parallel_n64_libretro_android.so`
 
-If *sdcard/RetroArch/n64core.cfg* does not exist, the default mupen will start.
+If *sdcard/RetroArch/n64core.cfg* does not exist, the default mupen64 will start.
 
 *All cores must exist in sdcard/RetroArch/cores folder.*
 
@@ -542,12 +547,12 @@ The game is now registered and will appear in PSP game list.
 To remove - delete an appropriate row from **game** table, decrease the number of games for a specific platform 
 in **categ** table and delete ROM / image files.
 
-To replace - edit an appropriate row, you only need to change **path**, **image** and 4 name cells.
+To replace - edit an appropriate row, you only need to change **path**, **image** and 4 name cells, then delete / add according ROM / image files.
 
 ## Scripts
 
 Repo has some scripts for packing / unpacking / editing images. Examples can be seen [here](src/Main.py). Some scripts use
-linux-like programs therefore, to use them under Windows, you have to:
+linux-like programs, install Cygwin to use them in Windows:
 
 1. Install [Cygwin](https://www.cygwin.com/). (It will allow you to invoke many linux-like programs in your cmd, avoiding using WSL, VMWare etc.).
 2. Add PATH to use cygwin programs from any place in your cmd:
