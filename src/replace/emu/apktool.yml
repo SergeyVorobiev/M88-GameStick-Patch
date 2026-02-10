@@ -1,0 +1,26 @@
+version: 2.12.1
+apkFileName: emu.apk
+usesFramework:
+  ids:
+  - 1
+sdkInfo:
+  minSdkVersion: 19
+  targetSdkVersion: 23
+packageInfo:
+  forcedPackageId: 127
+versionInfo:
+  versionCode: 20
+  versionName: 2.0-Dagoth
+doNotCompress:
+- arsc
+- png
+- so
+- wav
+- assets/asciifont_atlas.meta
+- assets/asciifont_atlas.zim
+- assets/font_atlas.meta
+- assets/font_atlas.zim
+- assets/ppge_atlas.meta
+- assets/ppge_atlas.zim
+- assets/ui_atlas.meta
+- assets/ui_atlas.zim

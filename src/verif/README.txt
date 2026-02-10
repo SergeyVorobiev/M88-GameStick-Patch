@@ -1,0 +1,1 @@
+You can take this test key to generate AVB footer

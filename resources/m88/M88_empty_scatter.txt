@@ -1,0 +1,37 @@
+############################################################################################################
+#
+#  General Setting
+#
+############################################################################################################
+- general: MTK_PLATFORM_CFG
+  info: 
+    - config_version: V1.1.8
+      platform: MT6768
+      project: M88
+      storage: EMMC
+      boot_channel: MSDC_0
+      block_size: 0x20000
+      modem_check: false
+      modem: NA
+
+############################################################################################################
+#
+#  Layout Setting
+#
+############################################################################################################
+- partition_index: SYS0
+  partition_name: preloader
+  file_name: preloader_tb8786p1_64_k419.bin
+  is_download: true
+  type: SV5_BL_BIN
+  linear_start_addr: 0x0
+  physical_start_addr: 0x0
+  partition_size: 0x4cc3b 
+  region: EMMC_BOOT_1
+  storage: HW_STORAGE_EMMC
+  boundary_check: true
+  is_reserved: false
+  operation_type: BOOTLOADERS
+  is_upgradable: false
+  empty_boot_needed: false
+  reserve: 0x00
