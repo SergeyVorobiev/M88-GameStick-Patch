@@ -23,8 +23,9 @@
    7. [Core Mapping](#core-mapping)
    8. [Game Won't Start](#game-wont-start)
 4. [Adding / Removing / Replacing Games](#adding--removing--replacing-games)
-5. [Scripts](#scripts)
-6. [Graphic Settings](#graphic-settings)
+5. [Graphic Settings](#graphic-settings)
+6. [Scripts](#scripts)
+
 
 ## Introduction
 
@@ -551,10 +552,81 @@ in **categ** table and delete ROM / image files.
 
 To replace - edit an appropriate row, you only need to change **path**, **image** and 4 name cells, then delete / add according ROM / image files.
 
+## Graphic Settings
+
+### PSP
+
+```
+Backend                             OpenGL
+Rendering resolution                4x PSP
+Display resolution                  Native device resolution
+Fullscreen                          Off
+Frame skipping type                 Percent of FPS
+Auto frameskip                      On
+Disable culling                     Off
+Skip GPU Readbacks                  Skip
+Lazy texture caching                On
+Spline/Bezier curves quality        Low
+Buffer graphics commands            Up to 1
+Hardware transform                  On
+Software skinning                   Off
+Hardware tessellation               Off
+Upscale type                        Bicubic
+Upscale level                       Off
+Deposterize                         Off
+Anizotropic filtering               0x - 4x
+Texture filtering                   linear / auto
+Smart 2D texture filtering          On
+Lower resolution for effectes       Aggressive
+```
+
+![psp1](resources/images/psp1.webp)
+
+![psp2](resources/images/psp2.webp)
+
+![psp3](resources/images/psp3.webp)
+
+### Naomi & DreamCast
+
+```
+Graphics API                         Vulkan
+Transparent Sorting                  Per Triangle
+Internal Resolution                  1280x960 / 1600x1200
+VSync                                Off
+Full Framebuffer Emulation           Off
+Load Custom Textures                 Off
+Automatic Frame Skipping             Maximum
+Shadows                              Off
+Fog                                  Off
+Delay Frame Swapping                 Off
+Fix Upscale Bleeding Edge            On / Off
+Native Depth Interpolation           Off
+Copy Rendered Textures to VRAM       Off
+Anisotropic Filtering                0x - 4x
+Texture Filtering                    Force Linear / (Default - if artefacts)
+Texture Upscaling                    1x in (3d) / up to 4x in 2d (fightings)
+Texture Max Size                     256
+Max Threads                          4
+```
+
+![dreamcast](resources/images/dreamcast.webp)
+
+![naomi](resources/images/naomi.webp)
+
+### RetroArch
+
+Core settings for RetroArch platforms: `sdcard/RetroArch/config`.
+
+![dendysega](resources/images/dendysega.webp)
+
+![CPSFBNeo](resources/images/CPSFBNeo.webp)
+
+![n64PSX](resources/images/n64PSX.webp)
+
 ## Scripts
 
-Repo has some scripts for packing / unpacking / editing images. Examples can be seen [here](src/Main.py). Some scripts use
-linux-like programs, install Cygwin to use them in Windows:
+Repo has scripts for packing / unpacking / editing images. Examples can be seen [here](src/Main.py). Some scripts use
+linux-like programs:
 
 1. Install [Cygwin](https://www.cygwin.com/). (It will allow you to invoke many linux-like programs in your cmd, avoiding using WSL, VMWare etc.).
 2. Add PATH to use cygwin programs from any place in your cmd:
@@ -697,77 +769,6 @@ SuperTool.pack_super_m88(product_a_path="img/original/extracted/super/product_a.
 
 *Some code sketches and architectural explanations were provided by [![Grok](https://img.shields.io/badge/Grok-000000?style=for-the-badge&logo=grok&logoColor=fff
 )](https://grok.com/)*
-
-## Graphic Settings
-
-### PSP
-
-```
-Backend                             OpenGL
-Rendering resolution                4x PSP
-Display resolution                  Native device resolution
-Fullscreen                          Off
-Frame skipping type                 Percent of FPS
-Auto frameskip                      On
-Disable culling                     Off
-Skip GPU Readbacks                  Skip
-Lazy texture caching                On
-Spline/Bezier curves quality        Low
-Buffer graphics commands            Up to 1
-Hardware transform                  On
-Software skinning                   Off
-Hardware tessellation               Off
-Upscale type                        Bicubic
-Upscale level                       Off
-Deposterize                         Off
-Anizotropic filtering               0x - 4x
-Texture filtering                   linear / auto
-Smart 2D texture filtering          On
-Lower resolution for effectes       Aggressive
-```
-
-![psp1](resources/images/psp1.webp)
-
-![psp2](resources/images/psp2.webp)
-
-![psp3](resources/images/psp3.webp)
-
-### Naomi & DreamCast
-
-```
-Graphics API                         Vulkan
-Transparent Sorting                  Per Triangle
-Internal Resolution                  1280x960 / 1600x1200
-VSync                                Off
-Full Framebuffer Emulation           Off
-Load Custom Textures                 Off
-Automatic Frame Skipping             Maximum
-Shadows                              Off
-Fog                                  Off
-Delay Frame Swapping                 Off
-Fix Upscale Bleeding Edge            On / Off
-Native Depth Interpolation           Off
-Copy Rendered Textures to VRAM       Off
-Anisotropic Filtering                0x - 4x
-Texture Filtering                    Force Linear / (Default - if artefacts)
-Texture Upscaling                    1x in (3d) / up to 4x in 2d (fightings)
-Texture Max Size                     256
-Max Threads                          4
-```
-
-![dreamcast](resources/images/dreamcast.webp)
-
-![naomi](resources/images/naomi.webp)
-
-### RetroArch
-
-Core settings for RetroArch platforms: `sdcard/RetroArch/config`.
-
-![dendysega](resources/images/dendysega.webp)
-
-![CPSFBNeo](resources/images/CPSFBNeo.webp)
-
-![n64PSX](resources/images/n64PSX.webp)
 
 
 
