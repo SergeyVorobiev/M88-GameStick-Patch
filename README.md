@@ -291,7 +291,8 @@ Option two:
 ## RetroArch Setup
 After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download 
 [RetroArch archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/RetroArch.7z) 
-and unpack it into root of your sd card. (sdcard/RetroArch).
+and unpack it into root of your sd card. (sdcard/RetroArch). The system will start in upgraded mode automatically while 
+main RetroArch config file - *sdcard/RetroArch/retroarch.cfg* is presented.
 
 What is inside:
 1. **assets** folder. Menus and others.

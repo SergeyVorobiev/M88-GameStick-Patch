@@ -8,5 +8,3 @@ if __name__ == '__main__':
     # override default result path if needed
     Pipeline.FINAL_USER_IMG_PATH = r"C:\Users\Sergey\Desktop\M88\USER.img"
     Pipeline.repack_user()
-
-
