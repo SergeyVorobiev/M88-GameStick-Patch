@@ -36,9 +36,9 @@ passive culling it may overheat quickly in hard 3D.
 
 Hardware:
 
-1. [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) chipset.
-2. [eMMC 5.1](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar.
-3. [DDR4 16Gb d / 2GB](https://semiconductor.samsung.com/dram/lpddr/lpddr4/k4f6e3s4hm-ghcl/) or similar.
+1. [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) chipset (12x11mm).
+2. [eMMC 5.1](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar (13x11mm).
+3. [DDR4 16Gb d / 2GB](https://semiconductor.samsung.com/dram/lpddr/lpddr4/k4f6e3s4hm-ghcl/) or similar (15x10mm).
 
 The manufacturer claims PS2 emulation, but with P65 chipset + only 2GB memory chip on board it's basically unplayable. 
 AetherSX2 / NetherSX2 officially recommend 4-8 GB, for that reason no PS2 patch / update is included.
@@ -327,6 +327,10 @@ input_load_state_btn - load
 input_shader_toggle_btn - enable / disable shaders
 input_fps_toggle_btn - enable / disable fps
 menu_driver = "ozone" / "glui" / "rgui" / "xmb"
+input_volume_down
+input_volume_up
+input_toggle_slowmotion - slow down a game
+input_toggle_fast_forward - speed up a game
 ```
 
 ### Overriding Configs
