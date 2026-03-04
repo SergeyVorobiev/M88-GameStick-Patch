@@ -32,12 +32,12 @@
 ![M88Board](resources/images/M88Board.webp)
 
 M88 is a Chinese game-stick which comes with a locked-down system, unfinished features and deceptive marketing. 
-It has not culling and may overheat quickly in 3D games.
+It has no cooling and may overheat quickly in 3D games.
 
 Hardware:
 
 1. [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) chipset (12x11mm).
-2. [eMMC 5.1](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar (13x11mm).
+2. [eMMC 5.1 8GB](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar (13x11mm).
 3. [DDR4 16Gb d / 2GB](https://semiconductor.samsung.com/dram/lpddr/lpddr4/k4f6e3s4hm-ghcl/) or similar (15x10mm).
 
 SD Card:
@@ -87,7 +87,7 @@ SD Card:
 ```
 
 The manufacturer claims PS2 emulation, but with P65 chipset + only 2GB memory chip on board it's basically unplayable. 
-AetherSX2 / NetherSX2 officially recommend 4-8 GB, for that reason no PS2 patch / update is included.
+AetherSX2 / NetherSX2 officially recommend 3-6 GB, for that reason no PS2 patch / update is included.
 
 This guide shows how to upgrade M88 firmware which allows:
 
@@ -101,7 +101,7 @@ This guide shows how to upgrade M88 firmware which allows:
 8. Unlock multiple save / load slots.
 9. Missed BIOSes fixed.
 10. Standard RetroArch menu with settings.
-11. Replace mupen64plusae to RetroArch (mupen64plus_next_gles3_libretro_android.so)
+11. Replace mupen64plusae to RetroArch (optionally).
 
 ![shader](resources/images/shader.webp)
 
@@ -169,9 +169,9 @@ am start --user 0 -n com.emu/.browser.retroactivity.RetroActivityFuture -e ROM "
 am start --user 0 -n com.emu/.browser.retroactivity.RetroActivityFuture -e ROM "%s"  -e LIBRETRO %s -e CONFIGFILE /system/res/psxzip.cfg -e SDCARD /sdcard -e EXTERNAL %s --activity-clear-top
 ```
 
-[RetroArch](https://www.retroarch.com/) runs games for most of the platforms with predefined configs (psxzip.cfg for PSX and zip.cfg for others) hidden in system image.
+[RetroArch](https://www.retroarch.com/) runs games for most of the platforms with predefined configs (psxzip.cfg for PSX and zip.cfg for others) hidden in system image on eMMC.
 
-The old RetroArch is hidden under custom menu with few options. The system has:
+The old RetroArch has a custom menu with cut options. As a result:
 
 1. No core settings.
 2. No controller settings. (It is impossible to play some games: Lost vikings, Duke Nukem etc.).
@@ -197,20 +197,12 @@ The fixes include:
 
 \**RetroArch quick menu will show 1.19 but games will run under the 1.22.2.*
 
-To fix your stick read [Firmware Upgrade](#firmware-upgrade), [RetroArch Setup](#retroarch-setup) and [Game Won't Start](#game-wont-start).
+To fix your stick:
+1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
+2. Put RetroArch folder in your SD card. ([RetroArch Setup](#retroarch-setup)).
+3. Read [Game Won't Start](#game-wont-start).
 
 **NOTE**, firmware upgrade might potentially brick your device, do it at your own risk.
-
-You can also patch your own image (M88-P65-V1.8) using this [script](src/Main.py):
-
-1. Put your USER.img [here](src/img/original).
-2. Open the script in your IDE.
-3. Specify `Pipeline.FINAL_USER_IMG_PATH` or leave default.
-4. Run the script.
-
-After upgrading, the stick will work in default (set by manufacturer) mode.
-
-Read [RetroArch Setup](#retroarch-setup) to run it in upgraded mode.
 
 Resources:
 1. Official latest [cores](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
@@ -220,6 +212,17 @@ Resources:
 5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
+
+Optionally, you can patch your own image (M88-P65-V1.8) using this [script](src/Main.py):
+
+1. Put your USER.img [here](src/img/original).
+2. Open the script in your IDE.
+3. Specify `Pipeline.FINAL_USER_IMG_PATH` or leave default.
+4. Run the script.
+
+After upgrading, the stick will work in default (set by manufacturer) mode.
+
+Read [RetroArch Setup](#retroarch-setup) to run it in upgraded mode.
 
 ## Firmware Upgrade
 
@@ -271,6 +274,10 @@ Usually a program only needs to know where to begin reading / writing and for ho
 Place the scatter and preloader in the same directory.*
 
 ### Read From eMMC
+This operation is not mandatory, but it serves two purposes:
+1. To ensure that the driver and the software are appropriate, allowing you to perform operations on the eMMC.
+2. To back up your original USER image.
+
 Open flash tool and choose **Download-Agent** and **Scatter**, see image below: 
 
 ![flashTool1](resources/images/flashTool1.webp)
@@ -287,7 +294,19 @@ and connect your device as described in [Enter BROM Mode](#enter-brom-mode). You
 ![flashTool2](resources/images/flashTool2.webp)
 
 If operation fails your preloader / device model is different (popup should show you the actual chip model),
-use *mtk client* as described above to get correct preloader and info about your device.
+use *mtk client* as described above to get a correct preloader and info about your device.
+
+If everything is ok, you will get BOOT1, BOOT2 files meaning that the driver and the software is appropriate to your SoC,
+and you can try to upgrade the firmware. 
+
+Note that **Read Back** operation (as described above) is completely safe, you will not
+lose anything even if something goes wrong. 
+
+Select third checkbox to back up the whole USER* image, you will get 8GB USER file. It later can be used to restore your
+original firmware, if you occasionally brick the device.
+
+\* *You can add an extension .img by yourself - USER.img (could be useful to be correctly recognized by some software).*
+ 
 
 Use [7-zip](https://www.7-zip.org/download.html) to open your USER image, it will look like this:
 
