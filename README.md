@@ -220,7 +220,7 @@ Optionally, you can patch your own image (M88-P65-V1.8) using this [script](src/
 3. Specify `Pipeline.FINAL_USER_IMG_PATH` or leave default.
 4. Run the script.
 
-After upgrading, the stick will work in default (set by manufacturer) mode.
+After [upgrading](#firmware-upgrade), the stick will work in default (set by manufacturer) mode.
 
 Read [RetroArch Setup](#retroarch-setup) to run it in upgraded mode.
 
@@ -325,14 +325,14 @@ partition_size: 0x1d2000000
 
 4. Open Flash Tool.
 
-You have two options (both include **FORMATTING** the device).
+You have two options (both include **FORMATTING** the device). Pick the one you prefer.
 
 Option one:
 1. Select *Download* tab.
 2. Select *Firmware Upgrade* in the dropdown list.
 3. Tap *Download* button.
 4. [Enter BROM Mode](#enter-brom-mode).
-5. Done.
+5. Congratulations, you've successfully flashed the stick.*
 
 ![flashTool3](resources/images/flashTool3.webp)
 
@@ -349,9 +349,12 @@ Option two:
 7. Deselect *preloader*.
 8. Tap *Download* button.
 9. [Enter BROM Mode](#enter-brom-mode).
-10. Done.
+10. Congratulations, you've successfully flashed the stick.*
 
 ![flashTool5](resources/images/flashTool5.webp)
+
+\* *Do not touch anything while the flashing is in progress, this may take several minutes.
+If something goes wrong then try again or use the USER.img you backed up [earlier](#read-from-emmc).*
 
 ## RetroArch Setup
 After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download 
