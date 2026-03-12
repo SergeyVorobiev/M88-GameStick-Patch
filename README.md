@@ -25,6 +25,7 @@
 4. [Adding / Removing / Replacing Games](#adding--removing--replacing-games)
 5. [Graphic Settings](#graphic-settings)
 6. [Scripts](#scripts)
+7. [Contact](#contact)
 
 
 ## Introduction
@@ -842,6 +843,15 @@ SuperTool.pack_super_m88(product_a_path="img/original/extracted/super/product_a.
 
 *Some code sketches and architectural explanations were provided by [![Grok](https://img.shields.io/badge/Grok-000000?style=for-the-badge&logo=grok&logoColor=fff
 )](https://grok.com/)*
+
+## Contact
+
+#### Questions about M88 settings / firmware upgrade? Feel free to ask.
+ 
+📬 **Email**: [fxeipi@gmail.com](mailto:fxeipi@gmail.com)
+
+📬 **Telegram**: [@fxeipi](https://t.me/fxeipi)
+
 
 
 
