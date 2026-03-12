@@ -8,7 +8,7 @@
 1. [Introduction](#introduction)
    1. [The Problem](#the-problem)
    2. [Patch Overview](#patch-overview)
-   3. [Hot To Fix](#how-to-fix)
+   3. [How To Fix](#how-to-fix)
    4. [Resources](#resources)
 2. [Firmware Upgrade](#firmware-upgrade)
    1. [Enter BROM Mode](#enter-brom-mode)
@@ -225,10 +225,10 @@ Read [RetroArch Setup](#retroarch-setup) to run it in upgraded mode.
 3. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
 4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/RetroArch.7z).
 5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
+6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
+7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
-
-
 
 ## Firmware Upgrade
 
