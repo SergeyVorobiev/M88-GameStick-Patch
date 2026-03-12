@@ -8,6 +8,8 @@
 1. [Introduction](#introduction)
    1. [The Problem](#the-problem)
    2. [Patch Overview](#patch-overview)
+   3. [Hot To Fix](#how-to-fix)
+   4. [Resources](#resources)
 2. [Firmware Upgrade](#firmware-upgrade)
    1. [Enter BROM Mode](#enter-brom-mode)
    2. [Install Drivers & Flash Tool](#install-drivers--flash-tool)
@@ -52,7 +54,7 @@ SD Card:
 6.  Download          - Android garbage.                    [can be deleted]
 7.  LOST.DIR          - Android garbage.                    [can be deleted]
 8.  Movies            - Android garbage.                    [can be deleted]
-9. Music             - Android garbage.                    [can be deleted]
+9.  Music             - Android garbage.                    [can be deleted]
 10. Pictures          - Android garbage.                    [can be deleted]
 11. Podcasts          - Android garbage.                    [can be deleted]
 12. Notifications     - Android garbage.                    [can be deleted]
@@ -197,21 +199,13 @@ The fixes include:
 
 \**RetroArch quick menu will show 1.19 but games will run under the 1.22.2.*
 
-To fix your stick:
+### How To Fix
+
 1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
 2. Put RetroArch folder in your SD card. ([RetroArch Setup](#retroarch-setup)).
 3. Read [Game Won't Start](#game-wont-start).
 
 **NOTE**, firmware upgrade might potentially brick your device, do it at your own risk.
-
-Resources:
-1. Official latest [cores](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
-2. Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
-3. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
-4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/RetroArch.7z).
-5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
-
-\* *New cores are contained in RetroArch folder only for upgraded firmware.*
 
 Optionally, you can patch your own image (M88-P65-V1.8) using this [script](src/Main.py):
 
@@ -223,6 +217,18 @@ Optionally, you can patch your own image (M88-P65-V1.8) using this [script](src/
 After [upgrading](#firmware-upgrade), the stick will work in default (set by manufacturer) mode.
 
 Read [RetroArch Setup](#retroarch-setup) to run it in upgraded mode.
+
+### Resources
+
+1. Official latest [cores](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
+2. Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
+3. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
+4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/RetroArch.7z).
+5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
+
+\* *New cores are contained in RetroArch folder only for upgraded firmware.*
+
+
 
 ## Firmware Upgrade
 
