@@ -52,39 +52,38 @@ SD Card:
 6.  Download          - Android garbage.                    [can be deleted]
 7.  LOST.DIR          - Android garbage.                    [can be deleted]
 8.  Movies            - Android garbage.                    [can be deleted]
-9.  Movies            - Android garbage.                    [can be deleted]
-10. Music             - Android garbage.                    [can be deleted]
-11. Pictures          - Android garbage.                    [can be deleted]
-12. Podcasts          - Android garbage.                    [can be deleted]
-13. Notifications     - Android garbage.                    [can be deleted]
-14. Recordings        - Android garbage.                    [can be deleted]
-15. Ringtons          - Android garbage.                    [can be deleted]
-16. .res              - Garbage.                            [can be deleted]
-17. loading           - Garbage.                            [can be deleted]
-18. skin              - Garbage.                            [can be deleted]
-19. sound             - Garbage.                            [can be deleted]
-20. BOOTEX.LOG        - Garbage.                            [can be deleted]
-21. param             - Garbage.                            [can be deleted]
-22. parameter         - Garbage.                            [can be deleted]
-23. volctrl           - Garbage.                            [can be deleted]
-24. .bright           - Brightness.                         [can be deleted]
-25. .vol              - Volume.                             [can be deleted]
-26. controls.ini      - PSP control mapping.                [can be deleted]
-27. data.pud          - Set of SWFs for main app, not used. [can be deleted]
-28. sdcard            - SD card marker.                     [can be deleted]
-29. PSP               - PSP configs.                        [can be deleted]
-30. org.ppsspp.ppsspp - PSP emulator configs.               [can be deleted]
-31. cores             - Cores for RetroArch.
-32. gamesettings      - PS2 configs
-33. iroms             - Icons and BGs for main interface.
-34. n64res            - Mupen emulator configs.
-35. ps2bios_          - PS2 BIOS.
-36. roms              - Game ROMs.
-37. shared_prefs      - Drastic emulator configs.
-38. shared_prefs_ps2  - PS2 configs.
-39. cachegames.db     - Database of all registered games.
-40. chat.db           - Cheat database.
-41. font.fts          - Font for main application.
+9. Music             - Android garbage.                    [can be deleted]
+10. Pictures          - Android garbage.                    [can be deleted]
+11. Podcasts          - Android garbage.                    [can be deleted]
+12. Notifications     - Android garbage.                    [can be deleted]
+13. Recordings        - Android garbage.                    [can be deleted]
+14. Ringtons          - Android garbage.                    [can be deleted]
+15. .res              - Garbage.                            [can be deleted]
+16. loading           - Garbage.                            [can be deleted]
+17. skin              - Garbage.                            [can be deleted]
+18. sound             - Garbage.                            [can be deleted]
+19. BOOTEX.LOG        - Garbage.                            [can be deleted]
+20. param             - Garbage.                            [can be deleted]
+21. parameter         - Garbage.                            [can be deleted]
+22. volctrl           - Garbage.                            [can be deleted]
+23. .bright           - Brightness.                         [can be deleted]
+24. .vol              - Volume.                             [can be deleted]
+25. controls.ini      - PSP control mapping.                [can be deleted]
+26. data.pud          - Set of SWFs for main app, not used. [can be deleted]
+27. sdcard            - SD card marker.                     [can be deleted]
+28. PSP               - PSP configs.                        [can be deleted]
+29. org.ppsspp.ppsspp - PSP emulator configs.               [can be deleted]
+30. cores             - Cores for RetroArch.
+31. gamesettings      - PS2 configs
+32. iroms             - Icons and BGs for main interface.
+33. n64res            - Mupen emulator configs.
+34. ps2bios_          - PS2 BIOS.
+35. roms              - Game ROMs.
+36. shared_prefs      - Drastic emulator configs.
+37. shared_prefs_ps2  - PS2 configs.
+38. cachegames.db     - Database of all registered games.
+39. chat.db           - Cheat database.
+40. font.fts          - Font for main application.
 ```
 
 The manufacturer claims PS2 emulation, but with P65 chipset + only 2GB memory chip on board it's basically unplayable. 
@@ -609,13 +608,15 @@ Now you need to register the game in the database so the launcher can see it:
    * **image** - The path to image (image/NFSCarbon.png or your own).
    * **class_type** - -15, search the correct number at any game with the same platform.
    * **game_type** - 0, search the correct number at any game with the same platform.
-   * 4 columns with the game name (any name that suits you - NFS Carbon).
-   * **name** - leave empty.
+   * 4 columns with the game name (any name that suits you - NFS Carbon / Need for speed Carbon, etc.), it is the name you
+will see in the game list.
+   * **name** - leave empty or add something like - NFSCarbon.
    * **fav** - 0, not favorite / favorite = 0 / 1.
+   * **idx** - assigned automatically.
    * **gnum** - use **gameid**.
    * **his** - 0.
    * **sort** - 0.
-7. Click save and close.
+7. Click save (Ctrl+Shift+S) and close.
 
 ![dbBrowser2](resources/images/dbBrowser2.webp)
 
