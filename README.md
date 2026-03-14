@@ -855,9 +855,7 @@ SuperTool.pack_super_m88(product_a_path="img/original/extracted/super/product_a.
 
 #### Questions about M88 settings / firmware upgrade? Feel free to ask.
  
-📬 **Email**: [fxeipi@gmail.com](mailto:fxeipi@gmail.com)
-
-📬 **Telegram**: [@fxeipi](https://t.me/fxeipi)
+📬 **Email**: *fxeipi@gmail.com*
 
 
 
