@@ -208,7 +208,7 @@ __marimo__/
 
 .idea
 /src/img/original/*
-!/src/img/original
+!/src/img/original/.gitkeep
 /src/img/updated/
 /src/res/*
-!/src/res
+!/src/res/*.gitkeep
