@@ -207,7 +207,7 @@ The fixes include:
 
 **NOTE**, firmware upgrade might potentially brick your device, do it at your own risk.
 
-Optionally, you can patch your own image (M88-P65-V1.8) using this [script](src/Main.py):
+**Optionally**, you can patch your own image (M88-P65-V1.8) using this [script](src/Main.py):
 
 1. Put your USER.img [here](src/img/original).
 2. Open the script in your IDE.
@@ -721,6 +721,8 @@ For manual image unpacking you can use [7-zip](https://www.7-zip.org/download.ht
 To compile / decompile apks use [apktool](https://apktool.org/). Be sure you have [JDK](https://adoptium.net/).
 
 To pack / unpack boot (kernel, ramdisk, dtb) use [magiskboot](https://github.com/alitekin2fx/magiskboot).
+
+*Note: If you just want to get and flash the upgraded image, follow [these steps](#how-to-fix) instead.*
 
 Example:
 
