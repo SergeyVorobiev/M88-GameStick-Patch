@@ -26,7 +26,7 @@
   type: SV5_BL_BIN
   linear_start_addr: 0x0
   physical_start_addr: 0x0
-  partition_size: 0x4cc3b 
+  partition_size: 0x0
   region: EMMC_BOOT_1
   storage: HW_STORAGE_EMMC
   boundary_check: true

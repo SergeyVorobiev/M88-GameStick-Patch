@@ -14,7 +14,7 @@ from src.SuperTool import SuperTool
 
 
 class Pipeline:
-    FINAL_USER_IMG_PATH = "img/updated/USER.img"
+    FINAL_USER_IMG_PATH = "img/result/USER.img"
 
     ORIGINAL_USER_IMG_PATH = "img/original/USER.img"
 
@@ -339,7 +339,23 @@ class Pipeline:
         Pipeline.patch_privileges()
 
     @staticmethod
-    def repack_user():
+    def print_past_time(start_time):
+        end_time = time.perf_counter()
+        elapsed = end_time - start_time
+        minutes = int(elapsed // 60)
+        seconds = int(elapsed % 60)
+        print("\nPatching finished:", f"{minutes:02d}:{seconds:02d} sec.")
+
+    @staticmethod
+    def remove_temps():
+        OtherTool.del_folder("img/original/d_apk")
+        OtherTool.del_file("img/original/apk/emu.apk")
+        OtherTool.del_file("img/original/apk/n64.apk")
+        OtherTool.del_folder("img/original/extracted")
+        OtherTool.del_folder("img/updated")
+
+    @staticmethod
+    def repack_user(is_remove_temps=True):
         start_time = time.perf_counter()
         Pipeline.check_original_result_path_different()
         Pipeline.download_retro_arch_32_1222()
@@ -356,8 +372,6 @@ class Pipeline:
         OtherTool.copy_file(Pipeline.ORIGINAL_USER_IMG_PATH, Pipeline.FINAL_USER_IMG_PATH)
         Pipeline.inject_boot_into_user()
         Pipeline.inject_super_into_user()
-        end_time = time.perf_counter()
-        elapsed = end_time - start_time
-        minutes = int(elapsed // 60)
-        seconds = int(elapsed % 60)
-        print("Patching is finished:", f"{minutes:02d}:{seconds:02d} sec.")
+        if is_remove_temps:
+            Pipeline.remove_temps()
+        Pipeline.print_past_time(start_time)

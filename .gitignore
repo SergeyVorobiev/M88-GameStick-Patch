@@ -209,6 +209,11 @@ __marimo__/
 .idea
 /src/img/original/*
 !/src/img/original/.gitkeep
+!/src/img/original/apk
+/src/img/original/apk/*
+!/src/img/original/apk/.gitkeep
 /src/img/updated/
 /src/res/*
 !/src/res/*.gitkeep
+/src/img/result/*
+!/src/img/result/.gitkeep

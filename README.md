@@ -201,22 +201,21 @@ The fixes include:
 
 ### How To Fix
 
+There are two options, both of them imply you have M88-P65-V1.8.
+
+> [!WARNING]  
+> Firmware upgrade might potentially brick your device, do it at your own risk, always make a backup to be able to roll back.
+
+Option one is to replace the whole USER area on the eMMC of your stick on the [provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z):
 1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
 2. Put RetroArch folder in your SD card. ([RetroArch Setup](#retroarch-setup)).
 3. Read [Game Won't Start](#game-wont-start).
 
-**NOTE**, firmware upgrade might potentially brick your device, do it at your own risk.
+Option two is the same, but you have to make an upgraded image from your original one to use int instead of provided one. 
+It requires more preparation and also gives better chance of success.  
 
-**Optionally**, you can patch your own image (M88-P65-V1.8) using this [script](src/Main.py):
-
-1. Put your USER.img [here](src/img/original).
-2. Open the script in your IDE.
-3. Specify `Pipeline.FINAL_USER_IMG_PATH` or leave default.
-4. Run the script.
-
-After [upgrading](#firmware-upgrade), the stick will work in default (set by manufacturer) mode.
-
-Read [RetroArch Setup](#retroarch-setup) to run it in upgraded mode.
+1. Read and perform steps from [Scripts](#scripts) paragraph.
+2. Perform steps from *Option one* but use your own *USER.img* generated on step 1 instead of provided one.
 
 ### Resources
 
@@ -232,8 +231,12 @@ Read [RetroArch Setup](#retroarch-setup) to run it in upgraded mode.
 
 ## Firmware Upgrade
 
-Steps bellow are intended for sticks based on MediaTek chipsets. If you have different processor model your steps will be similar,
+Steps bellow are intended for sticks based on MediaTek Helio P65 chipset. If you have different processor model your steps will be similar,
 but drivers and tools must be replaced to suit your chip.
+
+> [!NOTE]  
+> If your processor is not Helio P65, neither patched image nor patched files from the scripts are appropriate
+> as they have updated parts related only to mt6768. Use information below only for your own experiments.
 
 The stick supports only **BROM mode** (Boot ROM mode is a low-level mode that allows reading/writing the eMMC flash).
 
@@ -273,48 +276,46 @@ If the provided preloader does not fit then use [mtk client](https://github.com/
 3. Type `mtk printgpt`.
 4. Enter [BROM Mode](#enter-brom-mode).
 
-You will get chip information, eMMC information and extracted preloader.
+You will get chip information, eMMC information and extracted preloader in the mtk client root folder.
 
 \*** *It is a markup file that gives information of where and what is placed on eMMC. 
 Usually a program only needs to know where to begin reading / writing and for how long. 
 Place the scatter and preloader in the same directory.*
 
 ### Read From eMMC
-This operation is not mandatory, but it serves two purposes:
-1. To ensure that the driver and the software are appropriate, allowing you to perform operations on the eMMC.
-2. To back up your original USER image.
+
+> [!WARNING]
+> This operation is mandatory, as only your backup can get your device back to life if it becomes bricked. **Please, Do Not Skip This Step.**
 
 Open flash tool and choose **Download-Agent** and **Scatter**, see image below: 
 
 ![flashTool1](resources/images/flashTool1.webp)
 
-Perform read test to be sure that your preloader and chip model is appropriate. It is safe
-and if your device or preloader is not appropriate it just warns you without any consequences.
-Note that **End Address** must be equal or be bigger than the size of your preloader, edit the scatter if you have unique one with different size:
-
-`partition_size: 0x4cc3b`
-
-Go to **Readback** tab, setup regions as shown in the image below, (check third checkbox to create a full backup), click **Read Back**
-and connect your device as described in [Enter BROM Mode](#enter-brom-mode). You can also find BOOT1 [here](resources/m88/BOOT1), BOOT2 is the same.
+Go to **Readback** tab, setup regions as shown in the image below, click **Read Back**
+and connect your device as described in [Enter BROM Mode](#enter-brom-mode).
+```
+Standard region sizes*:
+EMMC_BOOT_1 - 0x000400000 =     4mb
+EMMC_BOOT_2 - 0x000400000 =     4mb
+EMMC_USER   - 0x1d2000000 =  7456mb
+```
+\* Use `mtk printgpt` command as mentioned above if you have any doubts about region sizes of your stick.
 
 ![flashTool2](resources/images/flashTool2.webp)
 
 If operation fails your preloader / device model is different (popup should show you the actual chip model),
 use *mtk client* as described above to get a correct preloader and info about your device.
 
-If everything is ok, you will get BOOT1, BOOT2 files meaning that the driver and the software is appropriate to your SoC,
+If everything is ok, you will get BOOT1, BOOT2, USER files meaning that the driver and the software is appropriate to your SoC,
 and you can try to upgrade the firmware. 
 
-Note that **Read Back** operation (as described above) is completely safe, you will not
+> [!NOTE]
+> **Read Back** operation (as described above) is completely safe, you will not
 lose anything even if something goes wrong. 
 
-Select third checkbox to back up the whole USER* image, you will get 8GB USER file. It later can be used to restore your
-original firmware, if you occasionally brick the device.
+Use [7-zip](https://www.7-zip.org/download.html) to open your USER* image, it will look like this:
 
-\* *You can add an extension .img by yourself - USER.img (could be useful to be correctly recognized by some software).*
- 
-
-Use [7-zip](https://www.7-zip.org/download.html) to open your USER image, it will look like this:
+\* *You can add an extension .img - USER.img (could be useful to be correctly recognized by some software).*
 
 ![7zip](resources/images/zip.webp)
 
@@ -331,18 +332,9 @@ partition_size: 0x1d2000000
 
 4. Open Flash Tool.
 
-You have two options (both include **FORMATTING** the device). Pick the one you prefer.
+You have two options (both include **FORMATTING**). The first one is more preferred.
 
 Option one:
-1. Select *Download* tab.
-2. Select *Firmware Upgrade* in the dropdown list.
-3. Tap *Download* button.
-4. [Enter BROM Mode](#enter-brom-mode).
-5. Congratulations, you've successfully flashed the stick.*
-
-![flashTool3](resources/images/flashTool3.webp)
-
-Option two:
 1. Select *Format* tab.
 2. Select *Format whole flash except Bootloader*.
 3. Click *Start* button.
@@ -358,6 +350,15 @@ Option two:
 10. Congratulations, you've successfully flashed the stick.*
 
 ![flashTool5](resources/images/flashTool5.webp)
+
+Option two (Use this one only with your own preloader gotten from `mtk printgpt` command):
+1. Select *Download* tab.
+2. Select *Firmware Upgrade* in the dropdown list.
+3. Tap *Download* button.
+4. [Enter BROM Mode](#enter-brom-mode).
+5. Congratulations, you've successfully flashed the stick.*
+
+![flashTool3](resources/images/flashTool3.webp)
 
 \* *Do not touch anything while the flashing is in progress, this may take several minutes.
 If something goes wrong then try again or use the USER.img you backed up [earlier](#read-from-emmc).*
@@ -706,23 +707,51 @@ Core settings for RetroArch platforms: `sdcard/RetroArch/config`.
 
 ## Scripts
 
-Repo has scripts for packing / unpacking / editing images. Examples can be seen [here](src/Main.py). Some scripts use
-linux-like programs:
+To upgrade your own USER.img:
+1. Download this repo.
+2. Install [Python](https://www.python.org/downloads/) and add PATH:
+    * `path_to\Python\Python3xx`
+    * `path_to\Python\Python3xx\Scripts`
+   
+    Check installation, open CMD and type:
+    
+    `pip -V`
 
-1. Install [Cygwin](https://www.cygwin.com/). (It will allow you to invoke many linux-like programs in your cmd, avoiding using WSL, VMWare etc.).
-2. Add PATH to use cygwin programs from any place in your cmd:
-   * `path_to\cygwin64\bin`
-   * `path_to\cygwin64\sbin`
-   * `path_to\cygwin64\usr\sbin`
-3. Look for necessary programs [here](https://cygwin.com/packages/) if they missed.
+    `py --version`
+    
+3. Install IDE [PyCharm](https://www.jetbrains.com/pycharm/download/) or use your preferable one.
+4. Install [JDK](https://adoptium.net/) to allow the scripts to work with *.apk files.
+    
+    Check installation, open CMD and type:
+    
+    `java --version`
+
+5. Install [Cygwin](https://www.cygwin.com/). (It will allow the scripts to invoke many linux-like programs, avoiding using WSL, VMWare etc.).
+
+    Add PATH to use cygwin programs from anywhere:
+    * `path_to\cygwin64\bin`
+    * `path_to\cygwin64\sbin`
+    * `path_to\cygwin64\usr\sbin`
+   
+    Check installation, open CMD and type:
+    
+    `debugfs -V`
+ 
+    `truncate --version`
+
+    `resize2fs`
+    
+    Look for them [here](https://cygwin.com/packages/) if they are missed.
+6. Open the repo in your IDE and go in [here](src/img/original). Put your USER.img (add and extension *.img if needed).
+7. Open [Main](src/Main.py) and click *run button* (green triangle near *if __name__ == '__main__':*).
+8. Upgraded USER.img should appear [here](src/img/result), use it to flash your stick instead of provided one.
+9. Go back to [fix options](#how-to-fix) and perform steps from option one.
 
 For manual image unpacking you can use [7-zip](https://www.7-zip.org/download.html).
 
 To compile / decompile apks use [apktool](https://apktool.org/). Be sure you have [JDK](https://adoptium.net/).
 
 To pack / unpack boot (kernel, ramdisk, dtb) use [magiskboot](https://github.com/alitekin2fx/magiskboot).
-
-*Note: If you just want to get and flash the upgraded image, follow [these steps](#how-to-fix) instead.*
 
 Example:
 
