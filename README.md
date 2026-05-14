@@ -216,7 +216,7 @@ It requires more preparation and also gives a better chance of success.
 
 1. Read [this](#firmware-upgrade) to just make a backup.
 2. Read and perform steps from [Scripts](#scripts) paragraph by using your backup.
-3. Perform steps from *Option one* but use your own *USER.img* generated on step 1 instead of provided one.
+3. Perform steps from *Option one* but use your own *USER.img* generated on step 2 instead of provided one.
 
 If nothing works, feel free to [contact me](#Contact).
 
