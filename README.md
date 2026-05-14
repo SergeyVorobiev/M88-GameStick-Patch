@@ -201,21 +201,24 @@ The fixes include:
 
 ### How To Fix
 
-There are two options, both of them imply you have M88-P65-V1.8.
-
 > [!WARNING]  
 > Firmware upgrade might potentially brick your device, do it at your own risk, always make a backup to be able to roll back.
 
-Option one is to replace the whole USER area on the eMMC of your stick on the [provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z):
+There are two options, both of them imply you have M88-P65-V1.8, but they do not guarantee a success if your stick has different hardware / software.
+
+Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z):
 1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
 2. Put RetroArch folder in your SD card. ([RetroArch Setup](#retroarch-setup)).
 3. Read [Game Won't Start](#game-wont-start).
 
-Option two is the same, but you have to make an upgraded image from your original one to use int instead of provided one. 
-It requires more preparation and also gives better chance of success.  
+Option two is the same, but you have to make an upgraded image from your original one to use it instead of provided one. 
+It requires more preparation and also gives a better chance of success.  
 
-1. Read and perform steps from [Scripts](#scripts) paragraph.
-2. Perform steps from *Option one* but use your own *USER.img* generated on step 1 instead of provided one.
+1. Read [this](#firmware-upgrade) to just make a backup.
+2. Read and perform steps from [Scripts](#scripts) paragraph by using your backup.
+3. Perform steps from *Option one* but use your own *USER.img* generated on step 1 instead of provided one.
+
+If nothing works, feel free to [contact me](#Contact).
 
 ### Resources
 
@@ -321,7 +324,7 @@ Use [7-zip](https://www.7-zip.org/download.html) to open your USER* image, it wi
 
 ### Write to eMMC
 
-1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
+1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z) or use your upgraded one.
 2. Download the [scatter](resources/m88/M88_scatter.txt) file and use it instead of empty one. Place your 
 preloader, scatter and patched image in the same folder.
 3. Check the size of the image, edit if needed:
@@ -332,7 +335,7 @@ partition_size: 0x1d2000000
 
 4. Open Flash Tool.
 
-You have two options (both include **FORMATTING**). The first one is more preferred.
+You have two options (both include **FORMATTING**). The first one is more preferable.
 
 Option one:
 1. Select *Format* tab.
@@ -465,7 +468,7 @@ Mapping a controller can include up to 2 steps ([Controller codes](resources/m88
 
 Usually all mappings happen automatically, but sometimes you want to change the default behaviour.
 
-You are mapping the values of buttons of your physical controller to retro-pad using **retroarch.cfg** file, like:
+You are mapping the values of buttons of your physical controller to retro-pad using **retroarch.cfg** file, like this:
 ```
 input_b_btn = "289" or input_playerN_b_btn = "289" etc.
 input_y_btn = "288"
@@ -742,7 +745,7 @@ To upgrade your own USER.img:
     `resize2fs`
     
     Look for them [here](https://cygwin.com/packages/) if they are missed.
-6. Open the repo in your IDE and go in [here](src/img/original). Put your USER.img (add and extension *.img if needed).
+6. Open the repo in your IDE and go in [here](src/img/original). Put your original USER.img (backup), add an extension - *.img if needed.
 7. Open [Main](src/Main.py) and click *run button* (green triangle near *if __name__ == '__main__':*).
 8. Upgraded USER.img should appear [here](src/img/result), use it to flash your stick instead of provided one.
 9. Go back to [fix options](#how-to-fix) and perform steps from option one.
