@@ -648,8 +648,8 @@ You can download a compiled [Windows version](https://github.com/SergeyVorobiev/
 ![gbdt](resources/images/gbdt.webp)
 
 Click **SD Card...** and choose your **SD Card** folder or any other folder which has **roms** and **cachegames.db** inside.
-**cachegames.db** is used to define game UI names and UI numbers, if it does not exist, the program will use game file names to
-assign game UI names.
+**cachegames.db** is used to define game UI names, image paths, and UI numbers. If it does not exist, the program will use game file names to
+assign game UI names and image paths.
 
 **In DB** column shows the status of a game. "✗" means that the game files exist, but is not registered, so the main stick app UI will not show it. 
 "✓" means that the game is registered and will be shown in the main stick app UI. To change the status click on the according cell or double-click on the according row.
