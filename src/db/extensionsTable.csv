@@ -1,0 +1,36 @@
+Платформа,Основные расширения,Дополнительные / Альтернативы,Рекомендация / Примечания
+PS2,".iso, .chd",".gz, .cso (реже)",.chd — лучший выбор
+PSP,".iso, .chd, .cso",.pbp,.chd или .iso
+PSX (psx),".bin + .cue, .chd, .iso",".img, .ccd + .sub, .mdf + .mds, .pbp",.chd или .bin/.cue
+N64,".z64, .n64",.v64,.z64 (big-endian)
+Dreamcast,".gdi, .chd, .cdi",.bin/.cue,.chd или .gdi
+NDS,".nds, .srl",".zip, .7z",.nds
+Arcade (общий),Зависит от эмулятора (MAME/FBNeo),.zip (для старых),Папки с ROM-сетами
+SFC / SNES,".sfc, .smc",".zip, .7z, .bs, .fig",.sfc (headerless)
+Atari 7800,".a78, .bin",—,.a78
+Atari Lynx,.lnx,.lyx,.lnx
+CPS1,.zip (MAME/FBNeo),—,ROM-сет в .zip
+CPS2,.zip,—,ROM-сет
+CPS3,.zip,—,ROM-сет
+FBNeo,.zip,—,"Как MAME, но свой сет"
+Game Gear,.gg,".sms, .zip",.gg
+GB,.gb,".zip, .7z",.gb
+GBA,".gba, .srl",.zip,.gba (gbah — возможно вариант)
+GBC,.gbc,".gb, .zip",.gbc
+Genesis,".bin, .gen, .md",".smd, .zip",.bin или .gen
+MAME,.zip (полные ROM-сеты),—,Полные сеты MAME
+Mega Drive,".bin, .gen, .md",.smd,"То же, что Genesis"
+Atari 2600,".bin, .a26",—,.bin
+NES,.nes,".unf, .unif, .zip",.nes
+NESH (возможно NES hack/вариант),.nes,—,.nes
+NGPC (Neo Geo Pocket Color),".ngc, .ngp",—,.ngc
+PC Engine (TurboGrafx-16),".pce, .bin",.sgx (SuperGrafx),.pce
+Wonderswan,.ws,—,.ws
+Wonderswan Color,.wsc,—,.wsc
+GBAH (возможно GBA homebrew/вариант),.gba,—,.gba
+GenH (Genesis homebrew?),".bin, .gen",—,Как Genesis
+Master System,.sms,".gg, .zip",.sms
+NAOMI,".zip, .bin/.dat/.lst",—,.zip (MAME/Flycast)
+NGP (Neo Geo Pocket),".ngp, .ngc",—,.ngp
+PC Engine CD,".cue + .bin, .chd, .iso",".ccd, .toc",.chd
+Atari 5200,".bin, .a52, .car",—,.bin

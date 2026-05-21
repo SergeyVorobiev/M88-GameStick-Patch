@@ -47,8 +47,15 @@ class OtherTool:
     @staticmethod
     def move_file(what, where):
         print("Move:", what, "To:", where)
-        shutil.move(what, where)
-        print("Done\n")
+
+        # noinspection PyBroadException
+        try:
+            shutil.move(what, where)
+            print("Done\n")
+            return True
+        except:
+            print("Already Exists:", what)
+            return False
 
     @staticmethod
     def get_folder_path_from_file_path(file_path):
