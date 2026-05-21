@@ -25,6 +25,7 @@
    7. [Core Mapping](#core-mapping)
    8. [Game Won't Start](#game-wont-start)
 4. [Adding / Removing / Replacing Games](#adding--removing--replacing-games)
+5. [Game DB Tool](#game-db-tool)
 5. [Graphic Settings](#graphic-settings)
 6. [Scripts](#scripts)
 7. [Contact](#contact)
@@ -229,6 +230,7 @@ If nothing works, feel free to [contact me](#Contact).
 5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88GDBTool.exe).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
 
@@ -591,7 +593,7 @@ delete the files: mslug.fs, mslug.state, mslug.tcxs then start the game again - 
 ## Adding / Removing / Replacing Games
 
 To add a game place the ROM file into the *sdcard/roms* folder. The stick does not automatically scan* the roms folder for changes,
-hence you must register any changes manually. 
+hence you must register any changes manually or use [Game DB Tool](#game-db-tool). 
 
 \* *Actually the stick will scan and rebuild the database if it could not find it on sdcard, but it is
 a long process and requires having actual xml files in the appropriate game's folders.*
@@ -636,6 +638,41 @@ To remove - delete an appropriate row from **game** table, decrease the number o
 in **categ** table and delete ROM / image files.
 
 To replace - edit an appropriate row, you only need to change **path**, **image** and 4 name cells, then delete / add according ROM / image files.
+
+## Game DB Tool
+
+The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, and clean up unnecessary and temporary files from the SD card.
+
+You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88GDBTool.exe) or run it from [sources](UIMain.py).
+
+![gbdt](resources/images/gbdt.webp)
+
+Click **SD Card...** and choose your **SD Card** folder or any other folder which has **roms** and **cachegames.db** inside.
+**cachegames.db** is used to define game UI names and UI numbers, if it does not exist, the program will use game file names to
+assign game UI names.
+
+**In DB** column shows the status of a game. "✗" means that the game files exist, but is not registered, so the main stick app UI will not show it. 
+"✓" means that the game is registered and will be shown in the main stick app UI. To change the status click on the according cell or double-click on the according row.
+**Select All** and **Deselect All** buttons will change the status of all games for current platform accordingly.
+
+**Fav** column represents **favorites**. Click "♡" to change the current favorite status of a particular game. You can also erase
+all favorites for current platform by clicking on **Erase Favorites** button.
+
+**His** column represents **history**. You can erase history for the whole platform by clicking on **Erase History** button.
+
+Double-click or right-click on **Image Path** cell will open image preview window for a particular game.
+
+Right-click on **File Name** or **UI Name** will allow you to synchronize the game file name <-> UI name <-> image name (i.e. make them the same),
+which helps to keep DB consistent and independent of old DBs because the only file names could be used to determine correct UI names and image paths.
+
+**Clean Game Folders** option is used to move all temporary and garbage files from platform folders to the specified folder thereby clearing up SD card space.
+Those folder can later be deleted manually if not needed.
+
+**Clean Image Folders** option is used to move all not used or zero sized image files (.png) from platform folders to the specified folder thereby clearing up SD card space.
+Those folder can later be deleted manually if not needed.
+
+After performing necessary operations click **Save DB** button, it will create **cachegames(updated).db** file on your SD card.
+Rename it to **cachegames.db** to be used by your game stick. Don't forget to back up your previous **cachegames.db file**.
 
 ## Graphic Settings
 
