@@ -62,6 +62,6 @@ class MainLayout:
         right_frame.grid(row=1, column=1, sticky="nsew", padx=(2, 5), pady=0)
 
         foot_frame = tk.Frame(main_frame)
-        foot_frame.grid(row=2, column=0, columnspan=2, padx=5, pady=0, sticky="w")
+        foot_frame.grid(row=2, column=0, columnspan=2, padx=5, pady=0, sticky="we")
 
         return path_frame, btn_frame, image_frame, left_frame, right_frame, foot_frame

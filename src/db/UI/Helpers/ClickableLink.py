@@ -3,9 +3,9 @@ import webbrowser
 
 
 class ClickableLink(ttk.Label):
-    def __init__(self, parent, text, url, **kwargs):
+    def __init__(self, parent, text, url, clickable=True, **kwargs):
         super().__init__(parent, text=text, **kwargs)
-
+        self.clickable = clickable
         self.url = url
         self.config(
             foreground="#0066cc",
@@ -19,7 +19,8 @@ class ClickableLink(ttk.Label):
 
     # noinspection PyUnusedLocal
     def open_link(self, event):
-        webbrowser.open(self.url)
+        if self.clickable:
+            webbrowser.open(self.url)
 
     # noinspection PyUnusedLocal
     def on_enter(self, event):

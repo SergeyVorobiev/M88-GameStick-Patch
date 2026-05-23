@@ -236,11 +236,15 @@ class Handlers:
 
     @staticmethod
     def on_select_all_click():
+        if GlobalUI.get_games_num() == 0:
+            return
         Handlers.assign_value(0, True)
         GlobalUI.platforms_list.load_data(Handlers.get_platforms_list())
 
     @staticmethod
     def on_deselect_all_click():
+        if GlobalUI.get_games_num() == 0:
+            return
         Handlers.assign_value(0, False)
         GlobalUI.platforms_list.load_data(Handlers.get_platforms_list())
 
@@ -296,13 +300,14 @@ class Handlers:
         folder_path = Path(GlobalUI.roms_folder_path + os.sep + platform + os.sep + GlobalUI.image_folder_name)
         if folder_path.is_dir():
             for item in folder_path.iterdir():
-                if item.is_file() and item.suffix == GlobalUI.image_extension:
-                    if item.stem not in names or item.stat().st_size == 0:
+                if item.is_file():
+                    if item.stem not in names or item.stat().st_size == 0 or item.suffix != GlobalUI.image_extension:
                         num += 1
                         callback(platform, item.name, num)
                         result = OtherTool.move_file(item.absolute(), image_result_folder)
                         if not result:
                             OtherTool.del_file(item.absolute())
+
 
         image_result_folder = str(result_folder.absolute()) + os.sep + platform + os.sep + GlobalUI.image_media_folder_name
         OtherTool.make_dirs(image_result_folder)
@@ -311,7 +316,7 @@ class Handlers:
         folder_path = Path(GlobalUI.roms_folder_path + os.sep + platform + os.sep + GlobalUI.image_media_folder_name)
         if folder_path.is_dir():
             for item in folder_path.iterdir():
-                if item.is_file() and item.suffix == GlobalUI.image_extension:
+                if item.is_file():
                     num += 1
                     callback(platform, item.name, num)
                     result = OtherTool.move_file(item.absolute(), image_result_folder)

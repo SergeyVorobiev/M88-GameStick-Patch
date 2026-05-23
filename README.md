@@ -120,38 +120,38 @@ List of platforms:
                                                     [Quality]*
 1.  PS2             - aethersx2 []                  [Awful]
 2.  PSP             - ppsspp    []                  [Awesome]
-3.  PSX             - RetroArch [swanstation]       [Meh]     [BIOS ok]
+3.  PSX             - RetroArch [swanstation]       [Meh]     [BIOS ok] (default ReARMed)
 4.  Nintendo64      - mupen/RA  [parallel_n64]      [Awesome] [BIOS ok]
 5.  Dreamcast       - Flycast   []                  [Awesome]
 6.  NintendoDS      - Drastic   []                  [Good]
-7.  Arcade Classic  - RetroArch [FB Alpha 2012]     [Awful]   [BIOS ok]
+7.  Arcade Classic  - RetroArch [FB Alpha 2012]     [Meh]   [BIOS ok]
 8.  SFC             - RetroArch [Snes9x]            [Awesome] [BIOS ok]
 9.  SNES            - RetroArch [Snes9x]            [Awesome] [BIOS ok]
-10. Atari7800       - RetroArch [ProSystem]         [Awful]   [BIOS ok]
-11. AtariLynx       - RetroArch [Handy]             [Awful]   [BIOS ok]
+10. Atari7800       - RetroArch [ProSystem]         [Meh]   [BIOS ok]
+11. AtariLynx       - RetroArch [Handy]             [Meh]   [BIOS ok]
 12. CPS1            - RetroArch [FB Alpha 2012]     [Awesome] [FB Neo] [BIOS ok]
 13. CPS2            - RetroArch [FB Alpha 2012]     [Awesome] [FB Neo] [BIOS ok]
 14. CPS3            - RetroArch [mame2016]          [Meh]     [FB Alpha 2012, FB Neo, mame2010]
 15. FbNeo           - RetroArch [FB Alpha 2012]     [Awesome] [FB Neo] [BIOS ok]
 16. GameGear        - RetroArch [Genesis Plus GX]   [Good]    [BIOS ok]
-17. GB              - RetroArch [mGBA]              [Awful]   [BIOS ok]
+17. GB              - RetroArch [mGBA]              [Meh]   [BIOS ok]
 18. GBA             - RetroArch [mGBA]              [Meh]     [BIOS ok]
 19. GBC             - RetroArch [mGBA]              [Meh]     [BIOS ok]
 20. Genesis         - RetroArch [Genesis Plus GX]   [Awesome] [BIOS ok]
 21. MAME            - RetroArch [MAME 2003-Plus)    [Meh]     
 22. MegaDrive       - RetroArch [Genesis Plus GX)   [Awesome] [BIOS ok]
-23. Atari2600       - RetroArch [Stella]            [Awful]   
+23. Atari2600       - RetroArch [Stella]            [Meh]   
 24. Nes             - RetroArch [Nestopia]          [Awesome] [BIOS ok]
 25. Nesh            - RetroArch [Nestopia]          [Awesome] [BIOS ok]
 26. NGPC            - RetroArch [Beetle NeoPop]     [Meh]     [BIOS ok] (*Beetle NeoPop=mednafen_ngp)
 27. PCEngine        - RetroArch [Beetle PCE Fast]   [Good]    [BIOS ok] (*Beetle=mednafen)
-28. Wonderswan      - RetroArch [Beetle WonderSwan] [Awful]   [BIOS ok] (*Beetle=mednafen)
+28. Wonderswan      - RetroArch [Beetle WonderSwan] [Meh]   [BIOS ok] (*Beetle=mednafen)
 29. WonderswanColor - RetroArch [Beetle WonderSwan] [Meh]     [BIOS ok] (*Beetle=mednafen)
 30. GBAH            - RetroArch [mGBA]              [Good]    [BIOS ok]
 31. GenH            - RetroArch [Genesis Plus GX]   [Good]    [BIOS ok]
 32. Mastersystem    - RetroArch [Genesis Plus GX]   [Awesome] [BIOS ok]
 33. Naomi           - Flycast   []                  [Awesome]
-34. NGP             - RetroArch [Beetle NeoPop]     [Awful]   [BIOS ok] (*Beetle NeoPop=mednafen_ngp)
+34. NGP             - RetroArch [Beetle NeoPop]     [Meh]   [BIOS ok] (*Beetle NeoPop=mednafen_ngp)
 35. PCEngineCD      - RetroArch [Beetle PCE Fast]   [Good]    [BIOS ok] (*Beetle=mednafen)
 36. Atari5200       - RetroArch [a5200]             [Meh]     [BIOS ok]
 ```
@@ -586,6 +586,7 @@ If you see a black screen or a game crashes at the start don't immediately blame
 2. Try to start the game with a different core (see [core mapping](#core-mapping)).
 3. Download a fresh copy of the ROM and replace the old one.
 4. Check that there are no temporary files left over from another core*.
+5. To remove all temporary and garbage files from the specified platform folder, use **Clean Game Folder** option in  [the app](#game-db-tool).
 
 \**For example: Metal Slug was working perfectly fine on MAME or FBA Alpha 2012 but ceased working on FB Neo. Go to sdcard/roms/cps1 and
 delete the files: mslug.fs, mslug.state, mslug.tcxs then start the game again - it now starts on FB Neo.*
@@ -668,12 +669,25 @@ which helps to keep DB consistent and independent of old DBs because the only fi
 **Clean Game Folders** option is used to move all temporary and garbage files from platform folders to the specified folder thereby clearing up SD card space.
 Those folder can later be deleted manually if not needed.
 
-**Clean Image Folders** option is used to move all not used or zero sized image files (.png) from platform folders to the specified folder thereby clearing up SD card space.
+**Clean Image Folders** option is used to move all not used or zero sized image files (.png) and other garbage from platform image folders to the specified folder thereby clearing up SD card space.
 Those folder can later be deleted manually if not needed.
 
 After performing necessary operations click **Save DB** button, it will create **cachegames(updated).db** file on your SD card.
 Rename it to **cachegames.db** to be used by your game stick. Don't forget to back up your previous **cachegames.db file**.
 
+Adding a game example:
+
+1. Download a game you want to add, like - *Sonic Adventure 2 (USA).chd*.
+2. Download a box art and name it the same as the game - *Sonic Adventure 2 (USA).png*.
+3. Put the game file into the appropriate folder - *sdcard/roms/dreamcast/Sonic Adventure 2 (USA).chd*.
+4. Put the artbox file into the appropriate folder - *sdcard/roms/dreamcast/images/Sonic Adventure 2 (USA).png**.
+5. Run GameDBTool, select *dreamcast* platform and find your game with "✗" symbol inside of **In DB** column meaning that
+the game is not registered yet.
+6. Click on the "✗" cell to make it "✓" and then click **Save DB** button.
+7. Go to *sdcard* and rename *cachegames(updated).db* to *cachegames.db*. Do not forget to back up the old one.
+
+\* You can try to not add the artbox, in this case the stick will try to do a screenshot when you exit the game to make a custom artbox automatically,
+but because of some internal bug in the system the image might not be always flushed properly leaving the 0-size file on sdcard.
 ## Graphic Settings
 
 ### PSP
