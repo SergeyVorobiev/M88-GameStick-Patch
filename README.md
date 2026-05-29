@@ -26,10 +26,10 @@
    8. [Game Won't Start](#game-wont-start)
 4. [Adding / Removing / Replacing Games](#adding--removing--replacing-games)
 5. [Game DB Tool](#game-db-tool)
-5. [Graphic Settings](#graphic-settings)
-6. [Scripts](#scripts)
-7. [Contact](#contact)
-
+6. [Other Platforms](#other-platforms) (Fallout1997 example)
+7. [Graphic Settings](#graphic-settings)
+8. [Scripts](#scripts)
+9. [Contact](#contact)
 
 ## Introduction
 
@@ -601,7 +601,7 @@ a long process and requires having actual xml files in the appropriate game's fo
 
 Need for Speed Carbon example (PSP):
 1. Download the ROM: Need for Speed - Carbon - Own the City (USA).chd.
-2. Download an appropriate image: NFSCarbon.png.
+2. Download an appropriate image: NFSCarbon.png. You can try to find the necessary art [here](https://thumbnails.libretro.com/).
 3. Place the ROM in *sdcard/roms/psp*.
 4. Place the image in *sdcard/roms/psp/images*.
 
@@ -688,6 +688,32 @@ the game is not registered yet.
 
 \* You can try to not add the artbox, in this case the stick will try to do a screenshot when you exit the game to make a custom artbox automatically,
 but because of some internal bug in the system the image might not be always flushed properly leaving the 0-size file on sdcard.
+
+## Other Platforms
+
+Current firmware version does not allow you to add new platforms directly, though you can create new folder in *iroms* and 
+setup background, icon pictures for your new platform, then add games in *roms* folder accordingly, register them in DB, then the main app of stick
+will see your games inside new category, but it, unfortunately, will not know what to do to run new games type. But you can exploit [core mapping](#core-mapping) 
+and run any platforms supported by RetroArch (e.g. Sega Saturn, DOS etc.).
+
+Fallout (DOS) example:
+
+![fallout](resources/images/fallout.webp)
+
+1. Download *dosbox_pure_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
+2. Put the dowlnoaded core into *sdcard/RetroArch/cores* folder.
+3. Choose some RetroArch platform you want to replace by new platform (e.g. Atari5200).
+4. Move all games and images from *sdcard/roms/atari5200* to a safe place.
+5. Unregister all atari5200 games by using [GDBTool](#game-db-tool).
+6. Download DOS version of fallout - *Fallout (1997).zip*, and a [boxart](https://thumbnails.libretro.com/DOS/Named_Boxarts/).
+7. Put the game file (.zip) and the image file (.png) into *sdcard/roms/atari5200, sdcard/roms/atari5200/images* accordingly.
+8. Register added game by using [GDBTool](#game-db-tool).
+9. Open *sdcard/RetroArch/coremap.cfg* and add the line ***a5200_libretro_android.so->dosbox_pure_libretro_android.so****.
+10. Enjoy.
+
+\* The stick will try to run your game file as an **atari5200** but the *a5200_libretro_android.so* core will be 
+replaced by *dosbox_pure_libretro_android.so* forcing your game file to be launched under dosbox core.
+
 ## Graphic Settings
 
 ### PSP

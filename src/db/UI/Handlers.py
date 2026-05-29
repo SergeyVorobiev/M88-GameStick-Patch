@@ -259,11 +259,11 @@ class Handlers:
                 for ext in PlatformsMeta.extensions_map[key]:
                     extensions.add(ext)
             width = 600
-            height = 260
+            height = 280
             platform_name = Strings.Current.ALL_PLATFORM_FOLDERS_STRING
         else:
             width = 400
-            height = 230
+            height = 250
             extensions = set(PlatformsMeta.extensions_map[GlobalUI.current_platform])
             extensions.add(GlobalUI.config_extension)
             platform_name = Strings.Current.THE_PLATFORM_FOLDER_STRING.replace('{%s1}', GlobalUI.current_platform)
