@@ -691,10 +691,10 @@ but because of some internal bug in the system the image might not be always flu
 
 ## Other Platforms
 
-Current firmware version does not allow you to add new platforms directly, though you can create new folder in *iroms* and 
-setup background, icon pictures for your new platform, then add games in *roms* folder accordingly, register them in DB, then the main app of stick
-will see your games inside new category, but it, unfortunately, will not know what to do to run new games type. But you can exploit [core mapping](#core-mapping) 
-and run any platforms supported by RetroArch (e.g. Sega Saturn, DOS etc.).
+Current firmware version does not allow you to add new platforms directly, even though you can create new folder in *iroms* and 
+set up a background and an icon pictures for your new platform, add games in *roms* folder accordingly, register them in DB, and the main app of stick
+will see your games inside new category, but it, unfortunately, will not know what to do to run new games type. Instead, you can exploit [core mapping](#core-mapping) 
+and run any platforms supported by RetroArch (e.g. Sega Saturn, DOS etc.) replacing current ones.
 
 Fallout (DOS) example:
 
@@ -713,6 +713,29 @@ Fallout (DOS) example:
 
 \* The stick will try to run your game file as an **atari5200** but the *a5200_libretro_android.so* core will be 
 replaced by *dosbox_pure_libretro_android.so* forcing your game file to be launched under dosbox core.
+
+Tips:
+
+1. Go to **Quick Menu** -> **Core Options** -> **General** -> **Force Output FPS** and set 30 FPS to prevent video / audio lags especially
+with shaders enabled.
+
+![fps](resources/images/fps.webp)
+
+2. Setup input control manually or go to **Quick Menu** -> **Controls** -> **Port 1 Controls** -> **Device Type** and set
+an option with a mouse.
+
+![control](resources/images/control.webp)
+
+Heroes 2 & Red Alert
+![HeroesRedAlert](resources/images/HeroesRedAlert.webp)
+
+Sim City 2k & Theme Hospital
+![SCHospital](resources/images/SCHospital.webp)
+
+Transport Tycoon Deluxe & War Craft 2
+![TTDWarcraft](resources/images/TTDWarcraft.webp)
+
+*You can save game progress as usual by using hot keys or quick menu in up to 1000 slots.*
 
 ## Graphic Settings
 
