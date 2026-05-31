@@ -178,7 +178,6 @@ am start --user 0 -n com.emu/.browser.retroactivity.RetroActivityFuture -e ROM "
 
 ***org.devmiyax.yabasanshioro2.pro*** - Sega Saturn? Yes, see [Easter Eggs](#easter-eggs).
 
-The stick has at least two not added platforms - Sega Saturn and MS-DOS
 [RetroArch](https://www.retroarch.com/) runs games for most of the platforms with predefined configs (psxzip.cfg for PSX and zip.cfg for others) hidden in system image on eMMC.
 
 The old RetroArch has a custom menu with cut options. As a result:
@@ -601,7 +600,7 @@ delete the files: mslug.fs, mslug.state, mslug.tcxs then start the game again - 
 
 ## Adding / Removing / Replacing Games
 
-To add a game place the ROM file into the *sdcard/roms* folder. The stick does not automatically scan* the roms folder for changes,
+To add a game, place the ROM file into the *sdcard/roms* folder. The stick does not automatically scan* the roms folder for changes,
 hence you must register any changes manually or use [Game DB Tool](#game-db-tool). 
 
 \* *Actually the stick will scan and rebuild the database if it could not find it on sdcard, but it is
