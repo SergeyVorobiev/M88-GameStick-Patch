@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from src.db.PlatformsMeta import extensions_map
+from src.db.PlatformsMeta import extensions_map, ends_with_system
 
 
 class GamesExplorer:
@@ -36,7 +36,7 @@ class GamesExplorer:
             if not folder_path.exists():
                 continue
             for item in folder_path.iterdir():
-                if item.is_file() and value.__contains__(item.suffix.lower()):
+                if item.is_file() and not ends_with_system(item.name) and value.__contains__(item.suffix.lower()):
                     try:
                         result[key].append(item)
                     except KeyError:

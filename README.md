@@ -26,10 +26,11 @@
    8. [Game Won't Start](#game-wont-start)
 4. [Adding / Removing / Replacing Games](#adding--removing--replacing-games)
 5. [Game DB Tool](#game-db-tool)
-6. [Other Platforms](#other-platforms) (Fallout1997 example)
-7. [Graphic Settings](#graphic-settings)
-8. [Scripts](#scripts)
-9. [Contact](#contact)
+6. [Easter Eggs](#easter-eggs)
+7. [Other Platforms](#other-platforms)
+8. [Graphic Settings](#graphic-settings)
+9. [Scripts](#scripts)
+10. [Contact](#contact)
 
 ## Introduction
 
@@ -124,17 +125,17 @@ List of platforms:
 4.  Nintendo64      - mupen/RA  [parallel_n64]      [Awesome] [BIOS ok]
 5.  Dreamcast       - Flycast   []                  [Awesome]
 6.  NintendoDS      - Drastic   []                  [Good]
-7.  Arcade Classic  - RetroArch [FB Alpha 2012]     [Meh]   [BIOS ok]
+7.  Arcade Classic  - RetroArch [FB Alpha 2012]     [Meh]     [BIOS ok]
 8.  SFC             - RetroArch [Snes9x]            [Awesome] [BIOS ok]
 9.  SNES            - RetroArch [Snes9x]            [Awesome] [BIOS ok]
-10. Atari7800       - RetroArch [ProSystem]         [Meh]   [BIOS ok]
-11. AtariLynx       - RetroArch [Handy]             [Meh]   [BIOS ok]
+10. Atari7800       - RetroArch [ProSystem]         [Meh]     [BIOS ok]
+11. AtariLynx       - RetroArch [Handy]             [Meh]     [BIOS ok]
 12. CPS1            - RetroArch [FB Alpha 2012]     [Awesome] [FB Neo] [BIOS ok]
 13. CPS2            - RetroArch [FB Alpha 2012]     [Awesome] [FB Neo] [BIOS ok]
 14. CPS3            - RetroArch [mame2016]          [Meh]     [FB Alpha 2012, FB Neo, mame2010]
 15. FbNeo           - RetroArch [FB Alpha 2012]     [Awesome] [FB Neo] [BIOS ok]
 16. GameGear        - RetroArch [Genesis Plus GX]   [Good]    [BIOS ok]
-17. GB              - RetroArch [mGBA]              [Meh]   [BIOS ok]
+17. GB              - RetroArch [mGBA]              [Meh]     [BIOS ok]
 18. GBA             - RetroArch [mGBA]              [Meh]     [BIOS ok]
 19. GBC             - RetroArch [mGBA]              [Meh]     [BIOS ok]
 20. Genesis         - RetroArch [Genesis Plus GX]   [Awesome] [BIOS ok]
@@ -145,15 +146,18 @@ List of platforms:
 25. Nesh            - RetroArch [Nestopia]          [Awesome] [BIOS ok]
 26. NGPC            - RetroArch [Beetle NeoPop]     [Meh]     [BIOS ok] (*Beetle NeoPop=mednafen_ngp)
 27. PCEngine        - RetroArch [Beetle PCE Fast]   [Good]    [BIOS ok] (*Beetle=mednafen)
-28. Wonderswan      - RetroArch [Beetle WonderSwan] [Meh]   [BIOS ok] (*Beetle=mednafen)
+28. Wonderswan      - RetroArch [Beetle WonderSwan] [Meh]     [BIOS ok] (*Beetle=mednafen)
 29. WonderswanColor - RetroArch [Beetle WonderSwan] [Meh]     [BIOS ok] (*Beetle=mednafen)
 30. GBAH            - RetroArch [mGBA]              [Good]    [BIOS ok]
 31. GenH            - RetroArch [Genesis Plus GX]   [Good]    [BIOS ok]
 32. Mastersystem    - RetroArch [Genesis Plus GX]   [Awesome] [BIOS ok]
 33. Naomi           - Flycast   []                  [Awesome]
-34. NGP             - RetroArch [Beetle NeoPop]     [Meh]   [BIOS ok] (*Beetle NeoPop=mednafen_ngp)
+34. NGP             - RetroArch [Beetle NeoPop]     [Meh]     [BIOS ok] (*Beetle NeoPop=mednafen_ngp)
 35. PCEngineCD      - RetroArch [Beetle PCE Fast]   [Good]    [BIOS ok] (*Beetle=mednafen)
 36. Atari5200       - RetroArch [a5200]             [Meh]     [BIOS ok]
+-----------------------------------------------------------------------
+37. Sega Saturn     - YABA SANSHIRO                 [Good]
+38. MS-DOS          - RetroArch [DosBox Pure]       [Awesome]
 ```
 
 \**Subjective opinion based on games graphic / render speed.*
@@ -172,6 +176,9 @@ am start --user 0 -n com.emu/.browser.retroactivity.RetroActivityFuture -e ROM "
 am start --user 0 -n com.emu/.browser.retroactivity.RetroActivityFuture -e ROM "%s"  -e LIBRETRO %s -e CONFIGFILE /system/res/psxzip.cfg -e SDCARD /sdcard -e EXTERNAL %s --activity-clear-top
 ```
 
+***org.devmiyax.yabasanshioro2.pro*** - Sega Saturn? Yes, see [Easter Eggs](#easter-eggs).
+
+The stick has at least two not added platforms - Sega Saturn and MS-DOS
 [RetroArch](https://www.retroarch.com/) runs games for most of the platforms with predefined configs (psxzip.cfg for PSX and zip.cfg for others) hidden in system image on eMMC.
 
 The old RetroArch has a custom menu with cut options. As a result:
@@ -231,6 +238,7 @@ If nothing works, feel free to [contact me](#Contact).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
 8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88GDBTool.exe).
+9. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
 
@@ -586,7 +594,7 @@ If you see a black screen or a game crashes at the start don't immediately blame
 2. Try to start the game with a different core (see [core mapping](#core-mapping)).
 3. Download a fresh copy of the ROM and replace the old one.
 4. Check that there are no temporary files left over from another core*.
-5. To remove all temporary and garbage files from the specified platform folder, use **Clean Game Folder** option in  [the app](#game-db-tool).
+5. To remove all temporary and garbage files from the specified platform folder, use **Clean Game Folders** option in  [the app](#game-db-tool).
 
 \**For example: Metal Slug was working perfectly fine on MAME or FBA Alpha 2012 but ceased working on FB Neo. Go to sdcard/roms/cps1 and
 delete the files: mslug.fs, mslug.state, mslug.tcxs then start the game again - it now starts on FB Neo.*
@@ -652,8 +660,8 @@ Click **SD Card...** and choose your **SD Card** folder or any other folder whic
 **cachegames.db** is used to define game UI names, image paths, and UI numbers. If it does not exist, the program will use game file names to
 assign game UI names and image paths.
 
-**In DB** column shows the status of a game. "✗" means that the game files exist, but is not registered, so the main stick app UI will not show it. 
-"✓" means that the game is registered and will be shown in the main stick app UI. To change the status click on the according cell or double-click on the according row.
+**In DB** column shows the status of a game. "✗" means that the game files exist, but the game is not registered, so the main stick app UI will not show it. 
+"✓" means that the game is registered and will be shown in the main stick app UI. To change the status, click on the according cell or double-click on the according row.
 **Select All** and **Deselect All** buttons will change the status of all games for current platform accordingly.
 
 **Fav** column represents **favorites**. Click "♡" to change the current favorite status of a particular game. You can also erase
@@ -689,32 +697,26 @@ the game is not registered yet.
 \* You can try to not add the artbox, in this case the stick will try to do a screenshot when you exit the game to make a custom artbox automatically,
 but because of some internal bug in the system the image might not be always flushed properly leaving the 0-size file on sdcard.
 
-## Other Platforms
+## Easter Eggs
 
-Current firmware version does not allow you to add new platforms directly, even though you can create new folder in *iroms* and 
-set up a background and an icon pictures for your new platform, add games in *roms* folder accordingly, register them in DB, and the main app of stick
-will see your games inside new category, but it, unfortunately, will not know what to do to run new games type. Instead, you can exploit [core mapping](#core-mapping) 
-and run any platforms supported by RetroArch (e.g. Sega Saturn, DOS etc.) replacing current ones.
+The stick supports at least two additional platforms out of the box: Sega Saturn (Yaba Sanshiro) and MS-DOS (RetroArch).
 
-Fallout (DOS) example:
+![eggs](resources/images/eggs.webp)
 
-![fallout](resources/images/fallout.webp)
+To activate them:
 
-1. Download *dosbox_pure_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
-2. Put the dowlnoaded core into *sdcard/RetroArch/cores* folder.
-3. Choose some RetroArch platform you want to replace by new platform (e.g. Atari5200).
-4. Move all games and images from *sdcard/roms/atari5200* to a safe place.
-5. Unregister all atari5200 games by using [GDBTool](#game-db-tool).
-6. Download DOS version of fallout - *Fallout (1997).zip*, and a [boxart](https://thumbnails.libretro.com/DOS/Named_Boxarts/).
-7. Put the game file (.zip) and the image file (.png) into *sdcard/roms/atari5200, sdcard/roms/atari5200/images* accordingly.
-8. Register added game by using [GDBTool](#game-db-tool).
-9. Open *sdcard/RetroArch/coremap.cfg* and add the line ***a5200_libretro_android.so->dosbox_pure_libretro_android.so****.
-10. Enjoy.
+1. Go to *sdcard/iroms* and create folders with the next names: *dos* and *ss*.
+2. Go inside *sdcard/iroms/dos*, *sdcard/iroms/ss* and add *bg.png* and *icon.png* (You can take *bg.png* from other platform and *icon.png* [here](resources/images)).
+3. Go to *sdcard/roms* and create folders: *dos* and *ss*.
+4. Inside the *dos* and *ss* create *images* folders. (*sdcard/roms/dos/images*, *sdcard/roms/ss/images*).
+5. Prepare game files and [boxarts](https://thumbnails.libretro.com/), put game files and image files accordingly, for example:
+*sdcard/roms/dos/fallout1997.zip* and *sdcard/roms/dos/images/fallout1997.png* etc.
+6. Register added games by using [GDBTool](#game-db-tool).
+7. Download *dosbox_pure_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
+8. Put the downloaded core into *sdcard/RetroArch/cores* folder.
+9. Enjoy.
 
-\* The stick will try to run your game file as an **atari5200** but the *a5200_libretro_android.so* core will be 
-replaced by *dosbox_pure_libretro_android.so* forcing your game file to be launched under dosbox core.
-
-Tips:
+MS-DOS tips:
 
 1. Go to **Quick Menu** -> **Core Options** -> **General** -> **Force Output FPS** and set 30 FPS to prevent video / audio lags especially
 with shaders enabled.
@@ -726,6 +728,9 @@ an option with a mouse.
 
 ![control](resources/images/control.webp)
 
+Fallout1997 (MS-DOS) & Langrisser 3 (Sega Saturn)
+![falloutSaturn](resources/images/falloutSaturn.webp)
+
 Heroes 2 & Red Alert
 ![HeroesRedAlert](resources/images/HeroesRedAlert.webp)
 
@@ -736,6 +741,37 @@ Transport Tycoon Deluxe & War Craft 2
 ![TTDWarcraft](resources/images/TTDWarcraft.webp)
 
 *You can save game progress as usual by using hot keys or quick menu in up to 1000 slots.*
+
+## Other Platforms
+
+Current firmware version does not allow you to add new platforms directly, even though you can create new folder in *iroms* and 
+set up a background and an icon pictures for your new platform, add games in *roms* folder accordingly, register them in DB, after it the main app of stick
+will see your games inside new category, but it, unfortunately, will not know what to do to run them properly. Instead, you can exploit [core mapping](#core-mapping) 
+and run any platforms supported by RetroArch replacing current ones.
+
+What to play:
+
+1. wii / gamecube - (dolphin_libretro_android.so only arm-v8, will not work), a bit heavy for this stick.
+2. Nintendo 3DS (citra_libretro_android.so only arm-v8, will not work), a bit heavy for this stick.
+3. Atari Jaguar (virtualjaguar_libretro_android.so)
+4. 3DO (opera_libretro_android.so)
+5. Many other light platforms like Sega CD, Sega 32X, Commodore 64, MSX, Amiga etc.
+
+3DO example:
+
+1. Download *opera_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
+2. Put the downloaded core into *sdcard/RetroArch/cores* folder.
+3. Choose some RetroArch platform you want to be replaced by new platform (e.g. Atari5200).
+4. Move all games and images from *sdcard/roms/atari5200* to a safe place.
+5. Unregister all atari5200 games by using [GDBTool](#game-db-tool).
+6. Take *Wolfenstein 3D.chd*, and a [boxart](https://thumbnails.libretro.com/The%203DO%20Company%20-%203DO/Named_Boxarts/).
+7. Put the game file (.chd) and the image file (.png) into *sdcard/roms/atari5200, sdcard/roms/atari5200/images* accordingly.
+8. Register added game by using [GDBTool](#game-db-tool).
+9. Open *sdcard/RetroArch/coremap.cfg* and add the line ***a5200_libretro_android.so->opera_libretro_android.so****.
+10. Enjoy.
+
+\* The stick will try to run your game file as an **atari5200** but the *a5200_libretro_android.so* core will be 
+replaced by *opera_libretro_android.so* forcing your game file to be launched under opera core.
 
 ## Graphic Settings
 

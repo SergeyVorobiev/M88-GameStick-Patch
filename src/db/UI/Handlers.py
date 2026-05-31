@@ -262,7 +262,7 @@ class Handlers:
             height = 280
             platform_name = Strings.Current.ALL_PLATFORM_FOLDERS_STRING
         else:
-            width = 400
+            width = 500
             height = 250
             extensions = set(PlatformsMeta.extensions_map[GlobalUI.current_platform])
             extensions.add(GlobalUI.config_extension)
@@ -401,7 +401,7 @@ class Handlers:
             extensions.add(GlobalUI.config_extension)
             if path.is_dir():
                 for item in path.iterdir():
-                    if item.is_file() and not extensions.__contains__(item.suffix.lower()):
+                    if item.is_file() and (item.name.endswith(".pure.zip") or not extensions.__contains__(item.suffix.lower())):
                         f.add(item.suffix)
                         result = OtherTool.move_file(item.absolute(), platform_result_folder)
                         if not result:

@@ -34,7 +34,17 @@ extensions_map = {
     "NAOMI": [".zip"],
     "ngp": [".ngp", ".ngc", ".zip"],
     "pcenginecd": [".chd", ".cue", ".bin", ".iso", ".zip"],
-    "atari5200": [".bin", ".a52", ".car", ".zip"]
+    "atari5200": [".bin", ".a52", ".car", ".zip"],
+    "ss": [".cue", ".iso", ".bin", ".chd", ".mdf", ".mds", ".m3u"],
+    "dos": [".zip", ".dosz", ".exe", ".com", ".bat", ".iso", ".chd", ".cue", ".ins", ".img", ".ima", ".vhd" ,".jrc", ".tc" ,".m3u", ".m3u8", ".conf"],
+
 }
 
+system_files = [".pure.zip", "neogeo.zip", "naomi.zip", "naomi2.zip", "naomigd.zip"]
 
+
+def ends_with_system(file_name):
+    for f in system_files:
+        if file_name.endswith(f):
+            return True
+    return False
