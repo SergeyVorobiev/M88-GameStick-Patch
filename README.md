@@ -758,6 +758,8 @@ What to play:
 
 3DO example:
 
+![wolf](resources/images/wolf.webp)
+
 1. Download *opera_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
 2. Put the downloaded core into *sdcard/RetroArch/cores* folder.
 3. Choose some RetroArch platform you want to be replaced by new platform (e.g. Atari5200).

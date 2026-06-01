@@ -42,6 +42,12 @@ extensions_map = {
 
 system_files = [".pure.zip", "neogeo.zip", "naomi.zip", "naomi2.zip", "naomigd.zip"]
 
+def get_all_extensions():
+    result = set()
+    for key, value in extensions_map.items():
+        for ext in value:
+            result.add(ext)
+    return result
 
 def ends_with_system(file_name):
     for f in system_files:

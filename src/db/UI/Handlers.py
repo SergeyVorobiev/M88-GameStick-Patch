@@ -5,10 +5,10 @@ from pathlib import Path
 from tkinter import filedialog
 
 from src.OtherTool import OtherTool
-from src.db import PlatformsMeta
 from src.db.DBExtractor import DBExtractor
 from src.db.GamesDBBuilder import GamesDBBuilder
 from src.db.GamesExplorer import GamesExplorer
+from src.db.PlatformsMeta import get_all_extensions
 from src.db.UI.ConfirmDialog import ConfirmDialog
 from src.db.UI.GlobalUI import GlobalUI
 from src.db.UI.ImagePreview import ImagePreview
@@ -252,20 +252,17 @@ class Handlers:
     def on_clean_game_folders_click():
         if GlobalUI.get_games_num() == 0:
             return
-        extensions = set()
+        extensions = get_all_extensions()
         extensions.add(GlobalUI.config_extension)
+
+        # All extensions now are used independently of the platform because user can redefine it
         if GlobalUI.current_platform == GlobalUI.all:
-            for key, rows in GlobalUI.games_rows.items():
-                for ext in PlatformsMeta.extensions_map[key]:
-                    extensions.add(ext)
             width = 600
-            height = 280
+            height = 300
             platform_name = Strings.Current.ALL_PLATFORM_FOLDERS_STRING
         else:
-            width = 500
-            height = 250
-            extensions = set(PlatformsMeta.extensions_map[GlobalUI.current_platform])
-            extensions.add(GlobalUI.config_extension)
+            width = 600
+            height = 300
             platform_name = Strings.Current.THE_PLATFORM_FOLDER_STRING.replace('{%s1}', GlobalUI.current_platform)
         part1 = Strings.Current.CLEAN_GAME_FOLDERS_TEXT_PART_1.replace('{%s1}', str(extensions)).replace('{%s2}', platform_name)
         part2 = Strings.Current.CLEAN_GAME_FOLDERS_TEXT_PART_2
@@ -397,7 +394,8 @@ class Handlers:
             platform_result_folder = result_folder + os.sep + GlobalUI.game_folder_name + os.sep + platform
             OtherTool.make_dirs(platform_result_folder)
             path = Path(GlobalUI.roms_folder_path + os.sep + platform)
-            extensions = set(PlatformsMeta.extensions_map[platform])
+            # extensions = set(PlatformsMeta.extensions_map[platform])
+            extensions = get_all_extensions() # use all extensions because a user can redefine the platform
             extensions.add(GlobalUI.config_extension)
             if path.is_dir():
                 for item in path.iterdir():

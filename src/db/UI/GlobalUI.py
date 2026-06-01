@@ -6,7 +6,7 @@ from pathlib import Path
 class GlobalUI:
     app_width = 1600
     app_height = 900
-    version = "v1.2"
+    version = "v1.3"
     new_db_name = "cachegames(updated).db"
     db_name = "cachegames.db"
     github_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch"
