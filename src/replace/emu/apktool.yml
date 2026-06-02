@@ -9,8 +9,8 @@ sdkInfo:
 packageInfo:
   forcedPackageId: 127
 versionInfo:
-  versionCode: 20
-  versionName: 2.0-Dagoth
+  versionCode: 21
+  versionName: 2.1-Dagoth
 doNotCompress:
 - arsc
 - png

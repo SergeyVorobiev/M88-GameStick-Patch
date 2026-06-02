@@ -1486,8 +1486,8 @@
     return-void
 .end method
 
-.method private remapCore(Ljava/lang/String;)Ljava/lang/String;
-    .locals 6
+.method private remapCore(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    .locals 7
 
     .prologue
 
@@ -1538,18 +1538,27 @@
     const/4 v4, 0x0
     aget-object v4, v3, v4
     invoke-virtual {v4}, Ljava/lang/String;->trim()Ljava/lang/String;
-    move-result-object v4
+    move-result-object v5 # the line part before ->
 
-    invoke-virtual {v4, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    invoke-virtual {v5, p1}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+    move-result v4
+
+    if-nez v4, :cond_success
+
+    # check if the v5 is the rom name
+    const-string v6, "_roms_"
+    invoke-virtual {v6, v5}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v5 # _roms_romname
+    invoke-virtual {p2, v5}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
     move-result v4
 
     if-eqz v4, :loop_read_line
 
+    :cond_success
     const/4 v4, 0x1
     aget-object v4, v3, v4
     invoke-virtual {v4}, Ljava/lang/String;->trim()Ljava/lang/String;
-    move-result-object v4
-
+    move-result-object v4 # the line part after ->
     invoke-virtual {v1}, Ljava/io/BufferedReader;->close()V
     return-object v4
 
@@ -1672,9 +1681,14 @@
     invoke-virtual {v3, v2}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
     move-result-object v3 # romName_coreName
     invoke-direct {p0, v3}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->logQuick(Ljava/lang/String;)V
+
+    const-string v4, "[/\\:*?\"<>| ]"
+    const-string v5, "_"
+    invoke-virtual {v3, v4, v5}, Ljava/lang/String;->replaceAll(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v3
     #------------------------------------------------------------#
 
-    invoke-direct {p0, v2}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->remapCore(Ljava/lang/String;)Ljava/lang/String;
+    invoke-direct {p0, v2, v3}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->remapCore(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
     move-result-object v2 # updated core name
 
     const-string v3, "/data/user/0/com.retroarch.ra32/cores/"
