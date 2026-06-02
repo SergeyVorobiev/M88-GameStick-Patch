@@ -236,7 +236,7 @@ If nothing works, feel free to [contact me](#Contact).
 5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88USER.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool.exe).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.3.exe).
 9. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
