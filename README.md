@@ -213,7 +213,7 @@ The fixes include:
 
 There are two options, both of them imply you have M88-P65-V1.8, but they do not guarantee a success if your stick has different hardware / software.
 
-Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z):
+Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88USER.7z):
 1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
 2. Put RetroArch folder in your SD card. ([RetroArch Setup](#retroarch-setup)).
 3. Read [Game Won't Start](#game-wont-start).
@@ -232,11 +232,11 @@ If nothing works, feel free to [contact me](#Contact).
 1. Official latest [cores](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
 2. Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
 3. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
-4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/RetroArch.7z).
-5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z).
+4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/RetroArch.7z).
+5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88USER.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88GDBTool.exe).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool.exe).
 9. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
@@ -333,7 +333,7 @@ Use [7-zip](https://www.7-zip.org/download.html) to open your USER* image, it wi
 
 ### Write to eMMC
 
-1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88USER.7z) or use your upgraded one.
+1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88USER.7z) or use your upgraded one.
 2. Download the [scatter](resources/m88/M88_scatter.txt) file and use it instead of empty one. Place your 
 preloader, scatter and patched image in the same folder.
 3. Check the size of the image, edit if needed:
@@ -377,7 +377,7 @@ If something goes wrong then try again or use the USER.img you backed up [earlie
 
 ## RetroArch Setup
 After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download 
-[RetroArch archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/RetroArch.7z) 
+[RetroArch archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/RetroArch.7z) 
 and unpack it into root of your sd card. (sdcard/RetroArch). The system will start in upgraded mode automatically while 
 main RetroArch config file - *sdcard/RetroArch/retroarch.cfg* is presented.
 
@@ -651,7 +651,7 @@ To replace - edit an appropriate row, you only need to change **path**, **image*
 
 The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, and clean up unnecessary and temporary files from the SD card.
 
-You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.0.0/M88GDBTool.exe) or run it from [sources](UIMain.py).
+You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.3.exe) or run it from [sources](UIMain.py).
 
 ![gbdt](resources/images/gbdt.webp)
 
