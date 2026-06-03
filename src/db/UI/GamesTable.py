@@ -54,13 +54,14 @@ class GamesTable:
         self.__col_index = -1
         self.__tree = tree
         self.__on_check_listener = lambda x, y: 0
-        self.__on_image_click_listener = lambda x, y: 0
+        self.__on_image_click_listener = lambda t, u, w, x, y, z: 0
         self.__on_fav_click_listener = lambda x, y: 0
         self.__on_file_name_click_listener = lambda u, w, x, y, z: 0
         self.__on_ui_name_click_listener = lambda u, w, x, y, z: 0
         self.__on_row_click_listener = lambda x, y: 0
         self.__on_load_data_listener = lambda: 0
         self.__bind_actions()
+        self.__selected_num = ""
 
         # workaround for double click because the native one is bs
         self.__double_click = DoubleClick()
@@ -68,6 +69,7 @@ class GamesTable:
         scrollbar.pack(side="right", fill="y")
 
     def load_data(self, games_list, reset_sort=False):
+        self.__selected_num = ""
         if reset_sort:
             self.__sort_reverse = True
             self.__sort_column = None
@@ -155,6 +157,12 @@ class GamesTable:
         self.__tree.set(item, GamesTable.ui_name, ui_name)
         self.__tree.set(item, GamesTable.i_name, image_path)
 
+    def get_selected_num(self):
+        return self.__selected_num
+
+    def set_image_path(self, item, image_path):
+        self.__tree.set(item, GamesTable.i_name, image_path)
+
     def __bind_actions(self):
         def on_multi_right_click(event):
             region = self.__tree.identify_region(event.x, event.y)
@@ -166,7 +174,10 @@ class GamesTable:
                 if item:
                     platform = self.__tree.set(item, GamesTable.platform)
                     i_name = self.__tree.set(item, GamesTable.i_name)
-                    self.__on_image_click_listener(platform, i_name)
+                    f_name = self.__tree.set(item, GamesTable.f_name)
+                    ui_name = self.__tree.set(item, GamesTable.ui_name)
+                    num = self.__tree.set(item, GamesTable.ui_num)
+                    self.__on_image_click_listener(item, num, platform, f_name, ui_name, i_name)
             elif column == "#3":
                 item = self.__tree.identify_row(event.y)
                 if item:
@@ -194,6 +205,7 @@ class GamesTable:
                 self.__double_click.reset()
                 return
             item = self.__tree.identify_row(event.y)
+            self.__selected_num = self.__tree.set(item, GamesTable.ui_num)
             column = self.__tree.identify_column(event.x)
             i_name = self.__tree.set(item, GamesTable.i_name)
             platform = self.__tree.set(item, GamesTable.platform)
@@ -216,7 +228,10 @@ class GamesTable:
                 if item:
                     platform = self.__tree.set(item, GamesTable.platform)
                     i_name = self.__tree.set(item, GamesTable.i_name)
-                    self.__on_image_click_listener(platform, i_name)
+                    f_name = self.__tree.set(item, GamesTable.f_name)
+                    ui_name = self.__tree.set(item, GamesTable.ui_name)
+                    num = self.__tree.set(item, GamesTable.ui_num)
+                    self.__on_image_click_listener(item, num, platform, f_name, ui_name, i_name)
             elif column == "#8":
                 if item:
                     ui_num = self.__tree.set(item, GamesTable.ui_num)

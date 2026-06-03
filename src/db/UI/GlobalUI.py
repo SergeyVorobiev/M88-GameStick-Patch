@@ -6,7 +6,9 @@ from pathlib import Path
 class GlobalUI:
     app_width = 1600
     app_height = 900
-    version = "v1.3"
+    proxy_example = 'socks5://192.168.8.105:1080'
+    proxy = ''
+    version = "v1.5"
     new_db_name = "cachegames(updated).db"
     db_name = "cachegames.db"
     github_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch"
@@ -42,6 +44,7 @@ class GlobalUI:
     games_rows = {}
     selected_rows = {} # uuid: [in_db, fav, his]
     db_data = {} # file_name: [image_path, ui_name, fav, his, gnum]
+    art_boxes = {}
 
     @staticmethod
     def reset():

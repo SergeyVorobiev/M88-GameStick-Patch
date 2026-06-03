@@ -86,7 +86,7 @@ SD Card:
 36. shared_prefs      - Drastic emulator configs.
 37. shared_prefs_ps2  - PS2 configs.
 38. cachegames.db     - Database of all registered games.
-39. chat.db           - Cheat database.
+39. cheat.db           - Cheat database.
 40. font.fts          - Font for main application.
 ```
 

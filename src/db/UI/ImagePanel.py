@@ -24,10 +24,10 @@ class ImagePanel:
         self.label.pack_configure(fill="both", anchor="center", expand=True, padx=0, pady=0, ipadx=0, ipady=0)
         self.parent.bind("<Configure>", self.on_resize)
 
-    def load_picture(self, path):
+    def load_picture(self, path, reload=False):
         if path is None or path == "":
             path = self.def_path
-        if path != self.current_path:
+        if reload or path != self.current_path:
             self.current_path = path
 
             # noinspection PyBroadException
@@ -42,8 +42,8 @@ class ImagePanel:
         else:
             return False
 
-    def on_picture_changed(self, path):
-        if not self.load_picture(path):
+    def on_picture_changed(self, path, reload=False):
+        if not self.load_picture(path, reload):
             return
         self.set_picture()
 

@@ -5,12 +5,14 @@ from pathlib import Path
 from tkinter import filedialog
 
 from src.OtherTool import OtherTool
+from src.db import PlatformsMeta
 from src.db.DBExtractor import DBExtractor
 from src.db.GamesDBBuilder import GamesDBBuilder
 from src.db.GamesExplorer import GamesExplorer
 from src.db.PlatformsMeta import get_all_extensions
 from src.db.UI.ConfirmDialog import ConfirmDialog
 from src.db.UI.GlobalUI import GlobalUI
+from src.db.UI.Helpers.LibRetroArts import LibRetroArts
 from src.db.UI.ImagePreview import ImagePreview
 from src.db.UI.LoadingWindow import LoadingWindow
 from src.db.UI.Popup import Popup
@@ -34,6 +36,8 @@ class Handlers:
             indb_total += indb
         result[0][1] = indb_total
         result[0][2] = total
+        if total == 0:
+            result = []
         return result
 
     @staticmethod
@@ -45,7 +49,11 @@ class Handlers:
         def after_task(rows):
             GlobalUI.games_table.load_data(rows, reset_sort=True)
             GlobalUI.platforms_list.load_data(Handlers.get_platforms_list())
-
+            games_num = GlobalUI.get_games_num()
+            if games_num == 0:
+                GlobalUI.control_panel.disable_buttons()
+            else:
+                GlobalUI.control_panel.enable_buttons()
         def task():
             rows = []
             loading = None
@@ -415,12 +423,75 @@ class Handlers:
         print("\n\n", f)
 
     @staticmethod
-    def on_image_click(platform, image_path):
-        if image_path == "":
-            return
+    def on_image_click(item, num, platform, file_name, ui_name, image_path):
         GlobalUI.image_preview = ImagePreview(GlobalUI.root,
+                                              item,
+                                              num,
                                               GlobalUI.roms_folder_path + os.sep + platform + os.sep + image_path,
-                                              image_path)
+                                              image_path,
+                                              file_name, ui_name, platform,
+                                              on_reload_click_listener=Handlers.on_reload_image_click,
+                                              on_picked_image_listener=Handlers.on_picked_image_click,
+                                              on_save_art_listener=Handlers.on_save_art_click)
+
+    @staticmethod
+    def on_save_art_click(item, num, path, image_name, img_bytes):
+        try:
+            OtherTool.make_dirs(Path(path).parent)
+            with open(path, 'wb') as f:
+                f.write(img_bytes)
+            GlobalUI.image_preview.set_image_name_and_path(image_name, path)
+            GlobalUI.image_preview.build_image_view()
+            GlobalUI.games_table.set_image_path(item, image_name.replace("\\", "/"))
+            if num == GlobalUI.games_table.get_selected_num():
+                GlobalUI.image_frame.on_picture_changed(path, True)
+        except Exception as e:
+            Popup(GlobalUI.root, str(e), width=300, height=150, top_pad_y=10, after_destroy_callback=GlobalUI.image_preview.grab)
+
+    @staticmethod
+    def on_reload_image_click(platform):
+        arts = GlobalUI.art_boxes.get(platform)
+        if arts and arts.__len__() > 0:
+            GlobalUI.image_preview.build_arts_list()
+            return
+        def after():
+            result = GlobalUI.image_preview.build_arts_list()
+            if not result:
+                Popup(GlobalUI.root, Strings.Current.CONNECTION_PROBLEM_TEXT, width=300, height=120, top_pad_y=10, after_destroy_callback=GlobalUI.image_preview.grab)
+            else:
+                GlobalUI.image_preview.grab()
+
+        def task():
+            loading = None
+            try:
+                lib_retro_arts = LibRetroArts(GlobalUI.proxy)
+                loading = LoadingWindow(GlobalUI.root, lib_retro_arts.url)
+                GlobalUI.art_boxes[platform] = lib_retro_arts.get_file_names(PlatformsMeta.art_map[platform])
+            finally:
+                if loading:
+                    GlobalUI.root.after(0, loading.destroy)
+                    GlobalUI.root.after(0, after)
+        threading.Thread(target=task, daemon=True).start()
+
+    @staticmethod
+    def on_picked_image_click(platform, name):
+        def after():
+            if not GlobalUI.image_preview.is_loaded_image():
+                Popup(GlobalUI.root, Strings.Current.IMAGE_NOT_LOADED_TEXT, width=300, height=120, top_pad_y=10, after_destroy_callback=GlobalUI.image_preview.grab)
+            else:
+                GlobalUI.image_preview.grab()
+                GlobalUI.image_preview.build_new_art_view()
+        def task():
+            loading = None
+            try:
+                lib_retro_arts = LibRetroArts(GlobalUI.proxy)
+                loading = LoadingWindow(GlobalUI.root, lib_retro_arts.url)
+                GlobalUI.image_preview.loaded_image_buffer = lib_retro_arts.download_image(PlatformsMeta.art_map[platform], name)
+            finally:
+                if loading:
+                    GlobalUI.root.after(0, loading.destroy)
+                    GlobalUI.root.after(0, after)
+        threading.Thread(target=task, daemon=True).start()
 
     @staticmethod
     def on_fav_click_listener(ui_num, new_value):

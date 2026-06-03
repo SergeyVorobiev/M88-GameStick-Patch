@@ -25,9 +25,25 @@ class ControlPanel:
         self.btn5.grid(row=0, column=4, pady=(0, 10))
         self.btn6.grid(row=0, column=5, pady=(0, 10))
         self.btn7.grid(row=0, column=6, pady=(0, 10))
+        self.__state_buttons('disabled')
 
     def set_generate_db_listener(self, generate_db_listener):
         self.btn1.configure(command=generate_db_listener)
+
+    def disable_buttons(self):
+        self.__state_buttons('disabled')
+
+    def enable_buttons(self):
+        self.__state_buttons('normal')
+
+    def __state_buttons(self, state):
+        self.btn1['state'] = state
+        self.btn2['state'] = state
+        self.btn3['state'] = state
+        self.btn4['state'] = state
+        self.btn5['state'] = state
+        self.btn6['state'] = state
+        self.btn7['state'] = state
 
     def set_select_all_listener(self, select_all_listener):
         self.btn2.configure(command=select_all_listener)

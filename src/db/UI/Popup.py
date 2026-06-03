@@ -11,7 +11,12 @@ class Popup:
                  cancel_text=Strings.Current.DIALOG_CANCEL,
                  width = 400,
                  height = 200,
-                 top_pad_y=40):
+                 top_pad_y=40,
+                 after_destroy_callback=None):
+        if after_destroy_callback is None:
+            self.after_destroy = lambda : 0
+        else:
+            self.after_destroy = after_destroy_callback
         self.top = tk.Toplevel(parent)
         self.top.title(title)
         self.width = width
@@ -19,8 +24,10 @@ class Popup:
         self.top.transient(parent)
         self.top.grab_set()
         self.top.resizable(False, False)
+        self.top.attributes('-topmost', True)
         self.center_window(parent)
         self.top.iconbitmap(GlobalUI.icon)
+        self.top.protocol("WM_DELETE_WINDOW", self.cancel)
         msg_label = ttk.Label(self.top, text=message, font=("Consolas", 10), wraplength=width-20, justify="center")
         msg_label.pack(pady=(top_pad_y, 10))
 
@@ -29,7 +36,6 @@ class Popup:
 
         cancel_btn = ttk.Button(btn_frame, text=cancel_text, command=self.cancel, width=12)
         cancel_btn.pack(side="left", padx=8)
-
         self.top.bind("<Escape>", lambda e: self.cancel())
 
         self.top.focus_force()
@@ -43,3 +49,4 @@ class Popup:
 
     def cancel(self):
         self.top.destroy()
+        self.after_destroy()
