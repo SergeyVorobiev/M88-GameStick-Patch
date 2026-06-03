@@ -27,7 +27,7 @@ class StringsEN:
     SD_CARD_BUTTON_TITLE = "SD Card..."
     SAVE_DB_BUTTON_TITLE = "Save DB"
     RELOAD_BUTTON_TITLE = "Download from Web"
-    REPLACE_OLD_ART_BUTTON_TITLE = "Replace old art"
+    REPLACE_OLD_ART_BUTTON_TITLE = "Replace the old art with this one"
     SET_PROXY_BUTTON_TITLE = PROXY_ICON + " Proxy"
     PROXY_TITLE = "Proxy"
     PICK_ART_BUTTON_TITLE = "Pick"

@@ -450,7 +450,7 @@ class Handlers:
 
     @staticmethod
     def on_reload_image_click(platform):
-        arts = GlobalUI.art_boxes.get(platform)
+        arts = GlobalUI.get_art_boxes(platform)
         if arts and arts.__len__() > 0:
             GlobalUI.image_preview.build_arts_list()
             return
@@ -466,7 +466,7 @@ class Handlers:
             try:
                 lib_retro_arts = LibRetroArts(GlobalUI.proxy)
                 loading = LoadingWindow(GlobalUI.root, lib_retro_arts.url)
-                GlobalUI.art_boxes[platform] = lib_retro_arts.get_file_names(PlatformsMeta.art_map[platform])
+                GlobalUI.set_art_boxes(platform, lib_retro_arts.get_file_names(PlatformsMeta.art_map[platform]))
             finally:
                 if loading:
                     GlobalUI.root.after(0, loading.destroy)

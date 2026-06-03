@@ -6,6 +6,7 @@ from PIL import Image, ImageTk
 
 from src.db import PlatformsMeta
 from src.db.UI.GlobalUI import GlobalUI
+from src.db.UI.Helpers.SimilarNames import SimilarNames
 from src.db.UI.ProxyPopup import ProxyPopup
 from src.db.UI.Strings import Strings
 
@@ -13,7 +14,7 @@ from src.db.UI.Strings import Strings
 class ImagePreview:
 
     game_name = "Game name"
-
+    index = "Num"
     def __init__(self, parent, table_item, num, image_path, image_name, file_name, ui_name, platform, on_reload_click_listener, on_picked_image_listener, on_save_art_listener):
         self.platform = platform
         self.top = tk.Toplevel(parent)
@@ -161,7 +162,7 @@ class ImagePreview:
 
     # noinspection PyUnusedLocal
     def _on_set_proxy_click(self, event):
-        ProxyPopup(self.parent)
+        ProxyPopup(self.parent, after_destroy=self.grab)
 
     def set_geometry(self, width, height):
         x = self.parent.winfo_x() + (self.parent.winfo_width() // 2) - width // 2
@@ -169,14 +170,18 @@ class ImagePreview:
         self.top.geometry(f"{width}x{height + self.button_area_height}+{x}+{y}")
 
     def build_arts_list(self):
-        arts = GlobalUI.art_boxes.get(self.platform)
-        # arts = [["A"], ["B"], ["C"]]
+        arts = GlobalUI.get_art_boxes(self.platform)
         if not arts or arts.__len__() == 0:
             return False
+        similar_arts = SimilarNames.sort_by_similarity(self.ui_name, arts, 5)
+        similar_arts_f = []
+        f_name = Path(self.file_name).stem
+        if self.ui_name != f_name:
+            similar_arts_f = SimilarNames.sort_by_similarity(f_name, arts, 5)
         self.forget_image_view()
         self.forget_art_view()
         self.set_geometry(800, 600)
-        columns = [ImagePreview.game_name]
+        columns = [ImagePreview.index, ImagePreview.game_name]
         #style = ttk.Style()
         #style.configure('ArtBox.Treeview.Heading',
         #                font=('Consolas', 10, 'bold'))
@@ -184,10 +189,23 @@ class ImagePreview:
         scrollbar = ttk.Scrollbar(self.arts_list, orient="vertical", command=self.arts_list.yview)
         self.arts_list.configure(yscrollcommand=scrollbar.set)
         self.arts_list.heading(ImagePreview.game_name, text=PlatformsMeta.art_map[self.platform], anchor="center")
-        self.arts_list.column(ImagePreview.game_name, width=590, stretch=True, anchor="w")
+        self.arts_list.column(ImagePreview.game_name, width=520, stretch=True, anchor="w")
+        self.arts_list.heading(ImagePreview.index, text=Strings.Current.GAME_COLUMN_NUM_TITLE, anchor="center")
+        self.arts_list.column(ImagePreview.index, stretch=False, width=50, anchor="w")
         self.arts_list.bind("<Button-1>", self._on_row_click)
+
+        icon = Strings.Current.UNFAV_STAR_ICON + " UI"
+        for item in similar_arts:
+            self.arts_list.insert("", "end", values=[icon, item])
+
+        icon = Strings.Current.UNFAV_STAR_ICON + " Fi"
+        for item in similar_arts_f:
+            self.arts_list.insert("", "end", values=[icon, item])
+
+        num = 1
         for item in arts:
-            self.arts_list.insert("", "end", values=item)
+            self.arts_list.insert("", "end", values=[str(num), item])
+            num += 1
         self.arts_list.grid(row=0, pady=(4, 4), padx=(22, 8), columnspan=2, sticky="wesn")
         scrollbar.pack(side="right", fill="y")
         self.top.grid_rowconfigure(1, weight=1, pad=0, minsize=20)

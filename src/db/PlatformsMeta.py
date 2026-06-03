@@ -71,7 +71,7 @@ art_map = {
     "wonderswancolor": "Bandai - WonderSwan Color",
     "gbah": "Nintendo - Game Boy Advance",
     "genh": "Sega - Mega Drive - Genesis",
-    "mastersystem": "Sega - Master System - Mark ",
+    "mastersystem": "Sega - Master System - Mark III",
     "NAOMI": "Sega - Naomi",
     "ngp": "SNK - Neo Geo Pocket",
     "pcenginecd": "NEC - PC Engine CD - TurboGrafx-CD",

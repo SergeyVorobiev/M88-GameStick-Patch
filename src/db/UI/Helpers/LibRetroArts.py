@@ -48,7 +48,7 @@ class LibRetroArts:
         buffer.seek(0)
         return buffer
 
-    def get_file_names(self, platform, as_arrays=True):
+    def get_file_names(self, platform, as_arrays=False):
         platform = platform.replace(" ", "%20")
         url = self.url + platform + self.box_arts
         try:

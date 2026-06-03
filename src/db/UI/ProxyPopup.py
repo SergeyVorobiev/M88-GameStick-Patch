@@ -7,6 +7,7 @@ from src.db.UI.Strings import Strings
 
 
 class ProxyPopup:
+
     def __init__(self, parent, width = 500, height = 50, after_destroy=None):
 
         self.top = tk.Toplevel(parent)
@@ -40,7 +41,7 @@ class ProxyPopup:
         self.text_label.insert("1.0", GlobalUI.proxy_example)
         self.text_label.config(state="disabled")
         self.text_label.pack(padx=(6, 0), pady=(5, 0))
-
+        self.top.bind("<Button-1>", self._close_on_outside_click)
         #msg_label = ttk.Label(frame, text=Strings.Current.PROXY_HINT_EX + GlobalUI.proxy_example, font=("Consolas", 8))
         #msg_label.pack(anchor="e", padx=(0, 6), pady=(5, 0))
 
@@ -53,6 +54,12 @@ class ProxyPopup:
     def cancel(self):
         self.top.destroy()
         self.after_destroy()
+
+    def _close_on_outside_click(self, event):
+        x = event.x
+        y = event.y
+        if x < 0 or y < 0 or x > self.top.winfo_width() or y > self.top.winfo_height():
+            self.cancel()
 
     # noinspection PyUnusedLocal
     def on_key_release(self, event):

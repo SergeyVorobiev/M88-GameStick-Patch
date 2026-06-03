@@ -2,6 +2,8 @@ import os
 import sys
 from pathlib import Path
 
+from src.db import PlatformsMeta
+
 
 class GlobalUI:
     app_width = 1600
@@ -45,6 +47,14 @@ class GlobalUI:
     selected_rows = {} # uuid: [in_db, fav, his]
     db_data = {} # file_name: [image_path, ui_name, fav, his, gnum]
     art_boxes = {}
+
+    @staticmethod
+    def get_art_boxes(platform):
+        return GlobalUI.art_boxes.get(PlatformsMeta.art_map[platform])
+
+    @staticmethod
+    def set_art_boxes(platform, art_boxes):
+        GlobalUI.art_boxes[PlatformsMeta.art_map[platform]] = art_boxes
 
     @staticmethod
     def reset():

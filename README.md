@@ -236,7 +236,7 @@ If nothing works, feel free to [contact me](#Contact).
 5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88USER.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.3.exe).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.5.exe).
 9. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
@@ -649,9 +649,9 @@ To replace - edit an appropriate row, you only need to change **path**, **image*
 
 ## Game DB Tool
 
-The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, and clean up unnecessary and temporary files from the SD card.
+The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, clean up unnecessary and temporary files from the SD card, and download missed or bad images from the Web.
 
-You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.3.exe) or run it from [sources](UIMain.py).
+You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.5.exe) or run it from [sources](UIMain.py).
 
 ![gbdt](resources/images/gbdt.webp)
 
@@ -695,6 +695,10 @@ the game is not registered yet.
 
 \* You can try to not add the artbox, in this case the stick will try to do a screenshot when you exit the game to make a custom artbox automatically,
 but because of some internal bug in the system the image might not be always flushed properly leaving the 0-size file on sdcard.
+
+Download an image example:
+
+![downloadImage](resources/images/downloadImage.gif)
 
 ## Easter Eggs
 
