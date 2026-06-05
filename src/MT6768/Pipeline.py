@@ -2,9 +2,9 @@ import hashlib
 import os
 import time
 import urllib.request
+from pathlib import Path
 
 from src.APKTool import APKTool
-from src.AVBInfo import AVBInfo
 from src.Ext4ModifyTool import Ext4ModifyTool
 from src.Ext4UnpackTool import Ext4UnpackTool
 from src.MagiskbootTool import MagiskbootTool
@@ -37,12 +37,26 @@ class Pipeline:
     @staticmethod
     def download_retro_arch_32_1222():
         local_path = "img/original/apk/RetroArch_ra32.apk"
+        url = "https://buildbot.libretro.com/stable/1.22.2/android/RetroArch_ra32.apk"
+        if not os.path.exists(local_path):
+            raise Exception("Please download RetroArch manually from: " + url + " and place it into: " + str(Path(local_path).absolute()))
+        print(f"Done")
+        return
+        local_path = "img/original/apk/RetroArch_ra32.apk"
+        default_sha = "0adde7f83a41e815ef2904ed983d94c498212336f75fa7d2a2074b5b0ea3b40f8a28d80ceea59d1b45f1f5b4b49c3ad0c750dcf8395dca5b077c7fcd347c10b8"
         if os.path.exists(local_path):
-            return
+            sha512 = Pipeline.get_sha512(local_path)
+            if sha512 != default_sha:
+                raise Exception("Wrong sha512 for RetroArch:", Path(local_path).absolute(), "delete this one and try again or download it manually.")
         OtherTool.make_dirs("img/original/apk")
         url = "https://buildbot.libretro.com/stable/1.22.2/android/RetroArch_ra32.apk"
-        print("Download RetroArch:", url, "To:", local_path)
+        print("Downloading RetroArch:", url, "To:", local_path, "\n if you have problems with connection, please download it manually from here:", url)
+
         urllib.request.urlretrieve(url, local_path)
+        if os.path.exists(local_path):
+            sha512 = Pipeline.get_sha512(local_path)
+            if sha512 != default_sha:
+                raise Exception("Wrong sha512 for RetroArch:", Path(local_path).absolute(), "delete this one and try again or download it manually.")
         print(f"Done")
 
     @staticmethod
@@ -170,6 +184,13 @@ class Pipeline:
         apk_tool.decompile_into(n64_folder, 'img/original/apk/n64.apk')
 
     @staticmethod
+    def decompile_yaba():
+        apk_tool = APKTool()
+        yaba_folder = "img/original/d_apk/yaba"
+        OtherTool.del_folder(yaba_folder)
+        apk_tool.decompile_into(yaba_folder, 'img/original/apk/Yaba.apk')
+
+    @staticmethod
     def copy_n64_to_updated():
         OtherTool.copy_folder("img/original/d_apk/n64", "img/updated/d_apk/n64")
 
@@ -177,6 +198,11 @@ class Pipeline:
     def compile_and_sign_n64():
         apk_tool = APKTool()
         apk_tool.compile_and_sign('img/updated/d_apk/n64', 'img/updated/apk/n64.apk')
+
+    @staticmethod
+    def compile_and_sign_yaba():
+        apk_tool = APKTool()
+        apk_tool.compile_and_sign('img/updated/d_apk/yaba', 'img/updated/apk/Yaba.apk')
 
     @staticmethod
     def resize_system_img(size):
@@ -208,7 +234,8 @@ class Pipeline:
                                  product_b_path="img/original/extracted/super/product_b.img",
                                  system_a_path="img/updated/system_a.img",
                                  system_b_path="img/original/extracted/super/system_b.img",
-                                 vendor_a_path="img/original/extracted/super/vendor_a.img",
+                                 vendor_a_path="img/updated/vendor_a.img",
+                                 #vendor_a_path="img/original/extracted/super/vendor_a.img",
                                  vendor_b_path="img/original/extracted/super/vendor_b.img",
                                  original_super_path="img/original/extracted/45.super.img",
                                  result_super_path="img/updated/45.super.img")
@@ -221,6 +248,15 @@ class Pipeline:
             while chunk := f.read(chunk_size):
                 sha512.update(chunk)
 
+        return sha512.hexdigest()
+
+    @staticmethod
+    def get_sha512(path):
+        sha512 = hashlib.sha512()
+        chunk_size = 1024 * 1024
+        with open(path, 'rb') as f:
+            while chunk := f.read(chunk_size):
+                sha512.update(chunk)
         return sha512.hexdigest()
 
     @staticmethod
@@ -242,10 +278,14 @@ class Pipeline:
     def unpack_system():
 
         # Print a footer of the system.img
-        AVBInfo.print_info_image("img/original/extracted/super/system_a.img")
+        # AVBInfo.print_info_image("img/original/extracted/super/system_a.img")
 
         # Unpack system.img
         Ext4UnpackTool.unpack("img/original/extracted/super/system_a.img", "img/original/extracted/super/system_a")
+
+    @staticmethod
+    def unpack_vendor():
+        Ext4UnpackTool.unpack("img/original/extracted/super/vendor_a.img", "img/original/extracted/super/vendor_a")
 
     @staticmethod
     def cure_boot():
@@ -257,6 +297,30 @@ class Pipeline:
         OtherTool.del_file(fstab2_path)
         OtherTool.copy_file("replace/boot/fstab.mt6768", fstab1_path)
         OtherTool.copy_file("replace/boot/fstab.mt8786", fstab2_path)
+
+    # deprecated
+    @staticmethod
+    def modify_system_build_prop():
+        OtherTool.make_dirs("img/updated/system")
+        OtherTool.copy_file("img/original/extracted/super/system_a/system/build.prop", "img/updated/system/build.prop")
+        lines_to_add = OtherTool.read_file_lines("replace/system/build_add.prop")
+        OtherTool.add_lines_to_file("img/updated/system/build.prop", lines_to_add)
+
+        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
+        modify_tool.remove_file("system/build.prop")
+        modify_tool.add_file("img/updated/system/build.prop", "system/build.prop")
+
+    # deprecated
+    @staticmethod
+    def modify_vendor_build_prop():
+        OtherTool.make_dirs("img/updated/vendor")
+        OtherTool.copy_file("img/original/extracted/super/vendor_a/build.prop", "img/updated/vendor/build.prop")
+        lines_to_add = OtherTool.read_file_lines("replace/system/build_add.prop")
+        OtherTool.add_lines_to_file("img/updated/vendor/build.prop", lines_to_add)
+
+        modify_tool = Ext4ModifyTool("img/updated/vendor_a.img")
+        modify_tool.remove_file("build.prop")
+        modify_tool.add_file("img/updated/vendor/build.prop", "build.prop")
 
     @staticmethod
     def patch_retro_arch_32():
@@ -298,12 +362,33 @@ class Pipeline:
         Pipeline.replace_n64()
 
     @staticmethod
+    def patch_yaba():
+        what = "replace/yaba/Yabause.smali"
+        where = "img/updated/d_apk/yaba/smali_classes2/org/uoyabause/android/Yabause.smali"
+        OtherTool.copy_file(what, where)
+        Pipeline.compile_and_sign_yaba()
+        Pipeline.replace_yaba()
+
+    @staticmethod
     def replace_n64():
         modify_tool = Ext4ModifyTool("img/updated/system_a.img")
         modify_tool.remove_file("system/app/n64/n64.apk")
         modify_tool.remove_file("system/app/n64/oat/arm/n64.odex")
         modify_tool.remove_file("system/app/n64/oat/arm/n64.vdex")
         modify_tool.add_file("img/updated/apk/n64.apk", "system/app/n64/n64.apk")
+
+    @staticmethod
+    def replace_audio_device():
+        modify_tool = Ext4ModifyTool("img/updated/vendor_a.img")
+        modify_tool.remove_file("etc/audio_device.xml")
+        modify_tool.add_file("replace/audio/vendor/audio_device.xml",
+                             "etc/audio_device.xml")
+
+    @staticmethod
+    def replace_yaba():
+        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
+        modify_tool.remove_file("system/preinstall/Yaba.apk")
+        modify_tool.add_file("img/updated/apk/Yaba.apk", "system/preinstall/Yaba.apk")
 
     @staticmethod
     def repack_boot():
@@ -319,6 +404,21 @@ class Pipeline:
         OtherTool.del_folder(updated_n64_folder)
         OtherTool.copy_folder("img/original/d_apk/n64", updated_n64_folder)
         Pipeline.patch_n64()
+
+    # not ready
+    @staticmethod
+    def repack_yaba():
+
+        # noinspection PyBroadException
+        try:
+            #OtherTool.copy_file("img/original/extracted/super/system_a/system/preinstall/Yaba.apk", "img/original/apk/Yaba.apk")
+            #Pipeline.decompile_yaba()
+            #updated_yaba_folder = "img/updated/d_apk/Yaba"
+            #OtherTool.del_folder(updated_yaba_folder)
+            #OtherTool.copy_folder("img/original/d_apk/yaba", updated_yaba_folder)
+            Pipeline.patch_yaba()
+        except:
+            ... # In case if in earlier versions there is no yaba just try to skip silently
 
     @staticmethod
     def repack_emu():
@@ -355,23 +455,34 @@ class Pipeline:
         OtherTool.del_folder("img/updated")
 
     @staticmethod
-    def repack_user(is_remove_temps=True):
-        start_time = time.perf_counter()
-        Pipeline.check_original_result_path_different()
-        Pipeline.download_retro_arch_32_1222()
-        Pipeline.unpack_user()
-        Pipeline.unpack_super()
-        Pipeline.unpack_system()
-        Pipeline.repack_boot()
-        OtherTool.copy_file("img/original/extracted/super/system_a.img", "img/updated/system_a.img")
-        Pipeline.resize_system_img("+500M")
-        Pipeline.repack_retro_arch_32()
-        Pipeline.repack_emu()
-        Pipeline.repack_n64()
-        Pipeline.pack_super_m88()
-        OtherTool.copy_file(Pipeline.ORIGINAL_USER_IMG_PATH, Pipeline.FINAL_USER_IMG_PATH)
-        Pipeline.inject_boot_into_user()
-        Pipeline.inject_super_into_user()
-        if is_remove_temps:
-            Pipeline.remove_temps()
-        Pipeline.print_past_time(start_time)
+    def is_retro_arch_exists():
+        return Ext4ModifyTool("img/original/extracted/super/system_a.img").check_file_exists("/system/priv-app/RetroArch_ra32/RetroArch_ra32.apk")
+
+    @staticmethod
+    def repack_user(fix_audio, is_remove_temps=True):
+        try:
+            start_time = time.perf_counter()
+            Pipeline.check_original_result_path_different()
+            Pipeline.unpack_user()
+            Pipeline.unpack_super()
+            Pipeline.unpack_system()
+            OtherTool.copy_file("img/original/extracted/super/system_a.img", "img/updated/system_a.img", True)
+            if not Pipeline.is_retro_arch_exists():
+                Pipeline.download_retro_arch_32_1222()
+                Pipeline.resize_system_img("+500M")
+                Pipeline.repack_retro_arch_32()
+            Pipeline.repack_emu()
+            Pipeline.repack_n64()
+            Pipeline.unpack_vendor()
+            OtherTool.copy_file("img/original/extracted/super/vendor_a.img", "img/updated/vendor_a.img")
+            if fix_audio:
+                Pipeline.replace_audio_device()
+            Pipeline.repack_boot()
+            Pipeline.pack_super_m88()
+            OtherTool.copy_file(Pipeline.ORIGINAL_USER_IMG_PATH, Pipeline.FINAL_USER_IMG_PATH)
+            Pipeline.inject_boot_into_user()
+            Pipeline.inject_super_into_user()
+            Pipeline.print_past_time(start_time)
+        finally:
+            if is_remove_temps:
+                Pipeline.remove_temps()

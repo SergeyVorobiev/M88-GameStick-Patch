@@ -106,6 +106,7 @@ This guide shows how to upgrade M88 firmware which allows:
 9. Missed BIOSes fixed.
 10. Standard RetroArch menu with settings.
 11. Replace mupen64plusae to RetroArch (optionally).
+12. Fix single audio channel output. Since v2.2
 
 ![shader](resources/images/shader.webp)
 
@@ -203,7 +204,7 @@ The fixes include:
 5. Patching emu.apk to assemble config and redirect game launching to RetroArch32 1.22.2.
 6. Moving all RetroArch data to the external SD card for customization.
 7. Patching mupen64plusae to redirect game launching to RetroArch32 1.22.2 (optionally).
-
+8. Patching audio config to fix only left channel sound issue (Stereo sound fix, since v2.2).
 \**RetroArch quick menu will show 1.19 but games will run under the 1.22.2.*
 
 ### How To Fix
@@ -586,6 +587,43 @@ If *sdcard/RetroArch/n64core.cfg* does not exist, the default mupen64 will start
 
 *All cores must exist in sdcard/RetroArch/cores folder.*
 
+Since v2.1 you can reassign any core via a platform name not a core name, it's more preferable approach so as the same core might be used by several platforms.
+The default core mapping for RetroArch platforms is:
+
+```
+psx->swanstation_libretro_android.so
+arcade->mame2010_libretro_android.so
+sfc->snes9x_libretro_android.so
+snes->snes9x_libretro_android.so
+atari7800->prosystem_libretro_android.so
+atarilynx->mednafen_lynx_libretro_android.so
+cps1->fbalpha2012_libretro_android.so
+cps2->fbalpha2012_libretro_android.so
+cps3->fbalpha2012_libretro_android.so
+fbneo->fbneo_libretro_android.so
+gamegear->gearsystem_libretro_android.so
+gb->mgba_libretro_android.so
+gba->mgba_libretro_android.so
+gbc->mgba_libretro_android.so
+genesis->genesis_plus_gx_libretro_android.so
+mame->mame2010_libretro_android.so
+megadrive->genesis_plus_gx_libretro_android.so
+atari2600->stella_libretro_android.so
+nes->nestopia_libretro_android.so
+nesh->nestopia_libretro_android.so
+ngpc->mednafen_ngp_libretro_androids.so
+pcengine->mednafen_pce_fast_libretro_android.so
+wonderswan->mednafen_wswan_libretro_android.so
+wonderswancolor->mednafen_wswan_libretro_android.so
+gbah->mgba_libretro_android.so
+genh->genesis_plus_gx_libretro_android.so
+mastersystem->genesis_plus_gx_libretro_android.so
+ngp->mednafen_ngp_libretro_androids.so
+pcenginecd->mednafen_pce_fast_libretro_android.so
+atari5200->a5200_libretro_android.so
+dos->dosbox_pure_libretro_android.so
+```
+
 ### Game Won't Start
 
 If you see a black screen or a game crashes at the start don't immediately blame the stick or the firmware. 
@@ -715,7 +753,7 @@ To activate them:
 5. Prepare game files and [boxarts](https://thumbnails.libretro.com/), put game files and image files accordingly, for example:
 *sdcard/roms/dos/fallout1997.zip* and *sdcard/roms/dos/images/fallout1997.png* etc.
 6. Register added games by using [GDBTool](#game-db-tool).
-7. Download *dosbox_pure_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
+7. Download *dosbox_pure_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/) if it does not exist in *sdcard/RetroArch/cores*.
 8. Put the downloaded core into *sdcard/RetroArch/cores* folder.
 9. Enjoy.
 
@@ -748,7 +786,7 @@ Transport Tycoon Deluxe & War Craft 2
 ## Other Platforms
 
 Current firmware version does not allow you to add new platforms directly, even though you can create new folder in *iroms* and 
-set up a background and an icon pictures for your new platform, add games in *roms* folder accordingly, register them in DB, after it the main app of stick
+set up a background and an icon for your new platform, you can then add games in *roms* folder accordingly, register them in DB, finally the main app of stick
 will see your games inside new category, but it, unfortunately, will not know what to do to run them properly. Instead, you can exploit [core mapping](#core-mapping) 
 and run any platforms supported by RetroArch replacing current ones.
 
@@ -756,15 +794,15 @@ What to play:
 
 1. wii / gamecube - (dolphin_libretro_android.so only arm-v8, will not work), a bit heavy for this stick.
 2. Nintendo 3DS (citra_libretro_android.so only arm-v8, will not work), a bit heavy for this stick.
-3. Atari Jaguar (virtualjaguar_libretro_android.so)
-4. 3DO (opera_libretro_android.so)
+3. Atari Jaguar (virtualjaguar_libretro_android.so).
+4. 3DO (opera_libretro_android.so).
 5. Many other light platforms like Sega CD, Sega 32X, Commodore 64, MSX, Amiga etc.
 
 3DO example:
 
 ![wolf](resources/images/wolf.webp)
 
-1. Download *opera_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
+1. Download *opera_libretro_android.so* from [here](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/) if it does not exist in *sdcard/RetroArch/cores*.
 2. Put the downloaded core into *sdcard/RetroArch/cores* folder.
 3. Choose some RetroArch platform you want to be replaced by new platform (e.g. Atari5200).
 4. Move all games and images from *sdcard/roms/atari5200* to a safe place.
@@ -772,7 +810,7 @@ What to play:
 6. Take *Wolfenstein 3D.chd*, and a [boxart](https://thumbnails.libretro.com/The%203DO%20Company%20-%203DO/Named_Boxarts/).
 7. Put the game file (.chd) and the image file (.png) into *sdcard/roms/atari5200, sdcard/roms/atari5200/images* accordingly.
 8. Register added game by using [GDBTool](#game-db-tool).
-9. Open *sdcard/RetroArch/coremap.cfg* and add the line ***a5200_libretro_android.so->opera_libretro_android.so****.
+9. Open *sdcard/RetroArch/coremap.cfg* and change the line to ***atari5200->opera_libretro_android.so****.
 10. Enjoy.
 
 \* The stick will try to run your game file as an **atari5200** but the *a5200_libretro_android.so* core will be 

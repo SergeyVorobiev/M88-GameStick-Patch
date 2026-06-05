@@ -17,3 +17,4 @@ class CMD:
         if result.returncode != 0:
             raise Exception("Error code:", result.returncode)
         print("Done\n")
+        return result

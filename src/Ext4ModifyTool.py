@@ -121,5 +121,12 @@ class Ext4ModifyTool:
             if os.path.exists(cmd_file):
                 os.remove(cmd_file)
 
+    def check_file_exists(self, path):
+        result = CMD.run(["debugfs", "-R", "stat " + path, self.img_path])
+        if "Inode:" in result.stdout:
+            return True
+        else:
+            return False
+
 
 

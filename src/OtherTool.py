@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+from pathlib import Path
 
 from src.CMD import CMD
 
@@ -11,7 +12,9 @@ class OtherTool:
         ...
 
     @staticmethod
-    def copy_file(what, where):
+    def copy_file(what, where, create_folders=False):
+        if create_folders:
+            OtherTool.make_dirs(Path(where).parent)
         print("Copy:", what, "To:", where)
         shutil.copy(what, where)
         print("Done\n")
@@ -93,3 +96,14 @@ class OtherTool:
             )
             strings_proc.stdout.close()
             print(grep_proc.stdout)
+
+    @staticmethod
+    def read_file_lines(from_where):
+        with open(from_where, 'r', encoding='utf-8') as file:
+            lines = [line for line in file]
+        return lines
+
+    @staticmethod
+    def add_lines_to_file(where, what):
+        with open(where, "a") as file:
+            file.writelines(what)
