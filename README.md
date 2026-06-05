@@ -205,6 +205,7 @@ The fixes include:
 6. Moving all RetroArch data to the external SD card for customization.
 7. Patching mupen64plusae to redirect game launching to RetroArch32 1.22.2 (optionally).
 8. Patching audio config to fix only left channel sound issue (Stereo sound fix, since v2.2).
+
 \**RetroArch quick menu will show 1.19 but games will run under the 1.22.2.*
 
 ### How To Fix
@@ -214,7 +215,7 @@ The fixes include:
 
 There are two options, both of them imply you have M88-P65-V1.8, but they do not guarantee a success if your stick has different hardware / software.
 
-Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88USER.7z):
+Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z):
 1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
 2. Put RetroArch folder in your SD card. ([RetroArch Setup](#retroarch-setup)).
 3. Read [Game Won't Start](#game-wont-start).
@@ -234,7 +235,7 @@ If nothing works, feel free to [contact me](#Contact).
 2. Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
 3. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
 4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/RetroArch.7z).
-5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88USER.7z).
+5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
 8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.5.exe).
@@ -334,7 +335,7 @@ Use [7-zip](https://www.7-zip.org/download.html) to open your USER* image, it wi
 
 ### Write to eMMC
 
-1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88USER.7z) or use your upgraded one.
+1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z) or use your upgraded one.
 2. Download the [scatter](resources/m88/M88_scatter.txt) file and use it instead of empty one. Place your 
 preloader, scatter and patched image in the same folder.
 3. Check the size of the image, edit if needed:
