@@ -106,7 +106,7 @@ This guide shows how to upgrade M88 firmware which allows:
 9. Missed BIOSes fixed.
 10. Standard RetroArch menu with settings.
 11. Replace mupen64plusae to RetroArch (optionally).
-12. Fix single audio channel output. Since v2.2
+12. Fix single audio channel output. Since v2.2.
 
 ![shader](resources/images/shader.webp)
 
@@ -234,11 +234,11 @@ If nothing works, feel free to [contact me](#Contact).
 1. Official latest [cores](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
 2. Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
 3. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
-4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/RetroArch.7z).
+4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/RetroArch_v2.2.7z).
 5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.5.exe).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.5.exe).
 9. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
@@ -379,7 +379,7 @@ If something goes wrong then try again or use the USER.img you backed up [earlie
 
 ## RetroArch Setup
 After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download 
-[RetroArch archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/RetroArch.7z) 
+[RetroArch archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/RetroArch_v2.2.7z) 
 and unpack it into root of your sd card. (sdcard/RetroArch). The system will start in upgraded mode automatically while 
 main RetroArch config file - *sdcard/RetroArch/retroarch.cfg* is presented.
 
@@ -612,14 +612,14 @@ megadrive->genesis_plus_gx_libretro_android.so
 atari2600->stella_libretro_android.so
 nes->nestopia_libretro_android.so
 nesh->nestopia_libretro_android.so
-ngpc->mednafen_ngp_libretro_androids.so
+ngpc->race_libretro_android.so
 pcengine->mednafen_pce_fast_libretro_android.so
 wonderswan->mednafen_wswan_libretro_android.so
 wonderswancolor->mednafen_wswan_libretro_android.so
 gbah->mgba_libretro_android.so
 genh->genesis_plus_gx_libretro_android.so
 mastersystem->genesis_plus_gx_libretro_android.so
-ngp->mednafen_ngp_libretro_androids.so
+ngp->race_libretro_android.so
 pcenginecd->mednafen_pce_fast_libretro_android.so
 atari5200->a5200_libretro_android.so
 dos->dosbox_pure_libretro_android.so
@@ -690,7 +690,7 @@ To replace - edit an appropriate row, you only need to change **path**, **image*
 
 The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, clean up unnecessary and temporary files from the SD card, and download missed or bad images from the Web.
 
-You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.1.0/M88GDBTool_1.5.exe) or run it from [sources](UIMain.py).
+You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.5.exe) or run it from [sources](UIMain.py).
 
 ![gbdt](resources/images/gbdt.webp)
 
@@ -760,7 +760,7 @@ To activate them:
 
 MS-DOS tips:
 
-1. Go to **Quick Menu** -> **Core Options** -> **General** -> **Force Output FPS** and set 30 FPS to prevent video / audio lags especially
+1. Go to **Quick Menu** -> **Core Options** -> **General** -> **Force Output FPS** and set 30-50 FPS to prevent video / audio lags especially
 with shaders enabled.
 
 ![fps](resources/images/fps.webp)
