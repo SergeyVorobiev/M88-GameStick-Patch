@@ -28,9 +28,10 @@
 5. [Game DB Tool](#game-db-tool)
 6. [Easter Eggs](#easter-eggs)
 7. [Other Platforms](#other-platforms)
-8. [Graphic Settings](#graphic-settings)
-9. [Scripts](#scripts)
-10. [Contact](#contact)
+8. [Windows Emulation](#windows-emulation)
+9. [Graphic Settings](#graphic-settings)
+10. [Scripts](#scripts)
+11. [Contact](#contact)
 
 ## Introduction
 
@@ -86,7 +87,7 @@ SD Card:
 36. shared_prefs      - Drastic emulator configs.
 37. shared_prefs_ps2  - PS2 configs.
 38. cachegames.db     - Database of all registered games.
-39. cheat.db           - Cheat database.
+39. cheat.db          - Cheat database.
 40. font.fts          - Font for main application.
 ```
 
@@ -816,6 +817,68 @@ What to play:
 
 \* The stick will try to run your game file as an **atari5200** but the *a5200_libretro_android.so* core will be 
 replaced by *opera_libretro_android.so* forcing your game file to be launched under opera core.
+
+## Windows Emulation
+
+![heroes3](resources/images/heroes3win.webp)
+
+By using *dosbox_pure_libretro_android.so* core you can emulate Windows 95 / 98. But at first, you have to know about necessities and drawbacks:
+
+1. It's strongly recommended to DIY some passive / active cooling. Or at least you can place the stick with the vents facing down on some laptop cooling pad.
+2. It's recommended to replace the original sd card by 128-512GB class 10 or even A1 (A1 though may cost even more than the stick itself).*
+3. The stick can provide only 25k-75k cps (something between 486DX2 and Pentium 66Mhz, which is not enough for comfortable playing such games like Heroes 3 as for example).**
+
+\* *Usually sdcard of the M88 out of the box is total junk (class 0-1). It will not allow you to create a disk to install Win98 with appropriate size (512MB and above),
+because in time of creation the system will think that the process is frozen and just kill it. The workaround will be explained below*.
+Format your new sdcard as exFAT, don't use FAT32 or NTFS, exFAT is designed specifically for flash storage and practically has no volume limits.
+Then put all the files from the old sdcard to the new one.
+
+\** Even relatively modern 8 cores Ryzen 5 laptop could not provide Pentium 3 level and can barely go beyond Pentium 2 300mhz (200k+ cps),
+because the emulation is single threaded, making it only 13% loaded. For that reason the strong side of the P65 (6x+2x cores)
+does not play any role.
+
+![diabloSC](resources/images/diabloSC.webp)
+Setup:
+
+1. Read [Easter Eggs](#easter-eggs) and try to set up and play MS-DOS games first to be comfortable with *dosbox_pure_libretro_android.so* and its settings.
+2. Download and unpack [Win98SE_HDD](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/W98HDD.7z).
+3. Download [Win98SE.iso](https://dn720503.ca.archive.org/0/items/windows-98-se-isofile/Windows%2098%20Second%20Edition.iso).
+4. Place ***Win98SE_HDD.img*** file into *sdcard/RetroArch/system* folder.
+5. Create *sdcard/roms/dos/Win98* folder.
+6. Put ***Win98SE.iso*** disk file into *sdcard/roms/dos/Win98* folder and any other disk files you are going to use (usually it's .iso and .cue + .bin disk files).
+7. Create a file ***Win98 Playlist.m3u*** in *sdcard/roms/dos*, and register all disk files you have in ***Win98*** folder by editing it via notepad, like for example:
+```
+Win98/Win98SE.iso
+Win98/Heroes3.iso
+Win98/Sid Meier's Civilization III (USA, Europe).cue
+Win98/Tools.iso
+```
+At the beginning it can be just one line (the more files you add in Win98 folder the bigger the list, you don't need to register
+anything, added files will be detected automatically:
+```
+Win98/Win98SE.iso
+```
+8. Register your *Win98 Playlist.m3u* via [GDBTool](#game-db-tool).
+9. Run the stick and launch *Win98 Playlist.m3u* in **dos** catalog.
+![playlist](resources/images/playlist.webp)
+10. You will see the list of disk files, select **Run Installed Operating System** and launch **Win98SE_HDD**.
+![runWindows](resources/images/runwindows.webp)
+11. Under Windows select L3 to activate dosbox menu and switch between disks.
+
+You can try to install your own windows 95-98, but keep in mind that you need to create at least 512MB disk, with the 
+default sdcard the stick likely will not allow you to create it because for anything beyond 64MB it will think that the 
+process is frozen and kill it, so you have two options:
+
+1. Use class 10 sdcard and try to create 512MB-2GB disk (win98SE.img) during installation (it must have FAT32 if you want to increase the size further).
+   1. Install Windows.
+   2. Take your disk and increase its size with the CMD command: `truncate -s '16000M' 'win98SE.img'`, where '16000M' means 16GB, use your own number.
+   3. Open this disk in Disk Genius and expand your 512MB partition to 16GB*. 
+
+\* *Disks beyond 2GB might not be seen by DOSBOX on the stick.*
+
+or:
+2. Install Desktop version of RetroArch, and install your Windows 98 under it with any disk size you wish.
+   1. Use created image as described above under the **Setup** section.
 
 ## Graphic Settings
 

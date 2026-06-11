@@ -205,8 +205,8 @@ class Pipeline:
         apk_tool.compile_and_sign('img/updated/d_apk/yaba', 'img/updated/apk/Yaba.apk')
 
     @staticmethod
-    def resize_system_img(size):
-        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
+    def resize_system_img(size, path="img/updated/system_a.img"):
+        modify_tool = Ext4ModifyTool(path)
         modify_tool.resize_img(size)
 
     @staticmethod
