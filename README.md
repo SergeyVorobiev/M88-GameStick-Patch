@@ -214,7 +214,7 @@ The fixes include:
 > [!WARNING]  
 > Firmware upgrade might potentially brick your device, do it at your own risk, always make a backup to be able to roll back.
 
-There are two options, both of them imply you have M88-P65-V1.8, but they do not guarantee a success if your stick has different hardware / software.
+There are three options, all of them imply you have M88-P65-V1.8, but they do not guarantee a success if your stick has different hardware / software.
 
 Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z):
 1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
@@ -222,7 +222,22 @@ Option one is to replace the whole USER area on the eMMC of your stick on [the p
 3. Read [Game Won't Start](#game-wont-start).
 
 Option two is the same, but you have to make an upgraded image from your original one to use it instead of provided one. 
-It requires more preparation and also gives a better chance of success.  
+It also gives a better chance of success:
+
+1. Read [this](#firmware-upgrade) to just make a backup.
+2. Download and unpack this [archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88FW.7z), password: m88.
+3. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.7.exe).
+4. Put these three files next to each other:
+
+![files](resources/images/files.webp)
+
+5. Open GDBTool, click **Upgrade Firmware** button, then **Start** and wait until it finishes.
+
+![upgrade](resources/images/upgrade.webp)
+
+6. Perform steps from *Option one* but use the upgraded image from *M88FW/result/USER.img*.
+
+In option three you use scripts to make an upgraded image:  
 
 1. Read [this](#firmware-upgrade) to just make a backup.
 2. Read and perform steps from [Scripts](#scripts) paragraph by using your backup.
@@ -239,7 +254,7 @@ If nothing works, feel free to [contact me](#Contact).
 5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.5.exe).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.7.exe).
 9. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
@@ -691,7 +706,7 @@ To replace - edit an appropriate row, you only need to change **path**, **image*
 
 The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, clean up unnecessary and temporary files from the SD card, and download missed or bad images from the Web.
 
-You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.5.exe) or run it from [sources](UIMain.py).
+You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.7.exe) or run it from [sources](UIMain.py).
 
 ![gbdt](resources/images/gbdt.webp)
 
@@ -838,6 +853,7 @@ because the emulation is single threaded, making it only 13% loaded. For that re
 does not play any role.
 
 ![diabloSC](resources/images/diabloSC.webp)
+
 Setup:
 
 1. Read [Easter Eggs](#easter-eggs) and try to set up and play MS-DOS games first to be comfortable with *dosbox_pure_libretro_android.so* and its settings.
@@ -853,7 +869,7 @@ Win98/Heroes3.iso
 Win98/Sid Meier's Civilization III (USA, Europe).cue
 Win98/Tools.iso
 ```
-At the beginning it can be just one line (the more files you add in Win98 folder the bigger the list, you don't need to register
+At the beginning it can be just one line (the more files you add in Win98 folder the bigger the list), you don't need to register
 anything, added files will be detected automatically:
 ```
 Win98/Win98SE.iso
@@ -877,6 +893,7 @@ process is frozen and kill it, so you have two options:
 \* *Disks beyond 2GB might not be seen by DOSBOX on the stick.*
 
 or:
+
 2. Install Desktop version of RetroArch, and install your Windows 98 under it with any disk size you wish.
    1. Use created image as described above under the **Setup** section.
 

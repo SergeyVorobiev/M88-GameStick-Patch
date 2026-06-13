@@ -13,10 +13,14 @@ class Ext4ModifyTool:
         self.img_path = img_path
 
     # Does not support recursive deletion therefore dir must be empty
-    def remove_file(self, path_to_file, is_file=True):
+    def remove_file(self, path_to_file, is_file=True, debugfs=None, printc=None):
+        if printc is None:
+            printc = print
+        if debugfs is None:
+            debugfs = "debugfs"
         items = Ext4ModifyTool.prepare_path(path_to_file)
         if not items:
-            print("Empty path\n")
+            printc("Empty path\n")
             return
 
         cmd_file = "modify_commands.txt"
@@ -30,9 +34,9 @@ class Ext4ModifyTool:
                 else:
                     f.write(f"rmdir {last_item}\n")
                 f.write("q")
-            CMD.run(["debugfs", "-w", "-f", cmd_file, self.img_path])
+            CMD.run([debugfs, "-w", "-f", cmd_file, self.img_path], printc=printc)
         except Exception as e:
-            print(e)
+            printc(e)
         finally:
             if os.path.exists(cmd_file):
                 os.remove(cmd_file)
@@ -56,10 +60,14 @@ class Ext4ModifyTool:
             mode = '0755'
         f.write(f"set_inode_field {path} mode {mode}\n")
 
-    def set_permission(self, path_to_place):
+    def set_permission(self, path_to_place, debugfs=None, printc=None):
+        if debugfs is None:
+            debugfs = "debugfs"
+        if printc is None:
+            printc = print
         items = Ext4ModifyTool.prepare_path(path_to_place)
         if not items:
-            print("Empty path\n")
+            printc("Empty path\n")
             return
         cmd_file = "modify_commands.txt"
         try:
@@ -69,9 +77,9 @@ class Ext4ModifyTool:
                 last_item = items[-1]
                 Ext4ModifyTool.add_permissions(f, last_item, True)
                 f.write("q")
-            CMD.run(["debugfs", "-w", "-f", cmd_file, self.img_path])
+            CMD.run([debugfs, "-w", "-f", cmd_file, self.img_path], printc=printc)
         except Exception as e:
-            print(e)
+            printc(e)
         finally:
             if os.path.exists(cmd_file):
                 os.remove(cmd_file)
@@ -88,15 +96,23 @@ class Ext4ModifyTool:
 
     # to exact size use '3G', '4G', to add use '+500M', '+1G'
     # truncate and resize2fs must be accessible on windows machine, use cygwin
-    def resize_img(self, size='3G'):
-        CMD.run(["truncate", "-s", size, self.img_path])
-        CMD.run(["resize2fs", self.img_path])
+    def resize_img(self, size='3G', truncate=None, resize2fs=None, printc=None):
+        if truncate is None:
+            truncate = "truncate"
+        if resize2fs is None:
+            resize2fs = "resize2fs"
+        CMD.run([truncate, "-s", size, self.img_path], printc=printc)
+        CMD.run([resize2fs, self.img_path], printc=printc)
 
     # add a single file to the image by using debugfs
-    def add_file(self, path_to_file, path_to_place, is_file=True, add_permissions=False):
+    def add_file(self, path_to_file, path_to_place, is_file=True, add_permissions=False, debugfs=None, printc=None):
+        if debugfs is None:
+            debugfs = "debugfs"
+        if printc is None:
+            printc = print
         items = Ext4ModifyTool.prepare_path(path_to_place)
         if not items:
-            print("Empty path\n")
+            printc("Empty path\n")
             return
         cmd_file = "modify_commands.txt"
         try:
@@ -114,15 +130,17 @@ class Ext4ModifyTool:
                 if add_permissions:
                     Ext4ModifyTool.add_permissions(f, last_item, is_file)
                 f.write("q")
-            CMD.run(["debugfs", "-w", "-f", cmd_file, self.img_path])
+            CMD.run([debugfs, "-w", "-f", cmd_file, self.img_path], printc=printc)
         except Exception as e:
-            print(e)
+            printc(e)
         finally:
             if os.path.exists(cmd_file):
                 os.remove(cmd_file)
 
-    def check_file_exists(self, path):
-        result = CMD.run(["debugfs", "-R", "stat " + path, self.img_path])
+    def check_file_exists(self, path, debugfs=None, printc=None):
+        if not debugfs:
+            debugfs = "debugfs"
+        result = CMD.run([debugfs, "-R", "stat " + path, self.img_path], printc=printc)
         if "Inode:" in result.stdout:
             return True
         else:

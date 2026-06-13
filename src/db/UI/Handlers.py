@@ -11,11 +11,13 @@ from src.db.GamesDBBuilder import GamesDBBuilder
 from src.db.GamesExplorer import GamesExplorer
 from src.db.PlatformsMeta import get_all_extensions
 from src.db.UI.ConfirmDialog import ConfirmDialog
+from src.db.UI.FirmwareUpgradeDialog import FirmwareUpgradeDialog
 from src.db.UI.GlobalUI import GlobalUI
 from src.db.UI.Helpers.LibRetroArts import LibRetroArts
 from src.db.UI.ImagePreview import ImagePreview
 from src.db.UI.LoadingWindow import LoadingWindow
 from src.db.UI.Popup import Popup
+from src.db.UI.SaveDBDialog import SaveDBDialog
 from src.db.UI.Strings import Strings
 
 
@@ -183,24 +185,23 @@ class Handlers:
         if GlobalUI.folder_path == "":
             return
 
-        def proceed_function():
+        def proceed_function(db_name):
             def task():
                 loading = None
                 try:
                     loading = LoadingWindow(GlobalUI.root, Strings.Current.SAVING_TITLE)
-                    loading.set_text(GlobalUI.new_db_name)
+                    loading.set_text(db_name)
                     db_data = Handlers.build_result_db_data()
-                    GamesDBBuilder.create_db_and_fill2(db_data, GlobalUI.folder_path + os.sep + GlobalUI.new_db_name,
-                                                       lambda p: loading.set_text(f"{GlobalUI.new_db_name} {p}"))
+                    GamesDBBuilder.create_db_and_fill2(db_data, GlobalUI.folder_path + os.sep + db_name,
+                                                       lambda p: loading.set_text(f"{db_name} {p}"))
                 finally:
                     if loading:
                         GlobalUI.root.after(0, loading.destroy)
 
-            OtherTool.del_file(GlobalUI.folder_path + os.sep + GlobalUI.new_db_name)
+            OtherTool.del_file(GlobalUI.folder_path + os.sep + db_name)
             time.sleep(0.2)
             threading.Thread(target=task, daemon=True).start()
-        message = Strings.Current.GENERATE_DB_MESSAGE.replace('{%s1}', GlobalUI.folder_path).replace('{%s2}', GlobalUI.new_db_name)
-        ConfirmDialog(GlobalUI.root, message, proceed_function)
+        SaveDBDialog(GlobalUI.root, proceed_function)
 
     @staticmethod
     def build_result_db_data():
@@ -290,6 +291,10 @@ class Handlers:
         message = Strings.Current.CLEAN_IMAGE_FOLDERS_TEXT_1.replace('{%s1}', platform)
         message += Strings.Current.CLEAN_IMAGE_FOLDERS_TEXT_2
         ConfirmDialog(GlobalUI.root, message, Handlers.clean_images_dialog, height=240, top_pad_y=20, close_before_callback=True)
+
+    @staticmethod
+    def on_upgrade_firmware_click():
+        FirmwareUpgradeDialog(GlobalUI.root, title=Strings.Current.FIRMWARE_BUTTON_TITLE + " " + GlobalUI.fw_version)
 
     @staticmethod
     def clean_images_background(result_folder, platform, value, callback):

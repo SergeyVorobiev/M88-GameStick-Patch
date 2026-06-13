@@ -10,10 +10,12 @@ from src.Global import Global
 class SuperTool:
 
     @staticmethod
-    def lpunpack_image(image_path, result_folder_path):
+    def lpunpack_image(image_path, result_folder_path, lpunpack=None, printc=None):
         os.makedirs(result_folder_path, exist_ok=True)
-        cmd_line = [Global.lpunpack, image_path, result_folder_path]
-        CMD.run(cmd_line)
+        if lpunpack is None:
+            lpunpack = Global.lpunpack
+        cmd_line = [lpunpack, image_path, result_folder_path]
+        CMD.run(cmd_line, printc=printc)
 
     @staticmethod
     def unpack_super():
@@ -57,7 +59,7 @@ class SuperTool:
 
     # original_super_path - to calculate exact size
     @staticmethod
-    def pack_super_m88(product_a_path, product_b_path, system_a_path, system_b_path, vendor_a_path, vendor_b_path, original_super_path, result_super_path):
+    def pack_super_m88(product_a_path, product_b_path, system_a_path, system_b_path, vendor_a_path, vendor_b_path, original_super_path, result_super_path, lpmake=None, printc=None):
         full_size = os.path.getsize(original_super_path)
         max_group_size = full_size - 4096 * 512
         meta_data_size = 65536
@@ -71,9 +73,10 @@ class SuperTool:
 
         vendor_a_size = os.path.getsize(vendor_a_path)
         vendor_b_size = os.path.getsize(vendor_b_path)
-
+        if lpmake is None:
+            lpmake = Global.lpmake
         cmd_pack_super = [
-            Global.lpmake,
+            lpmake,
             "--metadata-size", str(meta_data_size),
             "--super-name", "super",
             "--metadata-slots", str(slots),
@@ -99,7 +102,7 @@ class SuperTool:
 
             "--output", result_super_path
         ]
-        CMD.run(cmd_pack_super)
+        CMD.run(cmd_pack_super, printc=printc)
 
     @staticmethod
     def pack_super():

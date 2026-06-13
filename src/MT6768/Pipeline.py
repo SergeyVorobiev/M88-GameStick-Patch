@@ -27,12 +27,12 @@ class Pipeline:
             raise Exception("Original path and final path must be different")
 
     @staticmethod
-    def replace_emu():
-        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
-        modify_tool.remove_file("system/app/emu/emu.apk")
-        modify_tool.remove_file("system/app/emu/oat/arm/emu.odex")
-        modify_tool.remove_file("system/app/emu/oat/arm/emu.vdex")
-        modify_tool.add_file("img/updated/apk/emu.apk", "system/app/emu/emu.apk")
+    def replace_emu(updated_system_path="img/updated/system_a.img", updated_emu_apk_path="img/updated/apk/emu.apk", debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        modify_tool.remove_file("system/app/emu/emu.apk", debugfs=debugfs, printc=printc)
+        modify_tool.remove_file("system/app/emu/oat/arm/emu.odex", debugfs=debugfs, printc=printc)
+        modify_tool.remove_file("system/app/emu/oat/arm/emu.vdex", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_emu_apk_path, "system/app/emu/emu.apk", debugfs=debugfs, printc=printc)
 
     @staticmethod
     def download_retro_arch_32_1222():
@@ -78,14 +78,14 @@ class Pipeline:
         OtherTool.inject("img/updated/45.super.img", Pipeline.FINAL_USER_IMG_PATH, offset)
 
     @staticmethod
-    def compile_and_sign_emu():
-        apk_tool = APKTool()
-        apk_tool.compile_and_sign('img/updated/d_apk/emu', 'img/updated/apk/emu.apk')
+    def compile_and_sign_retro_arch_32(apk_tool_path=None, apk_signer_path=None, updated_folder_path='img/updated/d_apk/retroarch32', updated_apk_path='img/updated/apk/RetroArch_ra32.apk', keystore=None, printc=None, java=None):
+        apk_tool = APKTool(apk_tool_path, apk_signer_path, java)
+        apk_tool.compile_and_sign(updated_folder_path, updated_apk_path, keystore, printc)
 
     @staticmethod
-    def compile_and_sign_retro_arch_32():
-        apk_tool = APKTool()
-        apk_tool.compile_and_sign('img/updated/d_apk/retroarch32', 'img/updated/apk/RetroArch_ra32.apk')
+    def compile_and_sign(apk_tool_path, apk_signer_path, updated_folder_path, updated_apk_path, keystore, printc=None, java=None):
+        apk_tool = APKTool(apk_tool_path, apk_signer_path, java)
+        apk_tool.compile_and_sign(updated_folder_path, updated_apk_path, keystore, printc)
 
     @staticmethod
     def compile_and_sign_retro_arch_64():
@@ -98,39 +98,41 @@ class Pipeline:
         Pipeline.inject_boot_into_user()
 
     @staticmethod
-    def inject_boot_into_user():
-        offset = MainSystemTool.find_offset(Pipeline.FINAL_USER_IMG_PATH, "23.boot_a.img")
-        OtherTool.inject("img/updated/23.boot_a.img", Pipeline.FINAL_USER_IMG_PATH, offset)
+    def inject_boot_into_user(updated_boot_path="img/updated/23.boot_a.img", result_user_path=None, printc=None):
+        if result_user_path is None:
+            result_user_path = Pipeline.FINAL_USER_IMG_PATH
+        offset = MainSystemTool.find_offset(result_user_path, "23.boot_a.img")
+        OtherTool.inject(updated_boot_path, result_user_path, offset, printc)
 
     @staticmethod
-    def inject_super_into_user():
-        offset = MainSystemTool.find_offset(Pipeline.FINAL_USER_IMG_PATH, "45.super.img")
-        OtherTool.inject("img/updated/45.super.img", Pipeline.FINAL_USER_IMG_PATH, offset)
+    def inject_super_into_user(updated_super_path="img/updated/45.super.img", result_user_path=None, printc=None):
+        if result_user_path is None:
+            result_user_path = Pipeline.FINAL_USER_IMG_PATH
+        offset = MainSystemTool.find_offset(result_user_path, "45.super.img")
+        OtherTool.inject(updated_super_path, result_user_path, offset, printc)
 
     @staticmethod
-    def pack_boot():
-        magiskboot = MagiskbootTool()
+    def pack_boot(magiskboot_path=None, updated_boot_folder_path="img/updated/boot", original_boot_path="img/original/extracted/23.boot_a.img", updated_boot_path="img/updated/23.boot_a.img", printc=None):
+        magiskboot = MagiskbootTool(magiskboot_path)
 
         # Pack ramdisk
-        magiskboot.pack_ramdisk("img/updated/boot/cpio", "img/updated/boot/ramdisk", "img/updated/boot/ramdisk.cpio")
+        magiskboot.pack_ramdisk(updated_boot_folder_path + "/cpio", updated_boot_folder_path + "/ramdisk", updated_boot_folder_path + "/ramdisk.cpio", printc)
 
         # Pack ramdisk, kernel, dtb to boot
-        magiskboot.pack_boot("img/original/extracted/23.boot_a.img", "img/updated/boot", "img/updated/23.boot_a.img")
+        magiskboot.pack_boot(original_boot_path, updated_boot_folder_path,  updated_boot_path, printc)
 
     @staticmethod
-    def unpack_boot():
-        magiskboot = MagiskbootTool()
-        result_path = "img/original/extracted/boot"
-        OtherTool.del_folder(result_path)
-        magiskboot.unpack_boot("img/original/extracted/23.boot_a.img", result_path)
-        magiskboot.unpack_ramdisk("img/original/extracted/boot/ramdisk.cpio", result_path)
+    def unpack_boot(magiskboot_path=None, original_boot_folder_path="img/original/extracted/boot", original_boot_path="img/original/extracted/23.boot_a.img", printc=None):
+        magiskboot = MagiskbootTool(magiskboot_path)
+        OtherTool.del_folder(original_boot_folder_path, printc)
+        magiskboot.unpack_boot(original_boot_path, original_boot_folder_path, printc)
+        magiskboot.unpack_ramdisk(original_boot_folder_path + "/ramdisk.cpio", original_boot_folder_path, printc)
 
     @staticmethod
-    def decompile_retro_arch_32():
-        apk_tool = APKTool()
-        folder_path = "img/original/d_apk/retroarch32"
-        OtherTool.del_folder(folder_path)
-        apk_tool.decompile_into('img/original/d_apk/retroarch32', 'img/original/apk/RetroArch_ra32.apk')
+    def decompile_retro_arch_32(folder_path="img/original/d_apk/retroarch32", apk_path='img/original/apk/RetroArch_ra32.apk', apk_tool_path=None, apk_signer_path=None, printc=None, java=None):
+        apk_tool = APKTool(apk_tool_path, apk_signer_path, java)
+        OtherTool.del_folder(folder_path, printc)
+        apk_tool.decompile_into(folder_path, apk_path, printc)
 
     @staticmethod
     def decompile_retro_arch_64():
@@ -140,10 +142,10 @@ class Pipeline:
         apk_tool.decompile_into('img/original/d_apk/retroarch64', 'img/original/apk/RetroArch_aarch64.apk')
 
     @staticmethod
-    def remove_retro_arch_32():
-        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
-        modify_tool.remove_file("system/priv-app/RetroArch_ra32/RetroArch_ra32.apk")
-        modify_tool.remove_file('system/priv-app/RetroArch_ra32', is_file=False)
+    def remove_retro_arch_32(updated_system_path="img/updated/system_a.img", debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        modify_tool.remove_file("system/priv-app/RetroArch_ra32/RetroArch_ra32.apk", debugfs=debugfs, printc=printc)
+        modify_tool.remove_file('system/priv-app/RetroArch_ra32', is_file=False, debugfs=debugfs, printc=printc)
 
     @staticmethod
     def remove_retro_arch_64():
@@ -152,9 +154,9 @@ class Pipeline:
         modify_tool.remove_file('system/priv-app/RetroArch_aarch64', is_file=False)
 
     @staticmethod
-    def add_retro_arch_32():
-        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
-        modify_tool.add_file('img/updated/apk/RetroArch_ra32.apk', 'system/priv-app/RetroArch_ra32/RetroArch_ra32.apk')
+    def add_retro_arch_32(updated_system_path="img/updated/system_a.img", updated_apk_path='img/updated/apk/RetroArch_ra32.apk', printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        modify_tool.add_file(updated_apk_path, 'system/priv-app/RetroArch_ra32/RetroArch_ra32.apk', printc=printc)
 
     @staticmethod
     def add_retro_arch_64():
@@ -163,25 +165,23 @@ class Pipeline:
                              'system/priv-app/RetroArch_aarch64/RetroArch_aarch64.apk')
 
     @staticmethod
-    def patch_privileges():
-        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
-        modify_tool.remove_file("system/etc/permissions/privapp-permissions-platform.xml")
-        modify_tool.add_file('replace/system/privapp-permissions-platform.xml',
-                             'system/etc/permissions/privapp-permissions-platform.xml', True, True)
+    def patch_privileges(updated_system_path="img/updated/system_a.img", replace_system_path="replace/system", debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        modify_tool.remove_file("system/etc/permissions/privapp-permissions-platform.xml", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(replace_system_path + "/privapp-permissions-platform.xml",
+                             'system/etc/permissions/privapp-permissions-platform.xml', True, True, debugfs, printc)
 
     @staticmethod
-    def decompile_emu():
-        apk_tool = APKTool()
-        emu_folder = "img/original/d_apk/emu"
-        OtherTool.del_folder(emu_folder)
-        apk_tool.decompile_into(emu_folder, 'img/original/apk/emu.apk')
+    def decompile_emu(original_emu_d_apk_path="img/original/d_apk/emu", original_emu_apk_path='img/original/apk/emu.apk', apk_tool=None, apk_signer=None, printc=None, java=None):
+        apk_tool = APKTool(apk_tool, apk_signer, java)
+        OtherTool.del_folder(original_emu_d_apk_path, printc)
+        apk_tool.decompile_into(original_emu_d_apk_path, original_emu_apk_path, printc)
 
     @staticmethod
-    def decompile_n64():
-        apk_tool = APKTool()
-        n64_folder = "img/original/d_apk/n64"
-        OtherTool.del_folder(n64_folder)
-        apk_tool.decompile_into(n64_folder, 'img/original/apk/n64.apk')
+    def decompile_n64(original_n64_d_apk_path="img/original/d_apk/n64", original_n64_apk_path='img/original/apk/n64.apk', apk_tool=None, apk_signer=None, printc=None, java=None):
+        apk_tool = APKTool(apk_tool, apk_signer, java)
+        OtherTool.del_folder(original_n64_d_apk_path, printc)
+        apk_tool.decompile_into(original_n64_d_apk_path, original_n64_apk_path, printc)
 
     @staticmethod
     def decompile_yaba():
@@ -195,9 +195,18 @@ class Pipeline:
         OtherTool.copy_folder("img/original/d_apk/n64", "img/updated/d_apk/n64")
 
     @staticmethod
-    def compile_and_sign_n64():
-        apk_tool = APKTool()
-        apk_tool.compile_and_sign('img/updated/d_apk/n64', 'img/updated/apk/n64.apk')
+    def compile_and_sign_n64(updated_d_apk_n64_path='img/updated/d_apk/n64',
+                             updated_apk_n64_path='img/updated/apk/n64.apk', apk_tool_path=None, apk_signer_path=None,
+                             keystore=None, printc=None, java=None):
+        apk_tool = APKTool(apk_tool_path, apk_signer_path, java)
+        apk_tool.compile_and_sign(updated_d_apk_n64_path, updated_apk_n64_path, keystore, printc)
+
+    @staticmethod
+    def compile_and_sign_emu(updated_d_apk_emu_path='img/updated/d_apk/emu',
+                             updated_apk_emu_path='img/updated/apk/emu.apk', apk_tool_path=None, apk_signer_path=None,
+                             keystore=None, printc=None, java=None):
+        apk_tool = APKTool(apk_tool_path, apk_signer_path, java)
+        apk_tool.compile_and_sign(updated_d_apk_emu_path, updated_apk_emu_path, keystore, printc)
 
     @staticmethod
     def compile_and_sign_yaba():
@@ -205,9 +214,9 @@ class Pipeline:
         apk_tool.compile_and_sign('img/updated/d_apk/yaba', 'img/updated/apk/Yaba.apk')
 
     @staticmethod
-    def resize_system_img(size, path="img/updated/system_a.img"):
+    def resize_system_img(size, path="img/updated/system_a.img", truncate=None, resize2fs=None, printc=None):
         modify_tool = Ext4ModifyTool(path)
-        modify_tool.resize_img(size)
+        modify_tool.resize_img(size, truncate, resize2fs, printc)
 
     @staticmethod
     def check_original_hash():
@@ -260,43 +269,45 @@ class Pipeline:
         return sha512.hexdigest()
 
     @staticmethod
-    def unpack_user():
-        result_folder = "img/original/extracted"
-        OtherTool.del_folder(result_folder)
+    def unpack_user(user_path=None, result_folder="img/original/extracted", printc=None, del_folder=True):
+        if user_path is None:
+            user_path = Pipeline.ORIGINAL_USER_IMG_PATH
+        if del_folder:
+            OtherTool.del_folder(result_folder, printc)
         OtherTool.make_dirs(result_folder)
 
         # Extract images from main image
-        MainSystemTool.unpack_partitions(Pipeline.ORIGINAL_USER_IMG_PATH, result_folder)
+        MainSystemTool.unpack_partitions(user_path, result_folder, printc)
 
     @staticmethod
-    def unpack_super():
+    def unpack_super(image_path="img/original/extracted/45.super.img", result_folder_path="img/original/extracted/super", lpunpack=None, printc=None):
 
         # Extract super image
-        SuperTool.lpunpack_image("img/original/extracted/45.super.img", "img/original/extracted/super")
+        SuperTool.lpunpack_image(image_path, result_folder_path, lpunpack, printc)
 
     @staticmethod
-    def unpack_system():
+    def unpack_system(what="img/original/extracted/super/system_a.img", where="img/original/extracted/super/system_a", debugfs=None, printc=None):
 
         # Print a footer of the system.img
         # AVBInfo.print_info_image("img/original/extracted/super/system_a.img")
 
         # Unpack system.img
-        Ext4UnpackTool.unpack("img/original/extracted/super/system_a.img", "img/original/extracted/super/system_a")
+        Ext4UnpackTool.unpack(what, where, debugfs, printc)
 
     @staticmethod
-    def unpack_vendor():
-        Ext4UnpackTool.unpack("img/original/extracted/super/vendor_a.img", "img/original/extracted/super/vendor_a")
+    def unpack_vendor(what="img/original/extracted/super/vendor_a.img", where="img/original/extracted/super/vendor_a", debugfs=None, printc=None):
+        Ext4UnpackTool.unpack(what, where, debugfs, printc)
 
     @staticmethod
-    def cure_boot():
-        OtherTool.del_folder("img/updated/boot")
-        OtherTool.copy_folder("img/original/extracted/boot", "img/updated/boot")
-        fstab1_path = "img/updated/boot/ramdisk/first_stage_ramdisk/fstab.mt6768"
-        fstab2_path = "img/updated/boot/ramdisk/first_stage_ramdisk/fstab.mt8786"
-        OtherTool.del_file(fstab1_path)
-        OtherTool.del_file(fstab2_path)
-        OtherTool.copy_file("replace/boot/fstab.mt6768", fstab1_path)
-        OtherTool.copy_file("replace/boot/fstab.mt8786", fstab2_path)
+    def cure_boot(updated_boot_folder_path="img/updated/boot", original_boot_folder_path="img/original/extracted/boot", replace_boot="replace/boot", printc=None):
+        OtherTool.del_folder(updated_boot_folder_path, printc)
+        OtherTool.copy_folder(original_boot_folder_path, updated_boot_folder_path, printc)
+        fstab1_path = updated_boot_folder_path + "/ramdisk/first_stage_ramdisk/fstab.mt6768"
+        fstab2_path = updated_boot_folder_path + "/ramdisk/first_stage_ramdisk/fstab.mt8786"
+        OtherTool.del_file(fstab1_path, printc)
+        OtherTool.del_file(fstab2_path, printc)
+        OtherTool.copy_file(replace_boot + "/fstab.mt6768", fstab1_path, printc=printc)
+        OtherTool.copy_file(replace_boot + "/fstab.mt8786", fstab2_path, printc=printc)
 
     # deprecated
     @staticmethod
@@ -323,13 +334,15 @@ class Pipeline:
         modify_tool.add_file("img/updated/vendor/build.prop", "build.prop")
 
     @staticmethod
-    def patch_retro_arch_32():
-        OtherTool.copy_file("replace/retro32/AndroidManifest.xml", "img/updated/d_apk/retroarch32/AndroidManifest.xml")
-        OtherTool.copy_file("replace/retro32/RetroActivityFuture.smali",
-                            "img/updated/d_apk/retroarch32/smali/com/retroarch/browser/retroactivity/RetroActivityFuture.smali")
-        Pipeline.compile_and_sign_retro_arch_32()
-        Pipeline.remove_retro_arch_32()
-        Pipeline.add_retro_arch_32()
+    def patch_retro_arch_32(replace_folder_path="replace/retro32", updated_d_apk_path="img/updated/d_apk/retroarch32", apk_tool_path=None, apk_signer_path=None, updated_apk_path='img/updated/apk/RetroArch_ra32.apk', updated_system_path="img/updated/system_a.img", debugfs=None, keystore=None, printc=None, java=None):
+        manifest = replace_folder_path + "/AndroidManifest.xml"
+        future = replace_folder_path + "/RetroActivityFuture.smali"
+        OtherTool.copy_file(manifest, updated_d_apk_path + "/AndroidManifest.xml", printc=printc)
+        OtherTool.copy_file(future,
+                            updated_d_apk_path + "/smali/com/retroarch/browser/retroactivity/RetroActivityFuture.smali", printc=printc)
+        Pipeline.compile_and_sign_retro_arch_32(apk_tool_path, apk_signer_path, updated_d_apk_path, updated_apk_path, keystore, printc, java)
+        Pipeline.remove_retro_arch_32(updated_system_path, debugfs, printc)
+        Pipeline.add_retro_arch_32(updated_system_path, updated_apk_path, printc)
 
     @staticmethod
     def patch_retro_arch_64():
@@ -344,22 +357,40 @@ class Pipeline:
         Pipeline.add_retro_arch_64()
 
     @staticmethod
-    def patch_emu():
-        OtherTool.copy_file("replace/emu/apktool.yml", "img/updated/d_apk/emu")
-        OtherTool.copy_file("replace/emu/GameTemplate.smali",
-                            "img/updated/d_apk/emu/smali/com/junction/fire/gametemplate/GameTemplate.smali")
-        OtherTool.copy_file("replace/emu/RetroActivityFuture.smali",
-                            "img/updated/d_apk/emu/smali/com/emu/browser/retroactivity/RetroActivityFuture.smali")
-        Pipeline.compile_and_sign_emu()
-        Pipeline.replace_emu()
+    def patch_emu(updated_apk_emu_path='img/updated/apk/emu.apk',
+                  updated_d_apk_emu_path='img/updated/d_apk/emu',
+                  replace_emu_path="replace/emu",
+                  updated_system_path="img/updated/system_a.img",
+                  apk_tool_path=None,
+                  apk_signer_path=None,
+                  keystore=None,
+                  debugfs=None,
+                  printc=None,
+                  java=None):
+        OtherTool.copy_file(replace_emu_path + "/apktool.yml", updated_d_apk_emu_path, printc=printc)
+        OtherTool.copy_file(replace_emu_path + "/GameTemplate.smali",
+                            updated_d_apk_emu_path + "/smali/com/junction/fire/gametemplate/GameTemplate.smali", printc=printc)
+        OtherTool.copy_file(replace_emu_path + "/RetroActivityFuture.smali",
+                            updated_d_apk_emu_path + "/smali/com/emu/browser/retroactivity/RetroActivityFuture.smali", printc=printc)
+        Pipeline.compile_and_sign_emu(updated_d_apk_emu_path, updated_apk_emu_path, apk_tool_path, apk_signer_path, keystore, printc, java)
+        Pipeline.replace_emu(updated_system_path, updated_apk_emu_path, debugfs, printc)
 
     @staticmethod
-    def patch_n64():
-        what = "replace/n64/SplashActivity.smali"
-        where = "img/updated/d_apk/n64/smali/paulscode/android/mupen64plusae/SplashActivity.smali"
-        OtherTool.copy_file(what, where)
-        Pipeline.compile_and_sign_n64()
-        Pipeline.replace_n64()
+    def patch_n64(updated_apk_n64_path='img/updated/apk/n64.apk',
+                  updated_d_apk_n64_path='img/updated/d_apk/n64',
+                  replace_n64_path="replace/n64",
+                  updated_system_path="img/updated/system_a.img",
+                  apk_tool_path=None,
+                  apk_signer_path=None,
+                  keystore=None,
+                  debugfs=None,
+                  printc=None,
+                  java=None):
+        what = replace_n64_path + "/SplashActivity.smali"
+        where = updated_d_apk_n64_path + "/smali/paulscode/android/mupen64plusae/SplashActivity.smali"
+        OtherTool.copy_file(what, where, printc=printc)
+        Pipeline.compile_and_sign_n64(updated_d_apk_n64_path, updated_apk_n64_path, apk_tool_path, apk_signer_path, keystore, printc, java)
+        Pipeline.replace_n64(updated_system_path, updated_apk_n64_path, debugfs, printc)
 
     @staticmethod
     def patch_yaba():
@@ -370,19 +401,19 @@ class Pipeline:
         Pipeline.replace_yaba()
 
     @staticmethod
-    def replace_n64():
-        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
-        modify_tool.remove_file("system/app/n64/n64.apk")
-        modify_tool.remove_file("system/app/n64/oat/arm/n64.odex")
-        modify_tool.remove_file("system/app/n64/oat/arm/n64.vdex")
-        modify_tool.add_file("img/updated/apk/n64.apk", "system/app/n64/n64.apk")
+    def replace_n64(updated_system_path="img/updated/system_a.img", updated_n64_apk_path="img/updated/apk/n64.apk", debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        modify_tool.remove_file("system/app/n64/n64.apk", debugfs=debugfs, printc=printc)
+        modify_tool.remove_file("system/app/n64/oat/arm/n64.odex", debugfs=debugfs, printc=printc)
+        modify_tool.remove_file("system/app/n64/oat/arm/n64.vdex", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_n64_apk_path, "system/app/n64/n64.apk", debugfs=debugfs, printc=printc)
 
     @staticmethod
-    def replace_audio_device():
-        modify_tool = Ext4ModifyTool("img/updated/vendor_a.img")
-        modify_tool.remove_file("etc/audio_device.xml")
-        modify_tool.add_file("replace/audio/vendor/audio_device.xml",
-                             "etc/audio_device.xml")
+    def replace_audio_device(updated_vendor_path="img/updated/vendor_a.img", replace_audio_path="replace/audio", debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_vendor_path)
+        modify_tool.remove_file("etc/audio_device.xml", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(replace_audio_path + "/vendor/audio_device.xml",
+                             "etc/audio_device.xml", debugfs=debugfs, printc=printc)
 
     @staticmethod
     def replace_yaba():
@@ -391,19 +422,16 @@ class Pipeline:
         modify_tool.add_file("img/updated/apk/Yaba.apk", "system/preinstall/Yaba.apk")
 
     @staticmethod
-    def repack_boot():
-        Pipeline.unpack_boot()
-        Pipeline.cure_boot()
-        Pipeline.pack_boot()
-
-    @staticmethod
-    def repack_n64():
-        OtherTool.copy_file("img/original/extracted/super/system_a/system/app/n64/n64.apk", "img/original/apk/n64.apk")
-        Pipeline.decompile_n64()
-        updated_n64_folder = "img/updated/d_apk/n64"
-        OtherTool.del_folder(updated_n64_folder)
-        OtherTool.copy_folder("img/original/d_apk/n64", updated_n64_folder)
-        Pipeline.patch_n64()
+    def repack_boot(magiskboot_path=None,
+                    original_boot_folder_path="img/original/extracted/boot",
+                    original_boot_path="img/original/extracted/23.boot_a.img",
+                    updated_boot_folder_path="img/updated/boot",
+                    updated_boot_path="img/updated/23.boot_a.img",
+                    replace_boot="replace/boot",
+                    printc=None):
+        Pipeline.unpack_boot(magiskboot_path, original_boot_folder_path, original_boot_path, printc)
+        Pipeline.cure_boot(updated_boot_folder_path, original_boot_folder_path, replace_boot, printc)
+        Pipeline.pack_boot(magiskboot_path, updated_boot_folder_path, original_boot_path, updated_boot_path, printc)
 
     # not ready
     @staticmethod
@@ -421,22 +449,82 @@ class Pipeline:
             ... # In case if in earlier versions there is no yaba just try to skip silently
 
     @staticmethod
-    def repack_emu():
-        OtherTool.copy_file("img/original/extracted/super/system_a/system/app/emu/emu.apk", "img/original/apk/emu.apk")
-        Pipeline.decompile_emu()
-        updated_emu_folder = "img/updated/d_apk/emu"
-        OtherTool.del_folder(updated_emu_folder)
-        OtherTool.copy_folder("img/original/d_apk/emu", updated_emu_folder)
-        Pipeline.patch_emu()
+    def repack_emu(extracted_path="img/original/extracted",
+                   original_emu_apk_path="img/original/apk/emu.apk",
+                   original_emu_d_apk_path="img/original/d_apk/emu",
+                   updated_emu_apk_path='img/updated/apk/emu.apk',
+                   updated_emu_d_apk_path="img/updated/d_apk/emu",
+                   replace_emu_path="replace/emu",
+                   updated_system_path="img/updated/system_a.img",
+                   apk_tool_path=None,
+                   apk_signer_path=None,
+                   keystore=None,
+                   debugfs=None,
+                   printc=None,
+                   java=None):
+        OtherTool.copy_file(extracted_path + "/super/system_a/system/app/emu/emu.apk", original_emu_apk_path, create_folders=True, printc=printc)
+        Pipeline.decompile_emu(original_emu_d_apk_path, original_emu_apk_path, apk_tool_path, apk_signer_path, printc=printc, java=java)
+        OtherTool.del_folder(updated_emu_d_apk_path, printc)
+        OtherTool.copy_folder(original_emu_d_apk_path, updated_emu_d_apk_path, printc)
+        Pipeline.patch_emu(updated_emu_apk_path,
+                           updated_emu_d_apk_path,
+                           replace_emu_path,
+                           updated_system_path,
+                           apk_tool_path,
+                           apk_signer_path,
+                           keystore,
+                           debugfs,
+                           printc,
+                           java)
 
     @staticmethod
-    def repack_retro_arch_32():
-        Pipeline.decompile_retro_arch_32()
-        updated_retro_folder = "img/updated/d_apk/retroarch32"
-        OtherTool.del_folder(updated_retro_folder)
-        OtherTool.copy_folder("img/original/d_apk/retroarch32", updated_retro_folder)
-        Pipeline.patch_retro_arch_32()
-        Pipeline.patch_privileges()
+    def repack_n64(extracted_path="img/original/extracted",
+                   original_n64_apk_path="img/original/apk/n64.apk",
+                   original_n64_d_apk_path="img/original/d_apk/n64",
+                   updated_n64_apk_path='img/updated/apk/n64.apk',
+                   updated_n64_d_apk_path="img/updated/d_apk/n64",
+                   replace_n64_path="replace/n64",
+                   updated_system_path="img/updated/system_a.img",
+                   apk_tool_path=None,
+                   apk_signer_path=None,
+                   keystore=None,
+                   debugfs=None,
+                   printc=None,
+                   java=None):
+        OtherTool.copy_file(extracted_path + "/super/system_a/system/app/n64/n64.apk", original_n64_apk_path, printc=printc)
+        Pipeline.decompile_n64(original_n64_d_apk_path, original_n64_apk_path, apk_tool_path, apk_signer_path, printc=printc, java=java)
+        OtherTool.del_folder(updated_n64_d_apk_path, printc)
+        OtherTool.copy_folder(original_n64_d_apk_path, updated_n64_d_apk_path, printc)
+        Pipeline.patch_n64(updated_n64_apk_path,
+                           updated_n64_d_apk_path,
+                           replace_n64_path,
+                           updated_system_path,
+                           apk_tool_path,
+                           apk_signer_path,
+                           keystore,
+                           debugfs,
+                           printc,
+                           java)
+
+    @staticmethod
+    def repack_retro_arch_32(original_d_apk_retroarch_path="img/original/d_apk/retroarch32",
+                             updated_d_apk_retroarch_path="img/updated/d_apk/retroarch32",
+                             replace_retroarch_path="replace/retro32",
+                             replace_system_path = "replace/system",
+                             apk_path='img/original/apk/RetroArch_ra32.apk',
+                             updated_apk_path = 'img/updated/apk/RetroArch_ra32.apk',
+                             updated_system_path="img/updated/system_a.img",
+                             apk_tool_path=None,
+                             apk_signer_path=None,
+                             debugfs=None,
+                             keystore=None,
+                             printc=None,
+                             java=None):
+        OtherTool.del_folder(updated_d_apk_retroarch_path, printc)
+        Pipeline.decompile_retro_arch_32(original_d_apk_retroarch_path, apk_path, apk_tool_path, apk_signer_path, printc, java)
+        OtherTool.copy_folder(original_d_apk_retroarch_path, updated_d_apk_retroarch_path, printc)
+        Pipeline.patch_retro_arch_32(replace_retroarch_path, updated_d_apk_retroarch_path, apk_tool_path, apk_signer_path, updated_apk_path, updated_system_path, debugfs, keystore, printc, java)
+        Pipeline.patch_privileges(updated_system_path, replace_system_path, debugfs, printc)
 
     @staticmethod
     def print_past_time(start_time):
@@ -455,8 +543,8 @@ class Pipeline:
         OtherTool.del_folder("img/updated")
 
     @staticmethod
-    def is_retro_arch_exists():
-        return Ext4ModifyTool("img/original/extracted/super/system_a.img").check_file_exists("/system/priv-app/RetroArch_ra32/RetroArch_ra32.apk")
+    def is_retro_arch_exists(system_path="img/original/extracted/super/system_a.img", debugfs=None, printc=None):
+        return Ext4ModifyTool(system_path).check_file_exists("/system/priv-app/RetroArch_ra32/RetroArch_ra32.apk", debugfs, printc)
 
     @staticmethod
     def repack_user(fix_audio, is_remove_temps=True):

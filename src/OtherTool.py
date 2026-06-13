@@ -12,52 +12,62 @@ class OtherTool:
         ...
 
     @staticmethod
-    def copy_file(what, where, create_folders=False):
+    def copy_file(what, where, create_folders=False, printc=None):
+        if printc is None:
+            printc = print
         if create_folders:
             OtherTool.make_dirs(Path(where).parent)
-        print("Copy:", what, "To:", where)
+        printc("Copying:", what, "To:", where)
         shutil.copy(what, where)
-        print("Done\n")
+        printc("Done\n")
 
     @staticmethod
-    def copy_folder(what, where):
-        print("Copy:", what, "To:", where)
+    def copy_folder(what, where, printc=None):
+        if printc is None:
+            printc = print
+        printc("Copying:", what, "To:", where)
         shutil.copytree(what, where, dirs_exist_ok=False)
-        print("Done\n")
+        printc("Done\n")
 
     @staticmethod
-    def del_file(what):
-        print("Delete:", what)
+    def del_file(what, printc=None):
+        if printc is None:
+            printc = print
+        printc("Deleting:", what)
         try:
             os.remove(what)
         except Exception as e:
-            print("Can't remove:", e)
-        print("Done\n")
+            printc("Can't delete:", e)
+        printc("Done\n")
 
     @staticmethod
     def make_dirs(where):
         os.makedirs(where, exist_ok=True)
 
     @staticmethod
-    def del_folder(what):
-        print("Delete:", what)
+    def del_folder(what, printc=None):
+        if printc is None:
+            printc = print
+        printc("Deleting:", what)
         try:
             shutil.rmtree(what)
         except Exception as e:
-            print("Can't remove:", e)
-        print("Done\n")
+            printc("Can't delete:", e)
+        printc("Done\n")
 
     @staticmethod
-    def move_file(what, where):
-        print("Move:", what, "To:", where)
+    def move_file(what, where, printc=None):
+        if printc is None:
+            printc = print
+        printc("Moving:", what, "To:", where)
 
         # noinspection PyBroadException
         try:
             shutil.move(what, where)
-            print("Done\n")
+            printc("Done\n")
             return True
         except:
-            print("Already Exists:", what)
+            printc("Already Exists:", what)
             return False
 
     @staticmethod
@@ -69,13 +79,15 @@ class OtherTool:
         return os.path.basename(file_path)
 
     @staticmethod
-    def inject(what, where, offset):
-        print("Start to inject:", what, "Into:", where, "Offset:", offset)
+    def inject(what, where, offset, printc=None):
+        if printc is None:
+            printc = print
+        printc("Starting to inject:", what, "Into:", where, "Offset:", offset)
         with open(where, "rb+") as where_file:
             where_file.seek(offset)
             with open(what, "rb") as what_file:
                 where_file.write(what_file.read())
-        print("Done")
+        printc("Done")
 
     @staticmethod
     def find_strings(file_path, grep=None, min_length=3):

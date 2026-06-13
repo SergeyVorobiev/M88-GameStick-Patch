@@ -9,6 +9,8 @@ __pycache__/
 # Distribution / packaging
 .Python
 res/
+M88FW/
+USER.img
 build/
 develop-eggs/
 dist/

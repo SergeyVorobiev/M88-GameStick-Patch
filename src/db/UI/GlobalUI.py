@@ -10,11 +10,14 @@ class GlobalUI:
     app_height = 900
     proxy_example = 'socks5://192.168.8.105:1080'
     proxy = ''
-    version = "v1.5"
+    version = "v1.7"
+    fw_version = "v2.2"
+    firmware_folder = "M88FW"
+    user_file = "USER.img"
     new_db_name = "cachegames(updated).db"
     db_name = "cachegames.db"
     github_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch"
-
+    m88fw_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88FW.7z"
     if getattr(sys, 'frozen', False):
 
         # noinspection PyUnresolvedReferences,PyProtectedMember

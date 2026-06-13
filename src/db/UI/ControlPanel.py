@@ -1,4 +1,6 @@
 from tkinter import ttk
+
+from src.db.UI.GlobalUI import GlobalUI
 from src.db.UI.Strings import Strings
 
 
@@ -17,7 +19,7 @@ class ControlPanel:
         self.btn5 = ttk.Button(parent, text=Strings.Current.ERASE_HISTORY_BUTTON_TITLE, width=20)
         self.btn6 = ttk.Button(parent, text=Strings.Current.CLEAN_GAME_FOLDERS_BUTTON_TITLE, width=20)
         self.btn7 = ttk.Button(parent, text=Strings.Current.CLEAN_IMAGE_FOLDERS_BUTTON_TITLE, width=20)
-
+        self.btn8 = ttk.Button(parent, text=Strings.Current.FIRMWARE_BUTTON_TITLE + " " +  GlobalUI.fw_version, width=25)
         self.btn1.grid(row=0, column=0, pady=(0, 10))
         self.btn2.grid(row=0, column=1, pady=(0, 10))
         self.btn3.grid(row=0, column=2, pady=(0, 10))
@@ -25,6 +27,7 @@ class ControlPanel:
         self.btn5.grid(row=0, column=4, pady=(0, 10))
         self.btn6.grid(row=0, column=5, pady=(0, 10))
         self.btn7.grid(row=0, column=6, pady=(0, 10))
+        self.btn8.grid(row=0, column=6, pady=(0, 10))
         self.__state_buttons('disabled')
 
     def set_generate_db_listener(self, generate_db_listener):
@@ -62,6 +65,9 @@ class ControlPanel:
 
     def set_clean_image_folder_listener(self, clean_image_folder_listener):
         self.btn7.configure(command=clean_image_folder_listener)
+
+    def set_upgrade_firmware_listener(self, upgrade_firmware_listener):
+        self.btn8.configure(command=upgrade_firmware_listener)
 
 
 

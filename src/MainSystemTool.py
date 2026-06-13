@@ -121,21 +121,23 @@ class MainSystemTool:
 
     # You can just use 7zip
     @staticmethod
-    def unpack_partitions(img_path, result_folder_path):
-        print(f"Extracting {img_path} into {result_folder_path}")
+    def unpack_partitions(img_path, result_folder_path, printc=None):
+        if not printc:
+            printc = print
+        printc(f"Extracting {img_path} into {result_folder_path}")
         with (open(img_path, 'rb') as f):
 
             f.seek(GPT_HEADER_OFFSET)
             header = f.read(92)
             if len(header) < 92:
-                print("Not GPT header")
+                printc("Not GPT header")
                 return
 
             signature, revision, header_size, crc32_header, reserved, current_lba, backup_lba, first_usable_lba, last_usable_lba, disk_guid, partition_entry_lba, num_partition_entries, partition_entry_size, crc32_entries = struct.unpack(
                 '<8sI I I I Q Q Q Q 16s Q I I I', header[:92])
 
             if signature != b'EFI PART':
-                print("Not GPT signature")
+                printc("Not GPT signature")
                 return
 
             f.seek(partition_entry_lba * SECTOR_SIZE)
@@ -157,13 +159,13 @@ class MainSystemTool:
                 end_offset = (ending_lba + 1) * SECTOR_SIZE
                 size = end_offset - start_offset
 
-                print(f"Partition {i}: {name}, start LBA {starting_lba}, size {size} bytes")
+                printc(f"Partition {i}: {name}, start LBA {starting_lba}, size {size} bytes")
 
                 output_file = os.path.join(result_folder_path, f"{i}.{name}.img")
                 with open(output_file, 'wb') as out:
                     f.seek(start_offset)
                     out.write(f.read(size))
-        print("Done\n")
+        printc("Done\n")
 
 
 if __name__ == '__main__':

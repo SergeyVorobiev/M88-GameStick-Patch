@@ -26,6 +26,7 @@ if __name__ == '__main__':
     GlobalUI.control_panel.set_erase_history_listener(Handlers.on_erase_history)
     GlobalUI.control_panel.set_erase_favorites_listener(Handlers.on_erase_favorites)
     GlobalUI.control_panel.set_clean_image_folder_listener(Handlers.on_clean_image_folders_click)
+    GlobalUI.control_panel.set_upgrade_firmware_listener(Handlers.on_upgrade_firmware_click)
     GlobalUI.image_frame = ImagePanel(GlobalUI.root, image_frame)
 
     GlobalUI.platforms_list = PlatformsList(GlobalUI.root, left_frame)

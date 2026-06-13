@@ -80,7 +80,7 @@ art_map = {
     "dos": "DOS",
 }
 
-system_files = [".pure.zip", "neogeo.zip", "naomi.zip", "naomi2.zip", "naomigd.zip"]
+system_files = [".pure.zip", "neogeo.zip", "naomi.zip", "naomi2.zip", "naomigd.zip", "pgm.zip"]
 
 def get_all_extensions():
     result = set()
