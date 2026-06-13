@@ -835,6 +835,7 @@ replaced by *opera_libretro_android.so* forcing your game file to be launched un
 
 ## Windows Emulation
 
+Heroes 3 & Windows 98
 ![heroes3](resources/images/heroes3win.webp)
 
 By using *dosbox_pure_libretro_android.so* core you can emulate Windows 95 / 98. But at first, you have to know about necessities and drawbacks:
@@ -852,6 +853,7 @@ Then put all the files from the old sdcard to the new one.
 because the emulation is single threaded, making it only 13% loaded. For that reason the strong side of the P65 (6x+2x cores)
 does not play any role.
 
+Diablo & SC3000
 ![diabloSC](resources/images/diabloSC.webp)
 
 Setup:

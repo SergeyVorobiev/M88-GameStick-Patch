@@ -19,7 +19,7 @@ class ControlPanel:
         self.btn5 = ttk.Button(parent, text=Strings.Current.ERASE_HISTORY_BUTTON_TITLE, width=20)
         self.btn6 = ttk.Button(parent, text=Strings.Current.CLEAN_GAME_FOLDERS_BUTTON_TITLE, width=20)
         self.btn7 = ttk.Button(parent, text=Strings.Current.CLEAN_IMAGE_FOLDERS_BUTTON_TITLE, width=20)
-        self.btn8 = ttk.Button(parent, text=Strings.Current.FIRMWARE_BUTTON_TITLE + " " +  GlobalUI.fw_version, width=25)
+        self.btn8 = ttk.Button(parent, text=Strings.Current.FIRMWARE_BUTTON_TITLE, width=20)
         self.btn1.grid(row=0, column=0, pady=(0, 10))
         self.btn2.grid(row=0, column=1, pady=(0, 10))
         self.btn3.grid(row=0, column=2, pady=(0, 10))
