@@ -871,7 +871,7 @@ Win98/Heroes3.iso
 Win98/Sid Meier's Civilization III (USA, Europe).cue
 Win98/Tools.iso
 ```
-At the beginning it can be just one line (the more files you add in Win98 folder the bigger the list), you don't need to register
+At the beginning it can be just one line (the more files you add in Win98 folder the bigger the list), you don't need to register (in DB)
 anything, added files will be detected automatically:
 ```
 Win98/Win98SE.iso
@@ -884,7 +884,7 @@ Win98/Win98SE.iso
 11. Under Windows select L3 to activate dosbox menu and switch between disks.
 
 You can try to install your own windows 95-98, but keep in mind that you need to create at least 512MB disk, with the 
-default sdcard the stick likely will not allow you to create it because for anything beyond 64MB it will think that the 
+default sdcard the stick likely will not allow you to do it because for anything beyond 64MB it will think that the 
 process is frozen and kill it, so you have two options:
 
 1. Use class 10 sdcard and try to create 512MB-2GB disk (win98SE.img) during installation (it must have FAT32 if you want to increase the size further).
