@@ -1,6 +1,4 @@
 from tkinter import ttk
-
-from src.db.UI.GlobalUI import GlobalUI
 from src.db.UI.Strings import Strings
 
 
@@ -9,7 +7,7 @@ class ControlPanel:
     def __init__(self, root, parent):
         self.__root = root
         self.__parent = parent
-        for i in range(7):
+        for i in range(8):
             parent.grid_columnconfigure(i, weight=1, pad=0)
 
         self.btn1 = ttk.Button(parent, text=Strings.Current.SAVE_DB_BUTTON_TITLE, width=20)
@@ -27,7 +25,7 @@ class ControlPanel:
         self.btn5.grid(row=0, column=4, pady=(0, 10))
         self.btn6.grid(row=0, column=5, pady=(0, 10))
         self.btn7.grid(row=0, column=6, pady=(0, 10))
-        self.btn8.grid(row=0, column=6, pady=(0, 10))
+        self.btn8.grid(row=0, column=7, pady=(0, 10))
         self.__state_buttons('disabled')
 
     def set_generate_db_listener(self, generate_db_listener):

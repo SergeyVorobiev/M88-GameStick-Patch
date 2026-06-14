@@ -10,7 +10,7 @@ class GlobalUI:
     app_height = 900
     proxy_example = 'socks5://192.168.8.105:1080'
     proxy = ''
-    version = "v1.7"
+    version = "v1.71"
     fw_version = "v2.2"
     firmware_folder = "M88FW"
     user_file = "USER.img"

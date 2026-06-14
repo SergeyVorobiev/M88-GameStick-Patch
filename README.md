@@ -226,7 +226,7 @@ It also gives a better chance of success:
 
 1. Read [this](#firmware-upgrade) to just make a backup.
 2. Download and unpack this [archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88FW.7z), password: m88.
-3. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.7.exe).
+3. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.71.exe).
 4. Put these three files next to each other:
 
 ![files](resources/images/files.webp)
@@ -254,7 +254,7 @@ If nothing works, feel free to [contact me](#Contact).
 5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.7.exe).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.71.exe).
 9. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
@@ -706,7 +706,7 @@ To replace - edit an appropriate row, you only need to change **path**, **image*
 
 The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, clean up unnecessary and temporary files from the SD card, and download missed or bad images from the Web.
 
-You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.7.exe) or run it from [sources](UIMain.py).
+You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.71.exe) or run it from [sources](UIMain.py).
 
 ![gbdt](resources/images/gbdt.webp)
 
