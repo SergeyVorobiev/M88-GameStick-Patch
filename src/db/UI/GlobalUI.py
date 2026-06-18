@@ -10,13 +10,15 @@ class GlobalUI:
     app_height = 900
     proxy_example = 'socks5://192.168.8.105:1080'
     proxy = ''
-    version = "v1.71"
+    version = "v1.75"
     fw_version = "v2.2"
     firmware_folder = "M88FW"
+    app_name = "M88GDBTool"
     user_file = "USER.img"
     new_db_name = "cachegames(updated).db"
     db_name = "cachegames.db"
     github_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch"
+    repo_latest_url = "https://api.github.com/repos/SergeyVorobiev/M88-GameStick-Patch/releases/latest"
     m88fw_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88FW.7z"
     if getattr(sys, 'frozen', False):
 
