@@ -35,7 +35,7 @@
 
 ## Introduction
 
-![M88Board](resources/images/M88Board.webp)
+![emu](resources/images/emu_board.webp)
 
 M88 is a Chinese game-stick which comes with a locked-down system, unfinished features and deceptive marketing. 
 It has no cooling and may overheat quickly in 3D games.
