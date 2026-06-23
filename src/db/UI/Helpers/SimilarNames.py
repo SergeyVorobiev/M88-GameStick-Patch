@@ -16,6 +16,7 @@ class SimilarNames:
     def sort_by_similarity(q, names_list, limit=None):
         q = SimilarNames.clean_name(q)
 
+        # noinspection PyUnusedLocal
         def scorer(a, b, score_cutoff=0):
 
             clean_a = a

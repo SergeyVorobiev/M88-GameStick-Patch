@@ -3,7 +3,6 @@ import shutil
 import threading
 import time
 import tkinter as tk
-from pathlib import Path
 from tkinter import ttk, scrolledtext
 
 from src.MT6768.UIPipeline import UIPipeline
@@ -48,16 +47,6 @@ class FirmwareUpgradeDialog:
             self.layout_2()
         else:
             self.layout_3()
-
-       # self.check_var = tk.Variable()
-       # chk = ttk.Checkbutton(self.top, text=Strings.Current.SAVE_DB_CHECK_BOX_TITLE, variable=self.check_var, command=self.on_check_box_click)
-       # chk.pack(pady=(8, 0))
-
-
-
-        #proceed_btn = ttk.Button(btn_frame, text=proceed_text, command=self.proceed, width=12)
-       # proceed_btn.pack(side="left", padx=8)
-
 
         self.top.focus_force()
         self.top.update_idletasks()
@@ -173,12 +162,11 @@ class FirmwareUpgradeDialog:
         return f"{minutes:02d}:{seconds:02d}"
 
     def check_state(self):
-        free_gb = shutil.disk_usage(os.getcwd()).free / (1024 ** 3)
-        Path(GlobalUI.firmware_folder)
         if not os.path.exists(GlobalUI.firmware_folder):
             return 0
         if not os.path.exists(GlobalUI.user_file):
             return 1
+        free_gb = shutil.disk_usage(os.getcwd()).free / (1024 ** 3)
         if free_gb < self.free_space:
             return 2
         return 3

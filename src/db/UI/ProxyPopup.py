@@ -42,8 +42,6 @@ class ProxyPopup:
         self.text_label.config(state="disabled")
         self.text_label.pack(padx=(6, 0), pady=(5, 0))
         self.top.bind("<Button-1>", self._close_on_outside_click)
-        #msg_label = ttk.Label(frame, text=Strings.Current.PROXY_HINT_EX + GlobalUI.proxy_example, font=("Consolas", 8))
-        #msg_label.pack(anchor="e", padx=(0, 6), pady=(5, 0))
 
     def center_window(self, parent):
         self.top.update_idletasks()

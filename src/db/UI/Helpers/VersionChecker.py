@@ -7,6 +7,8 @@ class VersionChecker:
 
     @staticmethod
     def check_new_version():
+
+        # noinspection PyBroadException
         try:
             response = requests.get(GlobalUI.repo_latest_url, timeout=30)
             response.raise_for_status()

@@ -293,12 +293,15 @@ On your window the device is yet unknown, the key is to find VID like VID_0E8D t
 
 1. For MediaTek device install the [driver](https://mtkdriver.com/install-mtk-driver)*.
 2. Install [software](https://spflashtools.com/windows/sp-flash-tool-v5-2404) to perform read / write operations.
-3. For MT6768 download the [preloader](resources/m88/preloader_tb8786p1_64_k419.bin)**. (Check its [sha512](resources/m88/sha512.txt)).
-4. Download the [empty scatter](resources/m88/M88_empty_scatter.txt) file***.
+3. For MT6768 download and unpack the scatter** and the preloader*** from [here](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/Preloader&Scatter.7z). (Check preloader's [sha512](resources/m88/sha512.txt)).
 
 \* *If your driver does not have digital signature read [this](https://photobyte.org/installing-unsigned-drivers-on-windows-10-or-11/).*
 
-\** *Without a preloader you will not be able to write to and read from eMMC.
+\** *It is a markup file that gives information of where and what is placed on eMMC. 
+Usually a program only needs to know where to begin reading / writing and for how long. 
+Place the scatter and preloader in the same directory.*
+
+\*** *Without a preloader you will not be able to write to and read from eMMC.
 If the provided preloader does not fit then use [mtk client](https://github.com/bkerler/mtkclient) to get one:*
 
 1. Install mtk client.
@@ -307,10 +310,6 @@ If the provided preloader does not fit then use [mtk client](https://github.com/
 4. Enter [BROM Mode](#enter-brom-mode).
 
 You will get chip information, eMMC information and extracted preloader in the mtk client root folder.
-
-\*** *It is a markup file that gives information of where and what is placed on eMMC. 
-Usually a program only needs to know where to begin reading / writing and for how long. 
-Place the scatter and preloader in the same directory.*
 
 ### Read From eMMC
 
@@ -352,15 +351,13 @@ Use [7-zip](https://www.7-zip.org/download.html) to open your USER* image, it wi
 ### Write to eMMC
 
 1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z) or use your upgraded one.
-2. Download the [scatter](resources/m88/M88_scatter.txt) file and use it instead of empty one. Place your 
-preloader, scatter and patched image in the same folder.
-3. Check the size of the image, edit if needed:
+2. Check the size of the image, edit if needed:
 ```
 partition_size: 0x1d2000000
 ```
 0x1d2000000 = 7818182656 bytes.
 
-4. Open Flash Tool.
+3. Open Flash Tool.
 
 You have two options (both include **FORMATTING**). The first one is more preferable.
 
