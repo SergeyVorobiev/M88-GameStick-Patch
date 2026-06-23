@@ -293,7 +293,7 @@ On your window the device is yet unknown, the key is to find VID like VID_0E8D t
 
 1. For MediaTek device install the [driver](https://mtkdriver.com/install-mtk-driver)*.
 2. Install [software](https://spflashtools.com/windows/sp-flash-tool-v5-2404) to perform read / write operations.
-3. For MT6768 download and unpack the scatter** and the preloader*** from [here](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/Preloader&Scatter.7z). (Check preloader's [sha512](resources/m88/sha512.txt)).
+3. For MT6768 download and unpack the scatter** and the preloader*** from [here](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/Preloader_Scatter.7z). (Check preloader's [sha512](resources/m88/sha512.txt)).
 
 \* *If your driver does not have digital signature read [this](https://photobyte.org/installing-unsigned-drivers-on-windows-10-or-11/).*
 
