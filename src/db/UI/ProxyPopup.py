@@ -43,11 +43,11 @@ class ProxyPopup:
         self.text_label.pack(padx=(6, 0), pady=(5, 0))
         frame2.pack()
 
-        self.entry_name = EntryHint(frame, text=GlobalUI.proxy_name, hint_text="Name", width=80, font=("Segoe UI", 10))
+        self.entry_name = EntryHint(frame, text=GlobalUI.proxy_name, hint_text=Strings.Current.NAME_HINT_TEXT, width=80, font=("Segoe UI", 10))
         self.entry_name.pack(anchor="center", padx=8, pady=5)
         self.entry_name.bind("<KeyRelease>", self.on_name_key_release)
 
-        self.entry_password = EntryHint(frame, text=GlobalUI.proxy_password, hint_text="Password", width=80, font=("Segoe UI", 10))
+        self.entry_password = EntryHint(frame, text=GlobalUI.proxy_password, hint_text=Strings.Current.PASSWORD_HINT_TEXT, width=80, font=("Segoe UI", 10))
         self.entry_password.pack(anchor="center", padx=8, pady=5)
         self.entry_password.bind("<KeyRelease>", self.on_password_key_release)
 

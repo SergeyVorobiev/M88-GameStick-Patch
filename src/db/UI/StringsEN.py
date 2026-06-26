@@ -34,6 +34,8 @@ class StringsEN:
     FIX_AUDIO_CHECK_BOX_TITLE = "Fix stereo sound"
     SD_PATH_TITLE = "Path to M88 SD Card"
     PROXY_HINT_EX = "Ex: "
+    NAME_HINT_TEXT = "Name"
+    PASSWORD_HINT_TEXT = "Password"
     SD_CARD_BUTTON_TITLE = "SD Card..."
     SAVE_DB_BUTTON_TITLE = "Save DB"
     RELOAD_BUTTON_TITLE = "Download from Web"

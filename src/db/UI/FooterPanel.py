@@ -37,6 +37,6 @@ class FooterPanel:
         if new_version is None:
             return
         self.version = ClickableLink(self.__parent,
-                                     text=Strings.Current.DOWNLOAD_VERSION_LABEL + new_version["v"],
+                                     text=GlobalUI.version + " (" + Strings.Current.DOWNLOAD_VERSION_LABEL + new_version["v"] + ")",
                                      url=new_version["url"], clickable=True)
         self.version.grid(row=0, column=1, padx=(0, 15), sticky="e")
