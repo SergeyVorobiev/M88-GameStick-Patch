@@ -5,7 +5,7 @@ class EntryHint(tk.Entry):
     def __init__(self, parent, text="", hint_text="", **kwargs):
         super().__init__(parent, **kwargs)
 
-        self.hint_text = hint_text
+        self.hint_text = hint_text + "\t"
         self.hint_color = "gray"
         self.normal_color = "black"
         if text is None or text == "":

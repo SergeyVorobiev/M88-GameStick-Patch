@@ -8,7 +8,7 @@ from src.db.UI.Strings import Strings
 
 class ProxyPopup:
 
-    def __init__(self, parent, width = 500, height = 50, after_destroy=None):
+    def __init__(self, parent, width = 490, height = 120, after_destroy=None):
 
         self.top = tk.Toplevel(parent)
         self.top.title(Strings.Current.PROXY_TITLE)
@@ -28,10 +28,10 @@ class ProxyPopup:
         frame = ttk.Frame(self.top)
         frame.pack(expand=True)
         self.entry_path = EntryHint(frame, text=GlobalUI.proxy, hint_text=Strings.Current.PROXY_HINT_EX + GlobalUI.proxy_example, width=80, font=("Segoe UI", 10))
-        self.entry_path.pack(anchor="center", padx=8)
+        self.entry_path.pack(anchor="center", padx=8, pady=5)
         self.entry_path.bind("<KeyRelease>", self.on_key_release)
+
         frame2 = ttk.Frame(self.top)
-        frame2.pack()
         self.text_label = tk.Text(frame2,
                                   font=("Consolas", 8),
                                   bg="#f0f0f0",
@@ -41,7 +41,18 @@ class ProxyPopup:
         self.text_label.insert("1.0", GlobalUI.proxy_example)
         self.text_label.config(state="disabled")
         self.text_label.pack(padx=(6, 0), pady=(5, 0))
+        frame2.pack()
+
+        self.entry_name = EntryHint(frame, text=GlobalUI.proxy_name, hint_text="Name", width=80, font=("Segoe UI", 10))
+        self.entry_name.pack(anchor="center", padx=8, pady=5)
+        self.entry_name.bind("<KeyRelease>", self.on_name_key_release)
+
+        self.entry_password = EntryHint(frame, text=GlobalUI.proxy_password, hint_text="Password", width=80, font=("Segoe UI", 10))
+        self.entry_password.pack(anchor="center", padx=8, pady=5)
+        self.entry_password.bind("<KeyRelease>", self.on_password_key_release)
+
         self.top.bind("<Button-1>", self._close_on_outside_click)
+        self.top.bind("<Button-3>", self._close_on_outside_click)
 
     def center_window(self, parent):
         self.top.update_idletasks()
@@ -62,6 +73,14 @@ class ProxyPopup:
     # noinspection PyUnusedLocal
     def on_key_release(self, event):
         GlobalUI.proxy = self.entry_path.get()
+
+    # noinspection PyUnusedLocal
+    def on_name_key_release(self, event):
+        GlobalUI.proxy_name = self.entry_name.get()
+
+    # noinspection PyUnusedLocal
+    def on_password_key_release(self, event):
+        GlobalUI.proxy_password = self.entry_password.get()
 
 
 

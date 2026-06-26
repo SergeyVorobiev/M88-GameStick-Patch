@@ -32,11 +32,12 @@ class FolderChooser:
         def choose_folder():
             folder_path = filedialog.askdirectory(
                 title=Strings.Current.SD_PATH_TITLE,
-                initialdir="/"
+                initialdir=GlobalUI.initial_dir
             )
 
             if folder_path:
                 self.__path = folder_path
+                GlobalUI.initial_dir = folder_path
                 label = Strings.Current.DB_FOLDER_ICON + "  " + folder_path + "/" + GlobalUI.db_name
                 FolderChooser.set_text(entry_path, label)
 

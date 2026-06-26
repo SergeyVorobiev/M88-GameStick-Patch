@@ -469,7 +469,7 @@ class Handlers:
         def task():
             loading = None
             try:
-                lib_retro_arts = LibRetroArts(GlobalUI.proxy)
+                lib_retro_arts = LibRetroArts(GlobalUI.proxy, GlobalUI.proxy_name, GlobalUI.proxy_password)
                 loading = LoadingWindow(GlobalUI.root, lib_retro_arts.url)
                 GlobalUI.set_art_boxes(platform, lib_retro_arts.get_file_names(PlatformsMeta.art_map[platform]))
             finally:
@@ -489,7 +489,7 @@ class Handlers:
         def task():
             loading = None
             try:
-                lib_retro_arts = LibRetroArts(GlobalUI.proxy)
+                lib_retro_arts = LibRetroArts(GlobalUI.proxy, GlobalUI.proxy_name, GlobalUI.proxy_password)
                 loading = LoadingWindow(GlobalUI.root, lib_retro_arts.url)
                 GlobalUI.image_preview.loaded_image_buffer = lib_retro_arts.download_image(PlatformsMeta.art_map[platform], name)
             finally:

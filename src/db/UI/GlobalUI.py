@@ -10,7 +10,9 @@ class GlobalUI:
     app_height = 900
     proxy_example = 'socks5://192.168.8.105:1080'
     proxy = ''
-    version = "v1.75"
+    proxy_name = ''
+    proxy_password = ''
+    version = "v1.8"
     fw_version = "v2.2"
     firmware_folder = "M88FW"
     app_name = "M88GDBTool"
@@ -31,6 +33,7 @@ class GlobalUI:
     m88_image = base_path / "Res" / "M88.png" #'src/db/UI/Res/M88.png'
     image_extension = '.png'
     config_extension = ".xml"
+    initial_dir = "/"
     folder_path = ""
     roms_folder_path = ""
     games_table = None

@@ -1,4 +1,5 @@
 from io import BytesIO
+from urllib import parse
 
 import requests
 from bs4 import BeautifulSoup
@@ -6,11 +7,11 @@ from bs4 import BeautifulSoup
 
 class LibRetroArts:
 
-    def __init__(self, proxy=None):
+    def __init__(self, proxy=None, name=None, password=None):
         self.url = "https://thumbnails.libretro.com/"
         self.box_arts = "/Named_Boxarts/"
         self.proxies = None
-        self.set_proxy(proxy)
+        self.set_proxy(proxy, name, password)
         self.chunk_size = 8192
 
     def download_image_and_safe(self, platform, game_name, path):
@@ -19,7 +20,8 @@ class LibRetroArts:
             f.write(buffer.getvalue())
         return True
 
-    def set_proxy(self, proxy_string):
+    def set_proxy(self, proxy_string, name = None, password = None):
+        proxy_string = LibRetroArts.form_proxy_string(proxy_string, name, password)
         if proxy_string is not None and proxy_string.__len__() > 0:
             self.proxies = {
                 'http': proxy_string,
@@ -27,6 +29,21 @@ class LibRetroArts:
             }
         else:
             self.proxies = None
+
+    @staticmethod
+    def form_proxy_string(proxy_string, name = None, password = None):
+        if name is None or name.__len__() == 0:
+            return proxy_string
+        if proxy_string is None or proxy_string.__len__() == 0:
+            return None
+        parts = proxy_string.split('//')
+        if len(parts) != 2:
+            return proxy_string
+
+        if password is None:
+            password = ""
+        encoded_pass = parse.quote(password)
+        return f"{parts[0]}//{name}:{encoded_pass}@{parts[1]}"
 
     def download_image(self, platform, game_name):
         buffer = BytesIO()
