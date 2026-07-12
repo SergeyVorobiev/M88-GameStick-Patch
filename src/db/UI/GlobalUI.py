@@ -8,11 +8,12 @@ from src.db import PlatformsMeta
 class GlobalUI:
     app_width = 1600
     app_height = 900
-    proxy_example = 'socks5://192.168.8.105:1080'
-    proxy = ''
+    proxy_example = '192.168.8.105:1080'
+    proxy_type = "socks5"
+    proxy_address = ''
     proxy_name = ''
     proxy_password = ''
-    version = "v1.8"
+    version = "v1.85"
     fw_version = "v2.2"
     firmware_folder = "M88FW"
     app_name = "M88GDBTool"
@@ -21,7 +22,7 @@ class GlobalUI:
     db_name = "cachegames.db"
     github_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch"
     repo_latest_url = "https://api.github.com/repos/SergeyVorobiev/M88-GameStick-Patch/releases/latest"
-    m88fw_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88FW.7z"
+    m88fw_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88FW.7z"
     if getattr(sys, 'frozen', False):
 
         # noinspection PyUnresolvedReferences,PyProtectedMember
@@ -55,6 +56,13 @@ class GlobalUI:
     selected_rows = {} # uuid: [in_db, fav, his]
     db_data = {} # file_name: [image_path, ui_name, fav, his, gnum]
     art_boxes = {}
+
+    @staticmethod
+    def get_proxy():
+        proxy = ''
+        if GlobalUI.proxy_address is not None and GlobalUI.proxy_address.__len__() > 0:
+            proxy = GlobalUI.proxy_type + "://" + GlobalUI.proxy_address
+        return proxy
 
     @staticmethod
     def get_art_boxes(platform):

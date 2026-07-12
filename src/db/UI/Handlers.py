@@ -359,7 +359,7 @@ class Handlers:
             folder_path = Path(folder_path + os.sep + GlobalUI.game_folder_name)
             root = Path(GlobalUI.roms_folder_path)
             if root == folder_path:
-                print("Wrong, the folder must not be root")
+                Popup(GlobalUI.root, Strings.Current.CLEAN_ERROR_TEXT, height=120, top_pad_y=15)
                 return
             else:
                 print(folder_path)
@@ -386,7 +386,7 @@ class Handlers:
             folder_path_2 = Path(folder_path + os.sep + GlobalUI.game_folder_name)
             root = Path(GlobalUI.roms_folder_path)
             if root == folder_path_2:
-                print("Wrong, the folder must not be root")
+                Popup(GlobalUI.root, Strings.Current.CLEAN_ERROR_TEXT, height=120, top_pad_y=15)
                 return
             def task():
                 loading = None
@@ -469,7 +469,7 @@ class Handlers:
         def task():
             loading = None
             try:
-                lib_retro_arts = LibRetroArts(GlobalUI.proxy, GlobalUI.proxy_name, GlobalUI.proxy_password)
+                lib_retro_arts = LibRetroArts(GlobalUI.get_proxy(), GlobalUI.proxy_name, GlobalUI.proxy_password)
                 loading = LoadingWindow(GlobalUI.root, lib_retro_arts.url)
                 GlobalUI.set_art_boxes(platform, lib_retro_arts.get_file_names(PlatformsMeta.art_map[platform]))
             finally:
@@ -489,7 +489,7 @@ class Handlers:
         def task():
             loading = None
             try:
-                lib_retro_arts = LibRetroArts(GlobalUI.proxy, GlobalUI.proxy_name, GlobalUI.proxy_password)
+                lib_retro_arts = LibRetroArts(GlobalUI.get_proxy(), GlobalUI.proxy_name, GlobalUI.proxy_password)
                 loading = LoadingWindow(GlobalUI.root, lib_retro_arts.url)
                 GlobalUI.image_preview.loaded_image_buffer = lib_retro_arts.download_image(PlatformsMeta.art_map[platform], name)
             finally:

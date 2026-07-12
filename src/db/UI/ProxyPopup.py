@@ -8,7 +8,7 @@ from src.db.UI.Strings import Strings
 
 class ProxyPopup:
 
-    def __init__(self, parent, width = 490, height = 120, after_destroy=None):
+    def __init__(self, parent, width = 490, height = 150, after_destroy=None):
 
         self.top = tk.Toplevel(parent)
         self.top.title(Strings.Current.PROXY_TITLE)
@@ -27,7 +27,19 @@ class ProxyPopup:
         self.top.protocol("WM_DELETE_WINDOW", self.cancel)
         frame = ttk.Frame(self.top)
         frame.pack(expand=True)
-        self.entry_path = EntryHint(frame, text=GlobalUI.proxy, hint_text=Strings.Current.PROXY_HINT_EX + GlobalUI.proxy_example, width=80, font=("Segoe UI", 10))
+
+        selected_var = tk.StringVar()
+        options = ["http", "https", "socks4", GlobalUI.proxy_type]
+        combo = ttk.Combobox(frame, values=options, state="readonly", textvariable=selected_var)
+        combo.set(GlobalUI.proxy_type)
+
+        def on_select(event=None):
+            GlobalUI.proxy_type = selected_var.get()
+
+        combo.bind("<<ComboboxSelected>>", on_select)
+        combo.pack(anchor="w", padx=8, pady=5)
+
+        self.entry_path = EntryHint(frame, text=GlobalUI.proxy_address, hint_text=Strings.Current.PROXY_HINT_EX + GlobalUI.proxy_example, width=80, font=("Segoe UI", 10))
         self.entry_path.pack(anchor="center", padx=8, pady=5)
         self.entry_path.bind("<KeyRelease>", self.on_key_release)
 
@@ -72,7 +84,7 @@ class ProxyPopup:
 
     # noinspection PyUnusedLocal
     def on_key_release(self, event):
-        GlobalUI.proxy = self.entry_path.get()
+        GlobalUI.proxy_address = self.entry_path.get()
 
     # noinspection PyUnusedLocal
     def on_name_key_release(self, event):

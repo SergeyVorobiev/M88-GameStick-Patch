@@ -89,6 +89,7 @@ class StringsEN:
     CLEAN_GAME_FOLDERS_TEXT_PART_2 = "This operation can not be undone. Please cancel this dialog if you are not sure what you are doing.\n\n"
     CLEAN_GAME_FOLDERS_TEXT_PART_3 = "Always make a backup before moving / deleting files. Proceed?"
     CLEAN_IMAGE_FOLDERS_TEXT_1 = "This procedure will move all not used or empty image (.png) files from {%s1} to the specified folder, but already existing ones will just be deleted.\n\nThis operation can not be undone.\n\n"
+    CLEAN_ERROR_TEXT = "The root folder can not be used, please choose another one."
     CLEAN_IMAGE_FOLDERS_TEXT_2 = "Always make a backup before moving / deleting files. Proceed?"
     ON_ERASE_MESSAGE = "You are about to erase {%s1} \n\n for '{%s2}' {%s3}. \n\n This operation can not be undone, are you sure?"
     SYNCHRONIZE_TEXT_PART_A = " and the picture file with name '{%s1}'"
