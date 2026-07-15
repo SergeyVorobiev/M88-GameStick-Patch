@@ -2,7 +2,7 @@
 
 ![M88](resources/images/M88.webp)
 
-## Customization of [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) (MT6768) M88 Game Stick
+## Customization of [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) (MT6768) / [Helio G88](https://nanoreview.net/en/soc/mediatek-helio-g88) (MT8786) M88 Game Stick
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -42,7 +42,7 @@ It has no cooling and may overheat quickly in 3D games.
 
 Hardware:
 
-1. [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) chipset (12x11mm).
+1. [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) / [Helio G88](https://nanoreview.net/en/soc/mediatek-helio-g88) chipset (12x11mm).
 2. [eMMC 5.1 8GB](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar (13x11mm).
 3. [DDR4 16Gb d / 2GB](https://semiconductor.samsung.com/dram/lpddr/lpddr4/k4f6e3s4hm-ghcl/) or similar (15x10mm).
 
@@ -91,8 +91,7 @@ SD Card:
 40. font.fts          - Font for main application.
 ```
 
-The manufacturer claims PS2 emulation, but with P65 chipset + only 2GB memory chip on board it's basically unplayable. 
-AetherSX2 / NetherSX2 officially recommend 3-6 GB, for that reason no PS2 patch / update is included.
+The manufacturer claims PS2 emulation, but with P65 chipset + only 2GB RAM + lack of cooling it's basically unplayable.
 
 This guide shows how to upgrade M88 firmware which allows:
 
@@ -261,12 +260,12 @@ If nothing works, feel free to [contact me](#Contact).
 
 ## Firmware Upgrade
 
-Steps bellow are intended for sticks based on MediaTek Helio P65 chipset. If you have different processor model your steps will be similar,
+Steps bellow are intended for sticks based on MediaTek Helio P65 / G88 chipset. If you have different processor model your steps will be similar,
 but drivers and tools must be replaced to suit your chip.
 
 > [!NOTE]  
-> If your processor is not Helio P65, neither patched image nor patched files from the scripts are appropriate
-> as they have updated parts related only to mt6768. Use information below only for your own experiments.
+> If your processor is not Helio P65 / G88, neither patched image nor patched files from the scripts are appropriate
+> as they have updated parts related only to mt6768 / mt8786. Use information below only for your own experiments.
 
 The stick supports only **BROM mode** (Boot ROM mode is a low-level mode that allows reading/writing the eMMC flash).
 
@@ -1149,28 +1148,3 @@ SuperTool.pack_super_m88(product_a_path="img/original/extracted/super/product_a.
 #### Questions about M88 settings / firmware upgrade? Feel free to ask.
  
 📬 **Email**: *fxeipi@gmail.com*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
