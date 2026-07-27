@@ -71,11 +71,13 @@ class Pipeline:
         print(f"Done")
 
     @staticmethod
-    def inject_system_into_user():
-        offset = SuperTool.get_partition_offset("img/original/extracted/45.super.img", "system_a")
-        OtherTool.inject("img/updated/system_a.img", "img/updated/45.super.img", offset)
-        offset = MainSystemTool.find_offset(Pipeline.FINAL_USER_IMG_PATH, "45.super.img")
-        OtherTool.inject("img/updated/45.super.img", Pipeline.FINAL_USER_IMG_PATH, offset)
+    def inject_system_into_user(system_path="img/updated/system_a.img", super_path="img/updated/45.super.img", user_path=None):
+        if user_path is None:
+            user_path = Pipeline.FINAL_USER_IMG_PATH
+        offset = SuperTool.get_partition_offset(super_path, "system_a")
+        OtherTool.inject(system_path, super_path, offset)
+        offset = MainSystemTool.find_offset(user_path, "45.super.img")
+        OtherTool.inject(super_path, user_path, offset)
 
     @staticmethod
     def compile_and_sign_retro_arch_32(apk_tool_path=None, apk_signer_path=None, updated_folder_path='img/updated/d_apk/retroarch32', updated_apk_path='img/updated/apk/RetroArch_ra32.apk', keystore=None, printc=None, java=None):
@@ -142,10 +144,27 @@ class Pipeline:
         apk_tool.decompile_into('img/original/d_apk/retroarch64', 'img/original/apk/RetroArch_aarch64.apk')
 
     @staticmethod
+    def decompile_original_app(app_name):
+        apk_tool = APKTool()
+        folder_path = f"img/original/d_apk/{app_name}"
+        OtherTool.del_folder(folder_path)
+        apk_tool.decompile_into(folder_path, f'img/original/apk/{app_name}.apk')
+
+    @staticmethod
+    def compile_and_sign_original_app(app_name):
+        apk_tool = APKTool()
+        apk_tool.compile_and_sign(f'img/original/d_apk/{app_name}', f'img/updated/apk/{app_name}.apk')
+
+    @staticmethod
     def remove_retro_arch_32(updated_system_path="img/updated/system_a.img", debugfs=None, printc=None):
         modify_tool = Ext4ModifyTool(updated_system_path)
         modify_tool.remove_file("system/priv-app/RetroArch_ra32/RetroArch_ra32.apk", debugfs=debugfs, printc=printc)
         modify_tool.remove_file('system/priv-app/RetroArch_ra32', is_file=False, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def sign_original_app(app_name):
+        apk_tool = APKTool()
+        apk_tool.sign(f'img/original/apk/{app_name}.apk')
 
     @staticmethod
     def remove_retro_arch_64():
@@ -159,10 +178,107 @@ class Pipeline:
         modify_tool.add_file(updated_apk_path, 'system/priv-app/RetroArch_ra32/RetroArch_ra32.apk', printc=printc)
 
     @staticmethod
-    def add_retro_arch_64():
-        modify_tool = Ext4ModifyTool("img/updated/system_a.img")
-        modify_tool.add_file('img/updated/apk/RetroArch_aarch64.apk',
-                             'system/priv-app/RetroArch_aarch64/RetroArch_aarch64.apk')
+    def add_cpuz(updated_system_path="img/updated/system_a.img", updated_apk_path='img/original/apk/cpuz.apk',
+                 debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/preinstall/manual/cpuz.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        # modify_tool.remove_file("system/priv-app/cpuz", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def add_aida(updated_system_path="img/updated/system_a.img", updated_apk_path='img/original/apk/aida.apk',
+                 debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/preinstall/manual/aida.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        # modify_tool.remove_file("system/priv-app/aida", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def add_dolphin(updated_system_path="img/updated/system_a.img", updated_apk_path='img/original/apk/dolphin.apk',
+                    debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/preinstall/manual/dolphin.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def add_commander(updated_system_path="img/updated/system_a.img",
+                      updated_apk_path='img/original/apk/totalcommander.apk',
+                      debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/priv-app/totalcommander/totalcommander.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        modify_tool.remove_file("system/priv-app/totalcommander", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def add_nether(updated_system_path="img/updated/system_a.img",
+                   updated_apk_path='img/original/apk/NetherSX2.apk',
+                   debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/priv-app/NetherSX2/NetherSX2.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        modify_tool.remove_file("system/priv-app/NetherSX2", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def add_citra(updated_system_path="img/updated/system_a.img",
+                  updated_apk_path='img/original/apk/citra.apk',
+                  debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/preinstall/manual/citra.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def add_retro_arch_64(updated_system_path="img/updated/system_a.img",
+                          updated_apk_path='img/original/apk/retroarch64.apk',
+                          debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/preinstall/manual/retroarch64.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+        # modify_tool.add_file('img/updated/apk/RetroArch_aarch64.apk',
+        #                     'system/priv-app/RetroArch_aarch64/RetroArch_aarch64.apk')
+
+    @staticmethod
+    def add_logcat(updated_system_path="img/updated/system_a.img",
+                   updated_apk_path='img/original/apk/logc.apk',
+                   debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/app/logc/logc.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        modify_tool.remove_file("system/app/logc", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def add_applauncher(updated_system_path="img/updated/system_a.img",
+                        updated_apk_path='img/original/apk/applauncher.apk',
+                        debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        install_path = "system/priv-app/applauncher/applauncher.apk"
+        modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
+        modify_tool.remove_file("system/priv-app/applauncher", debugfs=debugfs, printc=printc)
+        modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def patch_keyboard(updated_system_path="img/updated/system_a.img", replace_keychars_path="replace/keychars",
+                       debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+
+        # file_name = "system/usr/keylayout/Vendor_0810_Product_0001.kl"
+        # modify_tool.remove_file(file_name, debugfs=debugfs,
+        #                        printc=printc)
+        # modify_tool.add_file(replace_keychars_path + "/Vendor_0810_Product_0001.kl",
+        #                     file_name, True, True, debugfs, printc)
+
+        file_name = "system/usr/keychars/Vendor_0810_Product_0001.kcm"
+        modify_tool.remove_file(file_name, debugfs=debugfs,
+                                printc=printc)
+        modify_tool.add_file(replace_keychars_path + "/Vendor_0810_Product_0001.kcm",
+                             file_name, True, True, debugfs, printc)
 
     @staticmethod
     def patch_privileges(updated_system_path="img/updated/system_a.img", replace_system_path="replace/system", debugfs=None, printc=None):
@@ -378,6 +494,18 @@ class Pipeline:
         Pipeline.replace_emu(updated_system_path, updated_apk_emu_path, debugfs, printc)
 
     @staticmethod
+    def replace_lib_engine_ra_strings(path):
+        original = b"com.emu/.browser.retroactivity.RetroActivityFuture"
+        updated = b"com.ret/.browser.retroactivity.RetroActivityFuture"
+        with open(path, "rb") as f:
+            data = f.read()
+
+        new_data = data.replace(original, updated)
+
+        with open(path, "wb") as f:
+            f.write(new_data)
+
+    @staticmethod
     def patch_n64(updated_apk_n64_path='img/updated/apk/n64.apk',
                   updated_d_apk_n64_path='img/updated/d_apk/n64',
                   replace_n64_path="replace/n64",
@@ -416,6 +544,14 @@ class Pipeline:
         modify_tool.remove_file("etc/audio_device.xml", debugfs=debugfs, printc=printc)
         modify_tool.add_file(replace_audio_path + "/vendor/audio_device.xml",
                              "etc/audio_device.xml", debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def replace_build_prop(updated_system_path="img/updated/system_a.img", replace_path="replace/system", debugfs=None, printc=None):
+        system_file = "system/build.prop"
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        modify_tool.remove_file(system_file, debugfs=debugfs, printc=printc)
+        modify_tool.add_file(replace_path + "/build.prop",
+                             system_file, debugfs=debugfs, printc=printc)
 
     @staticmethod
     def replace_yaba():
@@ -563,6 +699,17 @@ class Pipeline:
                 Pipeline.repack_retro_arch_32()
             Pipeline.repack_emu()
             Pipeline.repack_n64()
+
+            Pipeline.add_applauncher()
+            Pipeline.add_commander()
+
+            Pipeline.add_aida()
+            Pipeline.add_cpuz()
+            Pipeline.add_citra()
+            Pipeline.add_dolphin()
+            #Pipeline.add_retro_arch_64()
+            Pipeline.patch_keyboard()
+
             Pipeline.unpack_vendor()
             OtherTool.copy_file("img/original/extracted/super/vendor_a.img", "img/updated/vendor_a.img")
             if fix_audio:
