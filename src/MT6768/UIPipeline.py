@@ -1,6 +1,6 @@
-import os
 from pathlib import Path
 
+from src.Global import Global
 from src.MT6768.Pipeline import Pipeline
 from src.OtherTool import OtherTool
 from src.SuperTool import SuperTool
@@ -66,17 +66,7 @@ class UIPipeline:
         self.resize2fs = self.root_path_exec + "/resize2fs.exe"
         self.magiskboot = self.root_path_exec + "/magiskboot.exe"
         self.lpmake = self.root_path_exec + "/lpmake.exe"
-        self.java = self.root_path_exec + "/jdk17/bin/java"
-        os.environ["JAVA_HOME"] = str(Path(self.root_path_exec + "/jdk17").absolute())
-        UIPipeline.set_environment_jdk()
-
-    @staticmethod
-    def set_environment_jdk():
-        jre = str(Path(GlobalUI.firmware_folder + "exec/jdk17/bin").absolute())
-        current_path = os.environ.get("PATH", "")
-        if not current_path.startswith(jre):
-            new_path = jre + os.pathsep + current_path
-            os.environ["PATH"] = new_path
+        Global.set_environment_jdk(self.root_path_exec + "/jdk17")
 
     def start(self):
         done = False
@@ -100,8 +90,7 @@ class UIPipeline:
                                               str(Path(self.apk_signer_path).absolute()),
                                               self.debugfs,
                                               self.keystore,
-                                              self.printc,
-                                              self.java)
+                                              self.printc)
 
             Pipeline.repack_emu(self.original_extracted,
                                 self.original_emu_apk_path,
@@ -114,8 +103,7 @@ class UIPipeline:
                                 str(Path(self.apk_signer_path).absolute()),
                                 self.keystore,
                                 self.debugfs,
-                                self.printc,
-                                self.java)
+                                self.printc)
 
             Pipeline.repack_n64(self.original_extracted,
                                 self.original_n64_apk_path,
@@ -128,8 +116,7 @@ class UIPipeline:
                                 str(Path(self.apk_signer_path).absolute()),
                                 self.keystore,
                                 self.debugfs,
-                                self.printc,
-                                self.java)
+                                self.printc)
 
             Pipeline.unpack_vendor(self.original_vendor_path, self.original_vendor_folder, self.debugfs, self.printc)
             OtherTool.copy_file(self.original_vendor_path, self.updated_vendor_path, printc=self.printc)

@@ -220,3 +220,4 @@ __marimo__/
 !/src/res/*.gitkeep
 /src/img/result/*
 !/src/img/result/.gitkeep
+/src/exec/jdk17/

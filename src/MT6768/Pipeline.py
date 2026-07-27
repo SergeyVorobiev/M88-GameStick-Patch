@@ -304,11 +304,13 @@ class Pipeline:
         OtherTool.copy_folder(original_boot_folder_path, updated_boot_folder_path, printc)
         fstab1_path = updated_boot_folder_path + "/ramdisk/first_stage_ramdisk/fstab.mt6768"
         fstab2_path = updated_boot_folder_path + "/ramdisk/first_stage_ramdisk/fstab.mt8786"
+        prop_default_path = updated_boot_folder_path + "/ramdisk/prop.default"
         OtherTool.del_file(fstab1_path, printc)
         OtherTool.del_file(fstab2_path, printc)
+        OtherTool.del_file(prop_default_path, printc)
         OtherTool.copy_file(replace_boot + "/fstab.mt6768", fstab1_path, printc=printc)
         OtherTool.copy_file(replace_boot + "/fstab.mt8786", fstab2_path, printc=printc)
-
+        OtherTool.copy_file(replace_boot + "/prop.default", prop_default_path, printc=printc)
     # deprecated
     @staticmethod
     def modify_system_build_prop():

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 
 class Global:
@@ -51,3 +52,14 @@ class Global:
     keystore = os.path.join(signer_folder_path, "my.keystore")
     magiskboot = os.path.join(exec_folder_name, 'magiskboot.exe')
     abe = os.path.join(exec_folder_name, "abe.jar")
+    java = "java"
+
+    @staticmethod
+    def set_environment_jdk(jdk_folder_path):
+        Global.java = jdk_folder_path + "/bin/java"
+        os.environ["JAVA_HOME"] = str(Path(jdk_folder_path).absolute())
+        jre = str(Path(jdk_folder_path + "/bin").absolute())
+        current_path = os.environ.get("PATH", "")
+        if not current_path.startswith(jre):
+            new_path = jre + os.pathsep + current_path
+            os.environ["PATH"] = new_path

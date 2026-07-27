@@ -9,7 +9,7 @@ class APKTool:
 
     def __init__(self, apk_tool_path=None, apk_signer_path=None, java=None):
         if java is None:
-            self.java = "java"
+            self.java = Global.java
         else:
             self.java = java
         if apk_tool_path is None:
@@ -28,6 +28,14 @@ class APKTool:
     def compile(self, folder_path, apk_path, printc=None):
         cmd = [self.java, "-jar", self.apk_tool_path, "b", folder_path, "-o", apk_path]
         CMD.run(cmd, printc=printc)
+
+    def verify_signature(self, apk_path, printc=None):
+        cmd = [self.apk_signer_path, "verify", "--verbose", "--print-certs", apk_path]
+        CMD.run(cmd, printc=printc)
+
+    def print_frameworks(self):
+        cmd = [self.java, "-jar", self.apk_tool_path, "list-frameworks"]
+        CMD.run(cmd, printc=None)
 
     def sign(self, apk_path, keystore=None, alias="myalias", password=None, printc=None):
         if keystore is None:

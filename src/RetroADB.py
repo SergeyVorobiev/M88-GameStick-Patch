@@ -52,7 +52,7 @@ class RetroADB:
             archive_path = "temp/retroarch32.ab"
         if result_path is None:
             result_path = "temp/retro32.tar"
-        CMD.run(["java", "-jar", Global.abe, "unpack", archive_path, result_path])
+        CMD.run([Global.java, "-jar", Global.abe, "unpack", archive_path, result_path])
 
     @staticmethod
     def install_retro_arch_32():
