@@ -700,15 +700,15 @@ class Pipeline:
             Pipeline.repack_emu()
             Pipeline.repack_n64()
 
-            Pipeline.add_applauncher()
-            Pipeline.add_commander()
+            #Pipeline.add_applauncher()
+            #Pipeline.add_commander()
 
-            Pipeline.add_aida()
-            Pipeline.add_cpuz()
-            Pipeline.add_citra()
-            Pipeline.add_dolphin()
+            #Pipeline.add_aida()
+            #Pipeline.add_cpuz()
+            #Pipeline.add_citra()
+            #Pipeline.add_dolphin()
             #Pipeline.add_retro_arch_64()
-            Pipeline.patch_keyboard()
+            #Pipeline.patch_keyboard()
 
             Pipeline.unpack_vendor()
             OtherTool.copy_file("img/original/extracted/super/vendor_a.img", "img/updated/vendor_a.img")

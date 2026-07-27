@@ -1149,39 +1149,39 @@
     new-instance v0, Landroid/content/Intent;
     invoke-direct {v0}, Landroid/content/Intent;-><init>()V
 
-    const-string v1, "com.retroarch.ra32"
-    const-string v2, "com.retroarch.browser.retroactivity.RetroActivityFuture"
+    const-string v1, "com.vsv.applauncher"
+    const-string v2, "com.vsv.applauncher.MainActivity"
 
     invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->setClassName(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
-    const-string v1, "ROM"
-    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getRomString()Ljava/lang/String;
-    move-result-object v2
-    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+    #const-string v1, "ROM"
+    #invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getRomString()Ljava/lang/String;
+    #move-result-object v2
+    #invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
-    const-string v1, "LIBRETRO"
-    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getLibRetroString()Ljava/lang/String;
-    move-result-object v2
-    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+    #const-string v1, "LIBRETRO"
+    #invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getLibRetroString()Ljava/lang/String;
+    #move-result-object v2
+    #invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
-    const-string v1, "LIBRETRO_SD"
-    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getLibRetroSDString()Ljava/lang/String;
-    move-result-object v2
-    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+    #const-string v1, "LIBRETRO_SD"
+    #invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getLibRetroSDString()Ljava/lang/String;
+    #move-result-object v2
+    #invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
-    const-string v1, "CONFIGFILE"
-    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getConfigString()Ljava/lang/String;
-    move-result-object v2
-    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+    #const-string v1, "CONFIGFILE"
+    #invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getConfigString()Ljava/lang/String;
+    #move-result-object v2
+    #invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
-    const-string v1, "SDCARD"
-    const-string v2, "/sdcard"
-    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+    #const-string v1, "SDCARD"
+    #const-string v2, "/sdcard"
+    #invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
-    const-string v1, "EXTERNAL"
-    invoke-static {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getTfCardPath(Landroid/content/Context;)Ljava/lang/String;
-    move-result-object v2
-    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+    #const-string v1, "EXTERNAL"
+    #invoke-static {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getTfCardPath(Landroid/content/Context;)Ljava/lang/String;
+    #move-result-object v2
+    #invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
     const/high16 v1, 0x10000000
     invoke-virtual {v0, v1}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;

@@ -23,9 +23,11 @@ if __name__ == '__main__':
     # folder and put the folder M88FW/exec/jdk17 into this project - src/exec/jdk17
     # By using your own jdk and tools you can break the build and the firmware
     # Comment this line if you want to use your own jdk:
+    # Be very careful when you copy something from shitty windows editors (aka notepad) and paste it in config files (your lines ending should be LF not CRLF)
+    # either you risk to catch a bootloop
     Global.set_environment_jdk("exec/jdk17")
 
     # Keep in mind that if you have installed some frameworks in apktool it can also affect please clean them all
     # Check installed frameworks by this command:
     # APKTool().print_frameworks()
-    Pipeline.repack_user(fix_audio, False)
+    Pipeline.repack_user(fix_audio, True)
