@@ -22,6 +22,14 @@ class UIPipeline:
         self.updated_apk_path = self.updated_path + "/apk"
         self.updated_d_apk_path = self.updated_path + "/d_apk"
         self.replace_path = self.root_path + "/replace"
+        self.aida = self.replace_path + "/aida.apk"
+        self.applauncher = self.replace_path + "/applauncher.apk"
+        self.citra = self.replace_path + "/citra.apk"
+        self.cpuz = self.replace_path + "/cpuz.apk"
+        self.dolphin = self.replace_path + "/dolphin.apk"
+        self.NetherSX2 = self.replace_path + "/NetherSX2.apk"
+        self.retroarch64 = self.replace_path + "/retroarch64.apk"
+        self.totalcommander = self.replace_path + "/totalcommander.apk"
         self.original_user_path = "USER.img"
         self.result_user_path = self.root_path + "/result/USER.img"
         self.printc = printc
@@ -59,7 +67,8 @@ class UIPipeline:
         self.updated_n64_d_apk_path = self.updated_d_apk_path + "/n64"
         self.replace_n64_path = self.replace_path + "/n64"
         self.replace_audio_path = self.replace_path + "/audio"
-
+        self.replace_keychars = self.replace_path + "/keychars"
+        self.retroarch64_config_path = self.replace_path + "/retro64/retroarch.cfg"
         self.lpunpack = self.root_path_exec + "/lpunpack.exe"
         self.debugfs = self.root_path_exec + "/debugfs.exe"
         self.truncate = self.root_path_exec + "/truncate.exe"
@@ -77,12 +86,12 @@ class UIPipeline:
             Pipeline.unpack_system(self.original_system_path, self.original_system_folder, self.debugfs, self.printc)
 
             OtherTool.copy_file(self.original_system_path, self.updated_system_path, True, self.printc)
+            Pipeline.patch_privileges(self.updated_system_path, self.replace_system_path, self.debugfs, self.printc)
             if not Pipeline.is_retro_arch_exists(self.original_system_path, self.debugfs, self.printc):
                 Pipeline.resize_system_img("+500M", self.updated_system_path, self.truncate, self.resize2fs, self.printc)
                 Pipeline.repack_retro_arch_32(self.original_d_apk_retroarch_path,
                                               self.updated_d_apk_retroarch_path,
                                               self.replace_retroarch_path,
-                                              self.replace_system_path,
                                               self.original_apk_retroarch_path,
                                               self.updated_apk_retroarch_path,
                                               self.updated_system_path,
@@ -90,7 +99,8 @@ class UIPipeline:
                                               str(Path(self.apk_signer_path).absolute()),
                                               self.debugfs,
                                               self.keystore,
-                                              self.printc)
+                                              self.printc,
+                                              None)
 
             Pipeline.repack_emu(self.original_extracted,
                                 self.original_emu_apk_path,
@@ -103,7 +113,8 @@ class UIPipeline:
                                 str(Path(self.apk_signer_path).absolute()),
                                 self.keystore,
                                 self.debugfs,
-                                self.printc)
+                                self.printc,
+                                None)
 
             Pipeline.repack_n64(self.original_extracted,
                                 self.original_n64_apk_path,
@@ -116,7 +127,20 @@ class UIPipeline:
                                 str(Path(self.apk_signer_path).absolute()),
                                 self.keystore,
                                 self.debugfs,
-                                self.printc)
+                                self.printc,
+                                None)
+
+            Pipeline.add_applauncher(self.updated_system_path, self.applauncher, self.debugfs, self.printc)
+            Pipeline.add_commander(self.updated_system_path, self.totalcommander, self.debugfs, self.printc)
+            Pipeline.add_aida(self.updated_system_path, self.aida, self.debugfs, self.printc)
+            Pipeline.add_cpuz(self.updated_system_path, self.cpuz, self.debugfs, self.printc)
+            Pipeline.add_citra(self.updated_system_path, self.citra, self.debugfs, self.printc)
+            Pipeline.add_dolphin(self.updated_system_path, self.dolphin, self.debugfs, self.printc)
+            Pipeline.add_nether(self.updated_system_path, self.NetherSX2, self.debugfs, self.printc)
+            Pipeline.add_retro_arch_64(self.updated_system_path, self.retroarch64, self.debugfs, self.printc)
+
+            Pipeline.patch_keyboard(self.updated_system_path, self.replace_keychars, self.debugfs, self.printc)
+            Pipeline.add_retro_arch_config(self.updated_system_path, self.retroarch64_config_path, self.debugfs, self.printc)
 
             Pipeline.unpack_vendor(self.original_vendor_path, self.original_vendor_folder, self.debugfs, self.printc)
             OtherTool.copy_file(self.original_vendor_path, self.updated_vendor_path, printc=self.printc)

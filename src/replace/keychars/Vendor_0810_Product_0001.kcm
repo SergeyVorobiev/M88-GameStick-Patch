@@ -1,18 +1,4 @@
-# Copyright (C) 2020 The Android Open Source Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-type SPECIAL_FUNCTION
+type FULL
 
 key BUTTON_A {
     base:                               fallback DPAD_CENTER
@@ -23,7 +9,7 @@ key BUTTON_B {
 }
 
 key BUTTON_X {
-    base:                               fallback DEL
+    base:                               fallback SEARCH
 }
 
 key BUTTON_Y {
@@ -31,11 +17,11 @@ key BUTTON_Y {
 }
 
 key BUTTON_THUMBL {
-    base:                               fallback T
+    base:                               fallback CTRL_LEFT
 }
 
 key BUTTON_THUMBR {
-    base:                               fallback R
+    base:                               fallback SHIFT_LEFT
 }
 
 key BUTTON_SELECT {
@@ -47,11 +33,11 @@ key BUTTON_START {
 }
 
 key BUTTON_L1 {
-    base:                               fallback PAGE_DOWN
+    base:                               fallback PAGE_UP
 }
 
 key BUTTON_L2 {
-    base:                               fallback PAGE_UP
+    base:                               fallback PAGE_DOWN
 }
 
 key BUTTON_R1 {
@@ -63,12 +49,4 @@ key BUTTON_R2 {
     base:                               't'
     shift, capslock:                    'T'
 
-}
-
-key C {
-    base:                               fallback T
-}
-
-key Z {
-    base:                               fallback R
 }

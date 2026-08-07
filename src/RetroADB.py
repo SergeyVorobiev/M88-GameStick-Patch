@@ -60,20 +60,31 @@ class RetroADB:
 
     @staticmethod
     def install_retro_arch_64():
-        CMD.run(["adb", "install", "img/original/apk/RetroArch_aarch64.apk"])
+        CMD.run(["adb", "install", "img/original/apk/retroarch64.apk"])
 
     @staticmethod
-    def run_retro_arch_from_sdcard(sdcard_id="F164-AC9C"):
+    def install_original_app(app_name):
+        CMD.run(["adb", "install", f"img/original/apk/{app_name}.apk"])
+
+    @staticmethod
+    def install_updated_app(app_name):
+        CMD.run(["adb", "install", f"img/updated/apk/{app_name}.apk"])
+
+    @staticmethod
+    def run_retro_arch_from_sdcard(sdcard_id="A046-6AFE"):
         external_sd = f"/storage/{sdcard_id}"
         rom_path = f"{external_sd}/roms/genesis/Aerobiz.zip"
-        #libretro_path = f"{external_sd}/cores/genesis_plus_gx_libretro_android.so"
-        libretro_path = "/data/user/0/com.retroarch.ra32/cores/genesis_plus_gx_libretro_android.so"
-        config_path = f"{external_sd}/RetroArch/config.cfg"
+        libretro_path = "/data/user/0/com.retroarch.aarch64/cores/genesis_plus_gx_libretro_android.so"
+        config_path = "/storage/emulated/0/Android/data/com.retroarch.aarch64/files/retroarch.cfg"
         CMD.run(["adb", "shell", "am", "start", "--user", "0", "-n",
-                 f"{RetroADB.RETRO32}/com.retroarch.browser.retroactivity.RetroActivityFuture",
+                 f"{RetroADB.RETRO64}/com.retroarch.browser.retroactivity.RetroActivityFuture",
                  "-e", "ROM", rom_path,
                  "-e", "LIBRETRO", libretro_path,
                  "-e", "CONFIGFILE", config_path,
                  "-e", "SDCARD", "/sdcard",
                  "-e", "EXTERNAL", external_sd,
                  "--activity-clear-top"])
+
+if __name__ == '__main__':
+    RetroADB.run_retro_arch_from_sdcard()
+    #RetroADB.install_original_app("Ret64")

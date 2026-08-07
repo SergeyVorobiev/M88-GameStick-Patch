@@ -1448,7 +1448,7 @@
 .end method
 
 .method private launchExternalRetroArch()V
-    .locals 4
+    .locals 5
 
     .prologue
 
@@ -1462,6 +1462,12 @@
     const-string v2, "com.retroarch.ra32"
     const-string v3, "com.retroarch.browser.retroactivity.RetroActivityFuture"
 
+    invoke-direct {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->useRetroArch64()Z
+    move-result v4
+
+    if-eqz v4, :go_next
+    const-string v2, "com.retroarch.aarch64"
+    :go_next
     invoke-virtual {v1, v2, v3}, Landroid/content/Intent;->setClassName(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
     invoke-direct {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->setAbsoluteLibretroPath()V
@@ -1574,7 +1580,7 @@
 .end method
 
 .method private overrideConfigFromExternalIfExists()Z
-    .locals 3
+    .locals 4
 
     .prologue
 
@@ -1604,9 +1610,17 @@
     move-result-object v1
 
     const-string v2, "CONFIGFILE"
-
     invoke-virtual {v1, v2, v0}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
 
+    invoke-direct {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->useRetroArch64()Z
+    move-result v3
+
+    if-eqz v3, :go_next
+    # Set core path for retroarch 64
+    const-string v0, "/storage/emulated/0/Android/data/com.retroarch.aarch64/files/retroarch.cfg"
+    invoke-virtual {v1, v2, v0}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    :go_next
     const/4 v0, 0x1
     return v0
 .end method
@@ -1692,8 +1706,16 @@
     move-result-object v2 # updated core name
 
     const-string v3, "/data/user/0/com.retroarch.ra32/cores/"
+
+    invoke-direct {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->useRetroArch64()Z
+    move-result v4
+
+    if-eqz v4, :go_next
+    const-string v3, "/data/user/0/com.retroarch.aarch64/cores/"
+    :go_next
+
     invoke-virtual {v3, v2}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
-    move-result-object v3   # full path to retroarch core
+    move-result-object v3 # full path to retroarch core
 
     invoke-static {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->getTfCardPath(Landroid/content/Context;)Ljava/lang/String;
     move-result-object v4 # sd_card
@@ -1708,6 +1730,63 @@
     invoke-virtual {v0, v1, v3}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
     invoke-virtual {v0, v4, v2}, Landroid/content/Intent;->putExtra(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
     return-void
+.end method
+
+.method private isRetroArch64()Z
+    .locals 3
+
+    .prologue
+
+    invoke-virtual {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->getPackageManager()Landroid/content/pm/PackageManager;
+    move-result-object v0
+
+    :try_start
+    const-string v1, "com.retroarch.aarch64"
+    const/4 v2, 0x0
+    invoke-virtual {v0, v1, v2}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;
+    const/4 v0, 0x1
+    return v0
+    :try_end
+    .catch Ljava/lang/Throwable; {:try_start .. :try_end} :catch_all
+
+    :catch_all
+    const/4 v0, 0x0
+    return v0
+.end method
+
+.method private setRetroArch64()Z
+    .locals 2
+
+    .prologue
+
+    invoke-static {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->getTfCardPath(Landroid/content/Context;)Ljava/lang/String;
+    move-result-object v0 # sd_card
+    const-string v1, "/RetroArch/useRA64"
+    invoke-virtual {v0, v1}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v1 # external_sd/RetroArch/useRA64
+
+    new-instance v0, Ljava/io/File;
+    invoke-direct {v0, v1}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v0}, Ljava/io/File;->exists()Z
+    move-result v0
+    return v0
+
+.end method
+
+.method private useRetroArch64()Z
+    .locals 2
+
+    .prologue
+
+    invoke-direct {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->isRetroArch64()Z
+    move-result v0
+    if-nez v0, :next_check
+    return v0
+
+    :next_check
+    invoke-direct {p0}, Lcom/emu/browser/retroactivity/RetroActivityFuture;->setRetroArch64()Z
+    move-result v0
+    return v0
 .end method
 
 .method public onCreate(Landroid/os/Bundle;)V

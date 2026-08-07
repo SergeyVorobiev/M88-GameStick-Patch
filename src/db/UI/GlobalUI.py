@@ -13,8 +13,8 @@ class GlobalUI:
     proxy_address = ''
     proxy_name = ''
     proxy_password = ''
-    version = "v1.85"
-    fw_version = "v2.2"
+    version = "v1.9"
+    fw_version = "v2.3"
     firmware_folder = "M88FW"
     app_name = "M88GDBTool"
     user_file = "USER.img"

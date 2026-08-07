@@ -10,7 +10,7 @@ packageInfo:
   forcedPackageId: 127
 versionInfo:
   versionCode: 22
-  versionName: 2.2-Dagoth
+  versionName: 2.3-Dagoth
 doNotCompress:
 - arsc
 - png

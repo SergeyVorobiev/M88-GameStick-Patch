@@ -173,9 +173,16 @@ class Pipeline:
         modify_tool.remove_file('system/priv-app/RetroArch_aarch64', is_file=False)
 
     @staticmethod
-    def add_retro_arch_32(updated_system_path="img/updated/system_a.img", updated_apk_path='img/updated/apk/RetroArch_ra32.apk', printc=None):
+    def add_retro_arch_32(updated_system_path="img/updated/system_a.img", updated_apk_path='img/updated/apk/RetroArch_ra32.apk', debugfs=None, printc=None):
         modify_tool = Ext4ModifyTool(updated_system_path)
-        modify_tool.add_file(updated_apk_path, 'system/priv-app/RetroArch_ra32/RetroArch_ra32.apk', printc=printc)
+        modify_tool.add_file(updated_apk_path, 'system/priv-app/RetroArch_ra32/RetroArch_ra32.apk', debugfs=debugfs, printc=printc)
+
+    @staticmethod
+    def add_retro_arch_config(updated_system_path="img/updated/system_a.img", config_path="replace/retro64/retroarch.cfg", debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(updated_system_path)
+        path_to_place = 'system/res/retroarch.cfg'
+        modify_tool.remove_file(path_to_place, debugfs=debugfs, printc=printc)
+        modify_tool.add_file(config_path, path_to_place, True, debugfs=debugfs, printc=printc)
 
     @staticmethod
     def add_cpuz(updated_system_path="img/updated/system_a.img", updated_apk_path='img/original/apk/cpuz.apk',
@@ -218,9 +225,8 @@ class Pipeline:
                    updated_apk_path='img/original/apk/NetherSX2.apk',
                    debugfs=None, printc=None):
         modify_tool = Ext4ModifyTool(updated_system_path)
-        install_path = "system/priv-app/NetherSX2/NetherSX2.apk"
+        install_path = "system/app/AetherSX2/AetherSX2.apk"
         modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
-        modify_tool.remove_file("system/priv-app/NetherSX2", debugfs=debugfs, printc=printc)
         modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
 
     @staticmethod
@@ -240,8 +246,6 @@ class Pipeline:
         install_path = "system/preinstall/manual/retroarch64.apk"
         modify_tool.remove_file(install_path, debugfs=debugfs, printc=printc)
         modify_tool.add_file(updated_apk_path, install_path, debugfs=debugfs, printc=printc)
-        # modify_tool.add_file('img/updated/apk/RetroArch_aarch64.apk',
-        #                     'system/priv-app/RetroArch_aarch64/RetroArch_aarch64.apk')
 
     @staticmethod
     def add_logcat(updated_system_path="img/updated/system_a.img",
@@ -268,17 +272,13 @@ class Pipeline:
                        debugfs=None, printc=None):
         modify_tool = Ext4ModifyTool(updated_system_path)
 
-        # file_name = "system/usr/keylayout/Vendor_0810_Product_0001.kl"
-        # modify_tool.remove_file(file_name, debugfs=debugfs,
-        #                        printc=printc)
-        # modify_tool.add_file(replace_keychars_path + "/Vendor_0810_Product_0001.kl",
-        #                     file_name, True, True, debugfs, printc)
+        file_name = "system/usr/keylayout/Vendor_0810_Product_0001.kl"
+        modify_tool.remove_file(file_name, debugfs=debugfs, printc=printc)
+        modify_tool.add_file(replace_keychars_path + "/Vendor_0810_Product_0001.kl", file_name, True, True, debugfs, printc)
 
         file_name = "system/usr/keychars/Vendor_0810_Product_0001.kcm"
-        modify_tool.remove_file(file_name, debugfs=debugfs,
-                                printc=printc)
-        modify_tool.add_file(replace_keychars_path + "/Vendor_0810_Product_0001.kcm",
-                             file_name, True, True, debugfs, printc)
+        modify_tool.remove_file(file_name, debugfs=debugfs, printc=printc)
+        modify_tool.add_file(replace_keychars_path + "/Vendor_0810_Product_0001.kcm", file_name, True, True, debugfs, printc)
 
     @staticmethod
     def patch_privileges(updated_system_path="img/updated/system_a.img", replace_system_path="replace/system", debugfs=None, printc=None):
@@ -420,13 +420,14 @@ class Pipeline:
         OtherTool.copy_folder(original_boot_folder_path, updated_boot_folder_path, printc)
         fstab1_path = updated_boot_folder_path + "/ramdisk/first_stage_ramdisk/fstab.mt6768"
         fstab2_path = updated_boot_folder_path + "/ramdisk/first_stage_ramdisk/fstab.mt8786"
-        prop_default_path = updated_boot_folder_path + "/ramdisk/prop.default"
+        #prop_default_path = updated_boot_folder_path + "/ramdisk/prop.default"
         OtherTool.del_file(fstab1_path, printc)
         OtherTool.del_file(fstab2_path, printc)
-        OtherTool.del_file(prop_default_path, printc)
+        #OtherTool.del_file(prop_default_path, printc)
         OtherTool.copy_file(replace_boot + "/fstab.mt6768", fstab1_path, printc=printc)
         OtherTool.copy_file(replace_boot + "/fstab.mt8786", fstab2_path, printc=printc)
-        OtherTool.copy_file(replace_boot + "/prop.default", prop_default_path, printc=printc)
+        #OtherTool.copy_file(replace_boot + "/prop.default", prop_default_path, printc=printc)
+
     # deprecated
     @staticmethod
     def modify_system_build_prop():
@@ -460,7 +461,7 @@ class Pipeline:
                             updated_d_apk_path + "/smali/com/retroarch/browser/retroactivity/RetroActivityFuture.smali", printc=printc)
         Pipeline.compile_and_sign_retro_arch_32(apk_tool_path, apk_signer_path, updated_d_apk_path, updated_apk_path, keystore, printc, java)
         Pipeline.remove_retro_arch_32(updated_system_path, debugfs, printc)
-        Pipeline.add_retro_arch_32(updated_system_path, updated_apk_path, printc)
+        Pipeline.add_retro_arch_32(updated_system_path, updated_apk_path, debugfs, printc)
 
     @staticmethod
     def patch_retro_arch_64():
@@ -648,7 +649,6 @@ class Pipeline:
     def repack_retro_arch_32(original_d_apk_retroarch_path="img/original/d_apk/retroarch32",
                              updated_d_apk_retroarch_path="img/updated/d_apk/retroarch32",
                              replace_retroarch_path="replace/retro32",
-                             replace_system_path = "replace/system",
                              apk_path='img/original/apk/RetroArch_ra32.apk',
                              updated_apk_path = 'img/updated/apk/RetroArch_ra32.apk',
                              updated_system_path="img/updated/system_a.img",
@@ -662,7 +662,6 @@ class Pipeline:
         Pipeline.decompile_retro_arch_32(original_d_apk_retroarch_path, apk_path, apk_tool_path, apk_signer_path, printc, java)
         OtherTool.copy_folder(original_d_apk_retroarch_path, updated_d_apk_retroarch_path, printc)
         Pipeline.patch_retro_arch_32(replace_retroarch_path, updated_d_apk_retroarch_path, apk_tool_path, apk_signer_path, updated_apk_path, updated_system_path, debugfs, keystore, printc, java)
-        Pipeline.patch_privileges(updated_system_path, replace_system_path, debugfs, printc)
 
     @staticmethod
     def print_past_time(start_time):
@@ -693,6 +692,7 @@ class Pipeline:
             Pipeline.unpack_super()
             Pipeline.unpack_system()
             OtherTool.copy_file("img/original/extracted/super/system_a.img", "img/updated/system_a.img", True)
+            Pipeline.patch_privileges()
             if not Pipeline.is_retro_arch_exists():
                 Pipeline.download_retro_arch_32_1222()
                 Pipeline.resize_system_img("+500M")
@@ -700,15 +700,18 @@ class Pipeline:
             Pipeline.repack_emu()
             Pipeline.repack_n64()
 
-            #Pipeline.add_applauncher()
-            #Pipeline.add_commander()
+            Pipeline.add_applauncher()
+            Pipeline.add_commander()
 
-            #Pipeline.add_aida()
-            #Pipeline.add_cpuz()
-            #Pipeline.add_citra()
-            #Pipeline.add_dolphin()
-            #Pipeline.add_retro_arch_64()
-            #Pipeline.patch_keyboard()
+            Pipeline.add_aida()
+            Pipeline.add_cpuz()
+            Pipeline.add_citra()
+            Pipeline.add_dolphin()
+            Pipeline.add_nether()
+            Pipeline.add_retro_arch_64()
+
+            Pipeline.patch_keyboard()
+            Pipeline.add_retro_arch_config()
 
             Pipeline.unpack_vendor()
             OtherTool.copy_file("img/original/extracted/super/vendor_a.img", "img/updated/vendor_a.img")

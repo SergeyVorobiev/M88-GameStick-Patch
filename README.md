@@ -29,9 +29,14 @@
 6. [Easter Eggs](#easter-eggs)
 7. [Other Platforms](#other-platforms)
 8. [Windows Emulation](#windows-emulation)
-9. [Graphic Settings](#graphic-settings)
-10. [Scripts](#scripts)
-11. [Contact](#contact)
+9. [Full House (Dolphin - Wii & GameCube / Citra - 3DS / RA64)](#full-house)
+   1. [RetroArch64 Tips](#retroarch64-tips)
+   2. [Citra Tips](#citra-tips)
+   3. [Dolphin Tips](#dolphin-tips)
+   4. [Controller Problems](#controller-problems)
+10. [Graphic Settings](#graphic-settings)
+11. [Scripts](#scripts)
+12. [Contact](#contact)
 
 ## Introduction
 
@@ -107,6 +112,17 @@ This guide shows how to upgrade M88 firmware which allows:
 10. Standard RetroArch menu with settings.
 11. Replace mupen64plusae to RetroArch (optionally).
 12. Fix single audio channel output. Since v2.2.
+
+Since v2.3:
+13. Full control via TotalCommander.
+14. RetroArch64 full support.
+15. Citra (3DS) emulator support.
+16. Dolphin (Wii / GameCube) emulator support.
+17. Upgrade AetherSX to NetherSX.
+18. Fix wrong screen density.
+19. Fix controller keycodes.
+20. Main menus for Nether / Yaba / DraStic / N64.
+21. Aida / CpuZ.
 
 ![shader](resources/images/shader.webp)
 
@@ -205,8 +221,13 @@ The fixes include:
 6. Moving all RetroArch data to the external SD card for customization.
 7. Patching mupen64plusae to redirect game launching to RetroArch32 1.22.2 (optionally).
 8. Patching audio config to fix only left channel sound issue (Stereo sound fix, since v2.2).
+9. Adding Dolphin, Citra, RetroArch64 emulators (since v2.3). 
+\**RetroArch32 quick menu will show 1.19 but games will run under the 1.22.2.*
 
-\**RetroArch quick menu will show 1.19 but games will run under the 1.22.2.*
+> [!NOTE]
+> 
+> If you want full control plus Dolphin, Citra, RetroArch64 support, please carefully read [this paragraph](#full-house)
+> after performing the upgrade.
 
 ### How To Fix
 
@@ -215,17 +236,17 @@ The fixes include:
 
 There are three options, all of them imply you have M88-P65-V1.8, but they do not guarantee a success if your stick has different hardware / software.
 
-Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z):
+Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/USER_v2.3.7z):
 1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
-2. Put RetroArch folder in your SD card. ([RetroArch Setup](#retroarch-setup)).
+2. Put RetroArch folder on your SD card. ([RetroArch Setup](#retroarch-setup)).
 3. Read [Game Won't Start](#game-wont-start).
 
 Option two is the same, but you have to make an upgraded image from your original one to use it instead of provided one. 
 It also gives a better chance of success:
 
 1. Read [this](#firmware-upgrade) to just make a backup.
-2. Download and unpack this [archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88FW.7z), password: m88.
-3. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.85.exe).
+2. Download and unpack this [archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88FW.7z), password: m88.
+3. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.9.exe).
 4. Put these three files next to each other:
 
 ![files](resources/images/files.webp)
@@ -246,21 +267,22 @@ If nothing works, feel free to [contact me](#Contact).
 
 ### Resources
 
-1. Official latest [cores](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
-2. Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
-3. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
-4. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/RetroArch_v2.2.7z).
-5. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z).
-6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
-7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.85.exe).
-9. [BoxArts](https://thumbnails.libretro.com/).
+1. Official latest [RA cores](https://buildbot.libretro.com/nightly/android/latest/armeabi-v7a/).
+2. Official latest [RA64 cores](https://buildbot.libretro.com/nightly/android/latest/arm64-v8a/).
+3. 32x Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
+4. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
+5. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/RetroArch_v2.3.7z).
+6. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/USER_v2.3.7z).
+7. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
+8. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
+9. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.9.exe).
+10. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder only for upgraded firmware.*
 
 ## Firmware Upgrade
 
-Steps bellow are intended for sticks based on MediaTek Helio P65 / G88 chipset. If you have different processor model your steps will be similar,
+Steps bellow are intended for M88 sticks based on MediaTek Helio P65 / G88 chipset. If you have different processor model your steps will be similar,
 but drivers and tools must be replaced to suit your chip.
 
 > [!NOTE]  
@@ -292,7 +314,7 @@ On your window the device is yet unknown, the key is to find VID like VID_0E8D t
 
 1. For MediaTek device install the [driver](https://mtkdriver.com/install-mtk-driver)*.
 2. Install [software](https://spflashtools.com/windows/sp-flash-tool-v5-2404) to perform read / write operations.
-3. For MT6768 download and unpack the scatter** and the preloader*** from [here](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/Preloader_Scatter.7z). (Check preloader's [sha512](resources/m88/sha512.txt)).
+3. For MT6768 download and unpack the scatter** and the preloader*** from [here](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/Preloader_Scatter.7z). (Check preloader's [sha512](resources/m88/sha512.txt)).
 
 \* *If your driver does not have digital signature read [this](https://photobyte.org/installing-unsigned-drivers-on-windows-10-or-11/).*
 
@@ -349,7 +371,7 @@ Use [7-zip](https://www.7-zip.org/download.html) to open your USER* image, it wi
 
 ### Write to eMMC
 
-1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/USER_v2.2.7z) or use your upgraded one.
+1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/USER_v2.3.7z) or use your upgraded one.
 2. Check the size of the image, edit if needed:
 ```
 partition_size: 0x1d2000000
@@ -391,7 +413,7 @@ If something goes wrong then try again or use the USER.img you backed up [earlie
 
 ## RetroArch Setup
 After upgrading, the stick will work in a default (set by manufacturer) mode. To use new features download 
-[RetroArch archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/RetroArch_v2.2.7z) 
+[RetroArch archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/RetroArch_v2.3.7z) 
 and unpack it into root of your sd card. (sdcard/RetroArch). The system will start in upgraded mode automatically while 
 main RetroArch config file - *sdcard/RetroArch/retroarch.cfg* is presented.
 
@@ -702,7 +724,7 @@ To replace - edit an appropriate row, you only need to change **path**, **image*
 
 The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, clean up unnecessary and temporary files from the SD card, and download missed or bad images from the Web.
 
-You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/M88GDBTool_1.85.exe) or run it from [sources](UIMain.py).
+You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.9.exe) or run it from [sources](UIMain.py).
 
 ![gbdt](resources/images/gbdt.webp)
 
@@ -805,13 +827,17 @@ and run any platforms supported by RetroArch replacing current ones.
 
 What to play:
 
-1. wii / gamecube - (dolphin_libretro_android.so only arm-v8, will not work), a bit heavy for this stick.
-2. Nintendo 3DS (citra_libretro_android.so only arm-v8, will not work), a bit heavy for this stick.
-3. Atari Jaguar (virtualjaguar_libretro_android.so).
-4. 3DO (opera_libretro_android.so).
-5. Many other light platforms like Sega CD, Sega 32X, Commodore 64, MSX, Amiga etc.
+1. Wii / GameCube - (dolphin_libretro_android.so only arm-v8), since v2.3 - Dolphin emulator, RA64.
+2. Nintendo 3DS (citra_libretro_android.so, azahar_libretro_android.so, panda3ds_libretro_android.so, only arm-v8), since 2.3 - Citra emulator, RA64.
+3. N64 (parallel_n64_libretro_android.so, parallel_n64_libretro_android.so).
+4. Atari Jaguar (virtualjaguar_libretro_android.so).
+5. 3DO (opera_libretro_android.so).
+6. Sega CD, 32X (picodrive_libretro_android.so).
+7. Commodore 64 (vice_x64_libretro_android.so).
+8. MSX (bluemsx_libretro_android.so).
+And many more...
 
-3DO example:
+3DO example (For internal RetroArch 32x, deprecated since v2.3 due to RA64 full support):
 
 ![wolf](resources/images/wolf.webp)
 
@@ -855,7 +881,7 @@ Diablo & SC3000
 Setup:
 
 1. Read [Easter Eggs](#easter-eggs) and try to set up and play MS-DOS games first to be comfortable with *dosbox_pure_libretro_android.so* and its settings.
-2. Download and unpack [Win98SE_HDD](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/download/v1.2.0/W98HDD.7z).
+2. Download and unpack [Win98SE_HDD](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/W98HDD.7z).
 3. Download [Win98SE.iso](https://dn720503.ca.archive.org/0/items/windows-98-se-isofile/Windows%2098%20Second%20Edition.iso).
 4. Place ***Win98SE_HDD.img*** file into *sdcard/RetroArch/system* folder.
 5. Create *sdcard/roms/dos/Win98* folder.
@@ -894,6 +920,135 @@ or:
 
 2. Install Desktop version of RetroArch, and install your Windows 98 under it with any disk size you wish.
    1. Use created image as described above under the **Setup** section.
+
+## Full House
+
+Since v2.3* you have the ability to run new emulators (Citra, Dolphin, RA64). It relies on the injected application providing the
+installation and launching methods. You should also read [Controller Problems](#controller-problems) paragraph first.
+It also has the TotalCommander on the board, which opens the door for installation and launching of potentially whatever you want. Be aware,
+by modifying the system with Total Commander you may brick the device (be ready to reflash it at any moment).
+
+\* *Minimum GDBTool version for the update is v1.9*.
+
+![app](resources/images/app.webp)
+
+To run the application:
+1. Go to *sdcard/roms/n64* folder and create a file *Apps.m3u*. (or any name which ends with Apps.m3u -> 1Apps.m3u).
+2. Register it by using [GDBTool](#game-db-tool).
+3. In the main UI choose the N64 category and click on *Apps*.
+![appsline](resources/images/appsline.webp)
+
+4. After first run it will recalibrate the pixels density according to your screen.
+5. The TotalCommander is already installed, other applications will be installed on the first click and then launched on the next*.
+
+\* *The silent installation relies on superuser (xbin/su). If for some reason it does not work out, the system will fall back to the normal installation process.
+The problem is that in a normal mode it most likely will not show you appropriate dialogs, click (-> A) for several times with some pauses in between, it should work out.
+In case if you are using normal installation, you have to update retroarch config manually, Click **Reset RetroArch64 Config** option*.
+
+### RetroArch64 Tips
+
+![retro64](resources/images/retroarch.webp)
+
+With RetroArch64 you can play any platform it supports (by installing cores manually), moreover
+you don't need to register game files anymore, because you can choose whatever game / core from whatever folder on sd card directly from RetroArch main menu.
+However, if you want to launch games from the main UI, then you need to register them (by using GDBTool) after adding as usual.
+
+\* *You can make all the games from main UI to be launched under RA64, just create the **sdcard/RetroArch/useRA64** file,
+or even more easily, turn the switch on*:
+
+![retro64on](resources/images/radefault.webp)
+
+*Keep in mind the 64 cores must be installed in advanced manually.*
+
+To install cores do the next:
+
+1. Update the [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/RetroArch_v2.3.7z). it has needed 64x cores.
+2. Open RetroArch main menu.
+3. Go to **Settings** -> **Core** -> **Manage Cores** -> **Install or Restore a Core**.
+4. Choose the path */storage/A046-6AFE/RetroArch/cores64* and select a core to install*. (Your UUID of SD card will be different).
+
+\* *Install all accessible cores in advance to not catch 'white screen' because you forgot to install an appropriate core*.
+
+*Note: RetroArch64 will not recheck manual config changes on each run, (it applies once after installing the app), therefore, if you have changed or formatted your sd card its UUID will be
+changed and paths will be broken. To reapply the valid config click **Reset RetroArch64 Config** option*.
+
+*Note: If for some reason you have wrong configuration without ability to navigate over the main menu, then you have to create your
+own config with appropriate options and button keys. See an example: [RetroArchConfig](src/replace/retro64/retroarch.cfg). Create one on your sd card and copy it in **/system/res/retroarch.cfg** then
+click **Reset RetroArch64 Config** option or copy it directly in **/storage/emulated/0/Android/data/com.retroarch.aarch64/files/retroarch.cfg** 
+with Total Commander. In the second case you must resolve all paths to SD card in the config manually.*
+
+*Note: Your RetroArch64 config does not affect RetroArch32 and vice versa. Please do not change the default config paths
+(i.e. don't choose configs from other places), because stick's UI relies on these paths when launching games, do the changes in place*.
+
+### Citra Tips
+
+![citra](resources/images/citra.webp)
+
+1. On the first screen tap some buttons on D-pad to catch a focus, use 'TAB' (Right shoulder) button to navigate between items.
+2. Select **User folder** - you can use 'Citra' folder right on eMMC* or create your own on SD card in advance to choose it.
+3. Create a game folder *sdcard/roms/3ds* on your SD card in advance and choose it.
+4. If games do not start, change **Graphics API** from **Vulkan** to **OpenGLES** in **Graphics** settings.
+5. Carefully map controller buttons in the settings.
+6. Enjoy.
+
+\* *To create an empty folder with appropriate name on eMMC, create it on your SD card first, then with **Total Commander**
+go to **/storage/self/primary** and copy your folder inside*. Keep in mind that user disk space is very limited, consider
+using SD card for everything.
+
+### Dolphin Tips
+
+![dolphin](resources/images/dolphin.webp)
+
+1. You can choose among both variants (Standard / Tv). Tv version is more preferable for navigation.
+2. Create folders with games on your SD card like *sdcard/roms/wii*, *sdcard/roms/cube* and put games inside.
+3. Open the Dolphin and select '+' button, navigate to your folders and select them one by one.
+4. Carefully map controller buttons in the settings.
+5. Enjoy.
+
+![dolphingames](resources/images/dolphingames.webp)
+
+### Controller Problems
+
+Android OS has very crooked support for gamepads, and some old emulators too. Curtains, top bars, burger buttons, are often unreachable with the standard gamepad functionality.
+Firmware v2.3 has some fix, allowing you to enlist screen items by using 'Right Shoulder Button', which is enough in
+many cases (and also to print 't' letter by using 'Right Trigger Button'*), but the fix only relates to Vendor_0810_Product_0001 (Twin USB Joystick 2064/1) gamepad. You can see
+your gamepad model by using AIDA:
+
+![aida](resources/images/aida.webp)
+
+\* *Try to use your external sd card for everything, but if you really need to create some empty / or with files folder 
+inside eMMC, then create it on your sd card and copy to appropriate place with Total Commander*.
+
+If you have a different controller model you probably ought to fix it by yourself (in case you found some issues).
+To give your controller some additional functionality prepare the files the similar way as in these examples:
+
+1. [ksm file](src/replace/keychars/Vendor_0810_Product_0001.kcm).
+2. [kl file](src/replace/keychars/Vendor_0810_Product_0001.kl).
+
+Read official android documentation:
+1. [Key layout](https://source.android.com/docs/core/interaction/input/key-layout-files).
+2. [Key character map](https://source.android.com/docs/core/interaction/input/key-character-map-files).
+3. [Input device configuration](https://source.android.com/docs/core/interaction/input/input-device-configuration-files).
+
+Then put the ksm, kl files (by using TotalCommander from your SD card (usually generic settings should allow you to do it)) accordingly to:
+1. *system/usr/keychars*.
+2. *system/usr/keylayout*.
+
+How to choose your sdcard from system 'Files' app:
+
+1. Use D-pad to focus a section.
+2. Navigate to a burger button by using 'TAB' (Right Shoulder button according to updated keylayout) and click 'A' button.
+![burger](resources/images/burger.webp)
+
+3. In an appeared curtain push 'A' but not release, you will see the current selection.
+![curtain](resources/images/curtain.webp)
+
+4. Use D-pad to move up or down (you will not see the selection, just count).
+5. Release 'A' button to select needed item (disk = your SD card).
+
+>[!NOTE]
+>Some screens like system 'Recent' or Yaba require you to switch between sections, where 'TAB' button could not help. Ctrl + 'TAB'
+>should do the trick, but unfortunately, even this trick seems not working on stick's Android OS version. 
 
 ## Graphic Settings
 
@@ -968,7 +1123,7 @@ Core settings for RetroArch platforms: `sdcard/RetroArch/config`.
 
 ## Scripts
 
-To upgrade your own USER.img:
+To upgrade your own USER.img (It is recommended to just use GDBTool, you don't need to mess with the steps below):
 1. Download this repo.
 2. Install [Python](https://www.python.org/downloads/) and add PATH:
     * `path_to\Python\Python3xx`

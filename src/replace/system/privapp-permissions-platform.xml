@@ -56,6 +56,27 @@ applications that come with the platform
         <permission name="android.permission.READ_EXTERNAL_STORAGE"/>
     </privapp-permissions>
 
+    <privapp-permissions package="com.ghisler.android.TotalCommander">
+        <permission name="android.permission.QUERY_ALL_PACKAGES"/>
+        <permission name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+        <permission name="android.permission.REQUEST_DELETE_PACKAGES"/>
+        <permission name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+        <permission name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+        <permission name="android.permission.READ_EXTERNAL_STORAGE"/>
+        <permission name="android.permission.WRITE_MEDIA_STORAGE"/>
+    </privapp-permissions>
+
+    <privapp-permissions package="com.vsv.applauncher">
+        <permission name="android.permission.QUERY_ALL_PACKAGES"/>
+        <permission name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+        <permission name="android.permission.REQUEST_DELETE_PACKAGES"/>
+        <permission name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        <permission name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+        <permission name="android.permission.READ_EXTERNAL_STORAGE"/>
+        <permission name="android.permission.WRITE_MEDIA_STORAGE"/>
+    </privapp-permissions>
+
     <privapp-permissions package="com.android.imsserviceentitlement">
         <permission name="android.permission.MODIFY_PHONE_STATE" />
         <permission name="android.permission.READ_PRIVILEGED_PHONE_STATE" />

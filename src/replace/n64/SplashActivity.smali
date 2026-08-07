@@ -1016,8 +1016,8 @@
     goto :goto_0
 .end method
 
-.method private getRomString()Ljava/lang/String;
-    .locals 3
+.method private getRomName()Ljava/lang/String;
+    .locals 2
 
     invoke-virtual {p0}, Landroid/app/Activity;->getIntent()Landroid/content/Intent;
     move-result-object v0 # Intent
@@ -1025,12 +1025,25 @@
     invoke-virtual {v0}, Landroid/content/Intent;->getData()Landroid/net/Uri;
     move-result-object v0 # Uri
 
+    if-nez v0, :go_next
+    const/4 v0, 0x0
+    return-object v0
+
+    :go_next
     invoke-virtual {p0}, Landroid/content/Context;->getApplicationContext()Landroid/content/Context;
 
     move-result-object v1
 
     invoke-static {v1, v0}, Lpaulscode/android/mupen64plusae/util/FileUtil;->getFileName(Landroid/content/Context;Landroid/net/Uri;)Ljava/lang/String;
     move-result-object v1 # Game Name
+    return-object v1
+.end method
+
+.method private getRomString()Ljava/lang/String;
+    .locals 3
+
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getRomName()Ljava/lang/String;
+    move-result-object v1
 
     invoke-static {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getTfCardPath(Landroid/content/Context;)Ljava/lang/String;
     move-result-object v0 # sdcard
@@ -1051,6 +1064,14 @@
     const-string v1, "/RetroArch/config.cfg"
     invoke-virtual {v0, v1}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
     move-result-object v0 # sdcard/RetroArch/config.cfg
+
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->useRetroArch64()Z
+    move-result v1
+    if-eqz v1, :go_next
+    const-string v0, "/storage/emulated/0/Android/data/com.retroarch.aarch64/files/retroarch.cfg"
+
+    :go_next
+
     return-object v0
 .end method
 
@@ -1072,6 +1093,13 @@
 .method private getLibRetroString()Ljava/lang/String;
     .locals 2
     const-string v0, "/data/user/0/com.retroarch.ra32/cores/"
+
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->useRetroArch64()Z
+    move-result v1
+    if-eqz v1, :go_next
+    const-string v0, "/data/user/0/com.retroarch.aarch64/cores/"
+
+    :go_next
     invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getPreferredCoreName()Ljava/lang/String;
     move-result-object v1
     invoke-virtual {v0, v1}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
@@ -1143,16 +1171,105 @@
     return-object v3
 .end method
 
-.method private startRetroArch()V
+.method private isRetroArch64()Z
+    .locals 3
+
+    .prologue
+
+    invoke-virtual {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getPackageManager()Landroid/content/pm/PackageManager;
+    move-result-object v0
+
+    :try_start
+    const-string v1, "com.retroarch.aarch64"
+    const/4 v2, 0x0
+    invoke-virtual {v0, v1, v2}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;
+    const/4 v0, 0x1
+    return v0
+    :try_end
+    .catch Ljava/lang/Throwable; {:try_start .. :try_end} :catch_all
+
+    :catch_all
+    const/4 v0, 0x0
+    return v0
+.end method
+
+.method private setRetroArch64()Z
+    .locals 2
+
+    .prologue
+
+    invoke-static {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getTfCardPath(Landroid/content/Context;)Ljava/lang/String;
+    move-result-object v0 # sd_card
+    const-string v1, "/RetroArch/useRA64"
+    invoke-virtual {v0, v1}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;
+    move-result-object v1 # external_sd/RetroArch/useRA64
+
+    new-instance v0, Ljava/io/File;
+    invoke-direct {v0, v1}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+    invoke-virtual {v0}, Ljava/io/File;->exists()Z
+    move-result v0
+    return v0
+
+.end method
+
+.method private useRetroArch64()Z
+    .locals 2
+
+    .prologue
+
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->isRetroArch64()Z
+    move-result v0
+    if-nez v0, :next_check
+    return v0
+
+    :next_check
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->setRetroArch64()Z
+    move-result v0
+    return v0
+.end method
+
+.method private startApp()V
     .locals 3
 
     new-instance v0, Landroid/content/Intent;
     invoke-direct {v0}, Landroid/content/Intent;-><init>()V
 
-    const-string v1, "com.retroarch.ra32"
-    const-string v2, "com.retroarch.browser.retroactivity.RetroActivityFuture"
+    const/high16 v1, 0x10000000
+    invoke-virtual {v0, v1}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
+    const-string v1, "com.vsv.applauncher"
+    const-string v2, "com.vsv.applauncher.MainActivity"
     invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->setClassName(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    invoke-virtual {p0, v0}, Lpaulscode/android/mupen64plusae/SplashActivity;->startActivity(Landroid/content/Intent;)V
+    return-void
+.end method
+
+.method private needRunApp()Z
+    .locals 2
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getRomName()Ljava/lang/String;
+    move-result-object v0
+
+    if-eqz v0, :return_false
+
+    const-string v1, "Apps.m3u"
+
+    invoke-virtual {v0, v1}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+    move-result v0
+
+    return v0
+
+    :return_false
+
+    const/4 v0, 0x0
+    return v0
+.end method
+
+.method private startRetroArch()V
+    .locals 4
+
+    new-instance v0, Landroid/content/Intent;
+    invoke-direct {v0}, Landroid/content/Intent;-><init>()V
 
     const-string v1, "ROM"
     invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getRomString()Ljava/lang/String;
@@ -1186,6 +1303,20 @@
     const/high16 v1, 0x10000000
     invoke-virtual {v0, v1}, Landroid/content/Intent;->addFlags(I)Landroid/content/Intent;
 
+    const-string v1, "com.retroarch.ra32"
+    const-string v2, "com.retroarch.browser.retroactivity.RetroActivityFuture"
+
+    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->setClassName(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->useRetroArch64()Z
+    move-result v3
+
+    if-eqz v3, :go_next
+    const-string v1, "com.retroarch.aarch64"
+    invoke-virtual {v0, v1, v2}, Landroid/content/Intent;->setClassName(Ljava/lang/String;Ljava/lang/String;)Landroid/content/Intent;
+
+    :go_next
+
     invoke-virtual {p0, v0}, Lpaulscode/android/mupen64plusae/SplashActivity;->startActivity(Landroid/content/Intent;)V
     return-void
 .end method
@@ -1204,6 +1335,20 @@
     .line 5
     invoke-super {p0, p1}, Landroidx/fragment/app/FragmentActivity;->onCreate(Landroid/os/Bundle;)V
 
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getRomName()Ljava/lang/String;
+    move-result-object v2
+
+    if-eqz v2, :cond_continue
+
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->needRunApp()Z
+    move-result v2
+
+    if-eqz v2, :run_mupen
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->startApp()V
+    invoke-virtual {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->finish()V
+    return-void
+
+    :run_mupen
     invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getConfigString()Ljava/lang/String;
     move-result-object v2
     new-instance v3, Ljava/io/File;
@@ -1212,6 +1357,7 @@
     invoke-virtual {v3}, Ljava/io/File;->exists()Z
     move-result v3
     if-eqz v3, :cond_continue
+
 
     invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getN64Path()Ljava/lang/String;
     move-result-object v2
