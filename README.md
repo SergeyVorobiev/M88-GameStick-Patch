@@ -34,9 +34,13 @@
    2. [Citra Tips](#citra-tips)
    3. [Dolphin Tips](#dolphin-tips)
    4. [Controller Problems](#controller-problems)
-10. [Graphic Settings](#graphic-settings)
-11. [Scripts](#scripts)
-12. [Contact](#contact)
+10. [Third Party Controller Setup](#third-party-controller-setup)
+    1. [GAMESIR NOVA 2 LITE Setup](#gamesir-nova-2-lite-setup)
+    2. [Custom Controller Setup](#custom-controller-setup)
+    3. [RetroArch Controller Setup](#retroarch-controller-setup) 
+11. [Graphic Settings](#graphic-settings)
+12. [Scripts](#scripts)
+13. [Contact](#contact)
 
 ## Introduction
 
@@ -827,9 +831,9 @@ and run any platforms supported by RetroArch replacing current ones.
 
 What to play:
 
-1. Wii / GameCube - (dolphin_libretro_android.so only arm-v8), since v2.3 - Dolphin emulator, RA64.
-2. Nintendo 3DS (citra_libretro_android.so, azahar_libretro_android.so, panda3ds_libretro_android.so, only arm-v8), since 2.3 - Citra emulator, RA64.
-3. N64 (parallel_n64_libretro_android.so, parallel_n64_libretro_android.so).
+1. Wii / GameCube - (dolphin_libretro_android.so, only arm-v8), since v2.3 - Dolphin emulator, RA64.
+2. Nintendo 3DS (citra_libretro_android.so, azahar_libretro_android.so, panda3ds_libretro_android.so, only arm-v8), since v2.3 - Citra emulator, RA64.
+3. N64 (parallel_n64_libretro_android.so, mupen64plus_next_gles3_libretro_android.so).
 4. Atari Jaguar (virtualjaguar_libretro_android.so).
 5. 3DO (opera_libretro_android.so).
 6. Sega CD, 32X (picodrive_libretro_android.so).
@@ -1022,7 +1026,7 @@ inside eMMC, then create it on your sd card and copy to appropriate place with T
 If you have a different controller model you probably ought to fix it by yourself (in case you found some issues).
 To give your controller some additional functionality prepare the files the similar way as in these examples:
 
-1. [ksm file](src/replace/keychars/Vendor_0810_Product_0001.kcm).
+1. [kcm file](src/replace/keychars/Vendor_0810_Product_0001.kcm).
 2. [kl file](src/replace/keychars/Vendor_0810_Product_0001.kl).
 
 Read official android documentation:
@@ -1030,9 +1034,11 @@ Read official android documentation:
 2. [Key character map](https://source.android.com/docs/core/interaction/input/key-character-map-files).
 3. [Input device configuration](https://source.android.com/docs/core/interaction/input/input-device-configuration-files).
 
-Then put the ksm, kl files (by using TotalCommander from your SD card (usually generic settings should allow you to do it)) accordingly to:
+Then put the kcm, kl files (by using TotalCommander from your SD card (usually generic settings should allow you to do it)) accordingly to:
 1. *system/usr/keychars*.
 2. *system/usr/keylayout*.
+
+*To get more details about controller's setup see this [paragraph](#custom-controller-setup).*
 
 How to choose your sdcard from system 'Files' app:
 
@@ -1049,6 +1055,100 @@ How to choose your sdcard from system 'Files' app:
 >[!NOTE]
 >Some screens like system 'Recent' or Yaba require you to switch between sections, where 'TAB' button could not help. Ctrl + 'TAB'
 >should do the trick, but unfortunately, even this trick seems not working on stick's Android OS version. 
+
+## Third Party Controller Setup
+
+Usually chip Chinese Twin controllers, supplied with game sticks, have analog triggers with quite bad precision, but it is possible
+to connect custom one.
+
+### GAMESIR NOVA 2 LITE Setup
+
+You can use much more comfortable and precise controllers which support Android OS. Here is the GAMESIR NOVA 2 LITE example.
+NOVA 2 LITE is a budget, precise and heavy enough controller supporting vibration and having 3 modes: XBox (Green), 
+Nintendo Switch (Red), Dual Shock 4 (Blue). Green variant is only for PC. The more appropriate one would be a controller
+supporting **trackpad** which gives you the ability to use cursor right in menus or system applications for easy navigation 
+and access to all UI elements. 
+
+![gamepads](resources/images/gamepads.webp)
+
+Setup:
+1. Two GAMESIR controllers set in DS4 (Blue mode) / NS (Red mode).
+2. Two dongles. (Included in the set).
+3. One USB-A Hub. (Budget version ~2-3$ is totally enough if you care).
+4. Put [ds4 kl](src/replace/keychars/Vendor_054c_Product_09cc.kl) in *system/usr/keylayout* folder. Remove all files with the same
+vendor and product but different versions.
+5. Put [ns kl](src/replace/keychars/Vendor_057e_Product_2009.kl) in *system/usr/keylayout* folder. Remove all files with the same vendor and product but different versions.
+6. Put [ds4 kcm](src/replace/keychars/Vendor_054c_Product_09cc.kcm) in *system/usr/keychars* folder.
+7. Put [ns kcm](src/replace/keychars/Vendor_057e_Product_2009.kcm) in *system/usr/keychars* folder.
+8. Put [excluded devices](src/replace/keychars/excluded-input-devices.xml) in *system/etc* folder.
+9. Make sure you have Nintendo Switch Pro Controller.cfg file and Sony DualShock 4 Controller v2.cfg file in *sdcard/RetroArch/autoconfig/custom* folder.
+
+*Use Total Commander to put kcm / kl / xml files in system folder.*
+
+*If you have problems with separate controllers detection then use one in NS mode and the second in DS4 mode.*
+
+With this setup you can also plug your original dongle, expanding the amount of controllers up to 4. It is also possible to
+plug 4 twin pairs, expanding the amount of controllers up to 8.
+
+### Custom Controller Setup
+
+If you have some different controller model, it's better to make kcm / kl files yourself.
+
+1. Identify your PID / VID using AIDA or Apps:
+
+![input info](resources/images/input_info.webp)
+2. Select your controller:
+
+![input info2](resources/images/input_info2.webp)
+3. Create two empty files with your VID / PID numbers - Vendor_057e_Product_2009.kl, Vendor_057e_Product_2009.kcm. Ignore version.
+4. To fill your kl file start to test your controller:
+
+![input info3](resources/images/input_info3.webp)
+5. Press buttons to see key codes:
+
+![input info4](resources/images/input4.webp)
+
+0001 = key, 0003 = axis
+6. See [android codes](https://developer.android.com/reference/android/view/KeyEvent) to assign buttons.
+
+Example:
+
+axis 0x01   Y = when axis (0003) 0x01 is pushed send Y signal.
+
+key 0x138   BUTTON_L2 = when key (0001) 0x138 is pushed send BUTTON_L2 signal.
+
+To map the second action fill kcm file.
+
+Example:
+
+```
+key BUTTON_L2 {
+    base:                               fallback PAGE_DOWN
+}
+```
+
+Means if an application did not handle L2 signal - send PAGE_DOWN signal.
+
+After preparing appropriate kcm, kl files for your controller, put them in *system/usr/keychars*, *system/usr/keylayout* 
+folders accordingly with Total Commander.
+
+### RetroArch Controller Setup
+
+To avoid some unexpected bugs and wrong behavior you need to be aware about next things:
+
+1. Set autodetect option in retroarch.cfg file to true:
+`input_autodetect_enable = "true"`.
+Because different controllers could use different key codes, and the same controller can have different device id after disabling / enabling,
+if this option is false, then you risk to get RetroArch being partially or completely unresponsive.
+2. Erase all button keys from your retroarch.cfg file (i.e. all lines like - input_player1_a_btn = "nul" must not have numbers).
+Default button numbers might conflict with autodetection, leading to unexpected bugs. Do not touch hotkeys though,
+they better be hardcoded in the config file.
+3. Some controllers may have additional inputs like 'Motion sensors' or 'Touchpad' that could be interpreted by RetroArch
+incorrectly. To disable them create a [file](src/replace/keychars/excluded-input-devices.xml) and enlist all such devices.
+Put the file in *system/etc* folder. Use Apps->Input Info to detect such devices.
+4. Make an appropriate keys map file and put it in *sdcard/RetroArch/autoconfig/custom* folder. See existing [examples](src/replace/keychars/retroarch/android).
+VID and PID must be decimal not hexademical. See [this](https://developer.android.com/reference/android/view/KeyEvent) to assign
+correct Android key codes. Without this file RetroArch would not know what keycodes to assign after auto-detecting the controller.
 
 ## Graphic Settings
 

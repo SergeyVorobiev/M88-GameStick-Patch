@@ -1,0 +1,49 @@
+# Nintendo Switch VID 057e (1406) / PID 2009 (8201)
+# GAMESIR NOVA 2 LITE (Red mode)
+
+key 0x130   BUTTON_B # 304
+key 0x131   BUTTON_A # 305
+key 0x133   BUTTON_X # 307
+key 0x134   BUTTON_Y # 308
+
+key 0x136   BUTTON_L1 # 310
+key 0x137   BUTTON_R1 # 311
+
+key 0x138   BUTTON_L2 # 312
+key 0x139   BUTTON_R2 # 313
+
+# D-pad
+key 0x220 DPAD_UP
+key 0x221 DPAD_DOWN
+key 0x222 DPAD_LEFT
+key 0x223 DPAD_RIGHT
+
+
+key 0x13a   BUTTON_SELECT # 314
+
+key 0x13b   BUTTON_START # 315
+
+# Home
+key 0x13c   BUTTON_MODE # 316
+
+key 0x13d   BUTTON_THUMBL # 317
+key 0x13e   BUTTON_THUMBR # 318
+
+# Circle (Record)
+# key 0x135 # 309
+
+# L3 Analog
+axis 0x00   X
+axis 0x01   Y
+
+# R3 Analog
+axis 0x03   Z
+axis 0x04   RZ
+
+# SENSORs
+sensor 0x00 ACCELEROMETER X
+sensor 0x01 ACCELEROMETER Y
+sensor 0x02 ACCELEROMETER Z
+sensor 0x03 GYROSCOPE X
+sensor 0x04 GYROSCOPE Y
+sensor 0x05 GYROSCOPE Z
