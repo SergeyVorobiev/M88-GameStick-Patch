@@ -1063,8 +1063,8 @@ the example of how to connect and set up a third party controller.
 
 ### GAMESIR NOVA 2 LITE Setup
 
-You can use much more comfortable and precise controllers which support Android OS. Here is the GAMESIR NOVA 2 LITE example.
-NOVA 2 LITE is a budget, precise and quite heavy controller supporting vibration and having 3 modes: XBox (Green), 
+You can use much more comfortable and precise controllers which support Android OS.
+GAMESIR NOVA 2 LITE is a budget, precise and quite heavy controller supporting vibration and having 3 modes: XBox (Green), 
 Nintendo Switch (Red), Dual Shock 4 (Blue). Green variant is only for PC. The more appropriate one would be a controller
 supporting **trackpad** which gives you the ability to use cursor right in menus or system applications for easy navigation 
 and access to all UI elements. 
@@ -1092,47 +1092,43 @@ plug 4 twin pairs, expanding the amount of controllers up to 8.
 
 ### Custom Controller Setup
 
-If you have some different controller model, it's better to make kcm / kl files yourself.
+If you have some different controller model, it's better to make kcm / kl files yourself:
 
 1. Identify your PID / VID using AIDA or Apps:
-
 ![input info](resources/images/input_info.webp)
 
 2. Select your controller:
-
 ![input info2](resources/images/input_info2.webp)
 
 3. Create two empty files with your VID / PID numbers - Vendor_057e_Product_2009.kl, Vendor_057e_Product_2009.kcm. Ignore version.
 
 4. Start to test your controller to fill your kl file:
-
 ![input info3](resources/images/input_info3.webp)
 
 5. Press buttons to see key codes:
-
 ![input info4](resources/images/input4.webp)
 
-0001 = key, 0003 = axis
+    0001 = key, 0003 = axis
 
 6. See [android codes](https://developer.android.com/reference/android/view/KeyEvent) to assign buttons.
 
-Example:
+    Example:
 
-axis 0x01   Y = when axis (0003) 0x01 is pushed send Y signal.
+    axis 0x01   Y = when axis (0003) 0x01 is pushed - send Y signal.
 
-key 0x138   BUTTON_L2 = when key (0001) 0x138 is pushed send BUTTON_L2 signal.
+    key 0x138   BUTTON_L2 = when key (0001) 0x138 is pushed - send BUTTON_L2 signal.
 
 7. Fill kcm file to map the second action:
 
-Example:
+    Example:
+    
+    ```
+    key BUTTON_L2 {
+        base:                               fallback PAGE_DOWN
+    }
+    ```
 
-```
-key BUTTON_L2 {
-    base:                               fallback PAGE_DOWN
-}
-```
-
-Meaning: if an application did not handle L2 signal - send PAGE_DOWN signal.
+    Meaning: if an application did not handle L2 signal - send PAGE_DOWN signal.
 
 8. After preparing appropriate kcm, kl files for your controller, put them in *system/usr/keychars*, *system/usr/keylayout* 
 folders accordingly with Total Commander.
@@ -1161,10 +1157,10 @@ even if the real codes are different.
 7. Android always produces D-PAD codes for D-PAD - 19,20,21,22 even if a joystick generates axis HAT_X/Y, but RetroArch does not
 understand it, for that reason it's practically impossible to just hardcode android keys for 'every' controller right 
 in retroarch.cfg file, (to forget about bug-y input autodetection) even though it should be possible in theory.
-8. For some reason, some games, being run from stick's UI directly, become unresponsive, run such games from RetroArch64
+8. For some reason, some games, being run from stick's UI directly, do not pick up key codes automatically, run such games from RetroArch64
 main menu.
 9. If for some reason RetroArch64 is unresponsive, you have to edit its configuration file manually. Go to *system/etc/retroarch.cfg*,
-copy it to your SD card, fix it manually and put back with Total Commander, then click **Reset RetroArch64 Config** option in **Apps**
+copy it to your SD card, fix it manually, and put it back with Total Commander, then click **Reset RetroArch64 Config** option in **Apps**
 to generate actual retroarch.cfg with resolved SD card paths.
 
 ## Graphic Settings
