@@ -1058,13 +1058,13 @@ How to choose your sdcard from system 'Files' app:
 
 ## Third Party Controller Setup
 
-Usually chip Chinese Twin controllers, supplied with game sticks, have analog triggers with quite bad precision, but it is possible
-to connect custom one.
+Usually chip Chinese Twin controllers, supplied with game sticks, have analog triggers with quite bad precision, here is 
+the example of how to connect and set up a third party controller.
 
 ### GAMESIR NOVA 2 LITE Setup
 
 You can use much more comfortable and precise controllers which support Android OS. Here is the GAMESIR NOVA 2 LITE example.
-NOVA 2 LITE is a budget, precise and heavy enough controller supporting vibration and having 3 modes: XBox (Green), 
+NOVA 2 LITE is a budget, precise and quite heavy controller supporting vibration and having 3 modes: XBox (Green), 
 Nintendo Switch (Red), Dual Shock 4 (Blue). Green variant is only for PC. The more appropriate one would be a controller
 supporting **trackpad** which gives you the ability to use cursor right in menus or system applications for easy navigation 
 and access to all UI elements. 
@@ -1097,18 +1097,23 @@ If you have some different controller model, it's better to make kcm / kl files 
 1. Identify your PID / VID using AIDA or Apps:
 
 ![input info](resources/images/input_info.webp)
+
 2. Select your controller:
 
 ![input info2](resources/images/input_info2.webp)
+
 3. Create two empty files with your VID / PID numbers - Vendor_057e_Product_2009.kl, Vendor_057e_Product_2009.kcm. Ignore version.
-4. To fill your kl file start to test your controller:
+
+4. Start to test your controller to fill your kl file:
 
 ![input info3](resources/images/input_info3.webp)
+
 5. Press buttons to see key codes:
 
 ![input info4](resources/images/input4.webp)
 
 0001 = key, 0003 = axis
+
 6. See [android codes](https://developer.android.com/reference/android/view/KeyEvent) to assign buttons.
 
 Example:
@@ -1117,7 +1122,7 @@ axis 0x01   Y = when axis (0003) 0x01 is pushed send Y signal.
 
 key 0x138   BUTTON_L2 = when key (0001) 0x138 is pushed send BUTTON_L2 signal.
 
-To map the second action fill kcm file.
+7. Fill kcm file to map the second action:
 
 Example:
 
@@ -1127,9 +1132,9 @@ key BUTTON_L2 {
 }
 ```
 
-Means if an application did not handle L2 signal - send PAGE_DOWN signal.
+Meaning: if an application did not handle L2 signal - send PAGE_DOWN signal.
 
-After preparing appropriate kcm, kl files for your controller, put them in *system/usr/keychars*, *system/usr/keylayout* 
+8. After preparing appropriate kcm, kl files for your controller, put them in *system/usr/keychars*, *system/usr/keylayout* 
 folders accordingly with Total Commander.
 
 ### RetroArch Controller Setup
@@ -1143,12 +1148,24 @@ if this option is false, then you risk to get RetroArch being partially or compl
 2. Erase all button keys from your retroarch.cfg file (i.e. all lines like - input_player1_a_btn = "nul" must not have numbers).
 Default button numbers might conflict with autodetection, leading to unexpected bugs. Do not touch hotkeys though,
 they better be hardcoded in the config file.
-3. Some controllers may have additional inputs like 'Motion sensors' or 'Touchpad' that could be interpreted by RetroArch
+3. Use autoconfig only for RetroArch64. As RetroArch32 is partially installed on the stick, autoconfig most likely will
+not work for it.
+4. Some controllers may have additional inputs like 'Motion sensors' or 'Touchpad' that could be interpreted by RetroArch
 incorrectly. To disable them create a [file](src/replace/keychars/excluded-input-devices.xml) and enlist all such devices.
 Put the file in *system/etc* folder. Use Apps->Input Info to detect such devices.
-4. Make an appropriate keys map file and put it in *sdcard/RetroArch/autoconfig/custom* folder. See existing [examples](src/replace/keychars/retroarch/android).
+5. Make an appropriate keys map file and put it in *sdcard/RetroArch/autoconfig/custom* folder. See existing [examples](src/replace/keychars/retroarch/android).
 VID and PID must be decimal not hexademical. See [this](https://developer.android.com/reference/android/view/KeyEvent) to assign
-correct Android key codes. Without this file RetroArch would not know what keycodes to assign after auto-detecting the controller.
+correct Android key codes. Without this file, RetroArch would not know what keycodes to assign after auto-detecting the controller.
+6. When you create autconfig file for RetroArch, usually the axis codes for right analog stick (R3) are always ±2 for X and ±3 for Y
+even if the real codes are different.
+7. Android always produces D-PAD codes for D-PAD - 19,20,21,22 even if a joystick generates axis HAT_X/Y, but RetroArch does not
+understand it, for that reason it's practically impossible to just hardcode android keys for 'every' controller right 
+in retroarch.cfg file, (to forget about bug-y input autodetection) even though it should be possible in theory.
+8. For some reason, some games, being run from stick's UI directly, become unresponsive, run such games from RetroArch64
+main menu.
+9. If for some reason RetroArch64 is unresponsive, you have to edit its configuration file manually. Go to *system/etc/retroarch.cfg*,
+copy it to your SD card, fix it manually and put back with Total Commander, then click **Reset RetroArch64 Config** option in **Apps**
+to generate actual retroarch.cfg with resolved SD card paths.
 
 ## Graphic Settings
 
