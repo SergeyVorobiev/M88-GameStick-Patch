@@ -253,11 +253,11 @@ It also gives a better chance of success:
 3. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.9.exe).
 4. Put these three files next to each other:
 
-![files](resources/images/files.webp)
+    ![files](resources/images/files.webp)
 
 5. Open GDBTool, click **Upgrade Firmware** button, then **Start** and wait until it finishes.
 
-![upgrade](resources/images/upgrade.webp)
+    ![upgrade](resources/images/upgrade.webp)
 
 6. Perform steps from *Option one* but use the upgraded image from *M88FW/result/USER.img*.
 
@@ -377,10 +377,10 @@ Use [7-zip](https://www.7-zip.org/download.html) to open your USER* image, it wi
 
 1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/USER_v2.3.7z) or use your upgraded one.
 2. Check the size of the image, edit if needed:
-```
-partition_size: 0x1d2000000
-```
-0x1d2000000 = 7818182656 bytes.
+    ```
+    partition_size: 0x1d2000000
+    ```
+    0x1d2000000 = 7818182656 bytes.
 
 3. Open Flash Tool.
 
@@ -391,7 +391,7 @@ Option one:
 2. Select *Format whole flash except Bootloader*.
 3. Click *Start* button.
 
-![flashTool4](resources/images/flashTool4.webp)
+    ![flashTool4](resources/images/flashTool4.webp)
 
 4. [Enter BROM Mode](#enter-brom-mode).
 5. Select *Download* tab.
@@ -695,7 +695,7 @@ Now you need to register the game in the database so the launcher can see it:
 3. Select **Browse Data** tab.
 4. Remember PSP **id** - 2. Add a 1 in the **total** cell (153 + 1 = 154, your number may differ), it's total number of games in PSP category.
 
-![dbBrowser](resources/images/dbBrowser.webp)
+    ![dbBrowser](resources/images/dbBrowser.webp)
 
 5. Select **game** table.
 6. Add new row.
@@ -801,12 +801,12 @@ MS-DOS tips:
 1. Go to **Quick Menu** -> **Core Options** -> **General** -> **Force Output FPS** and set 30-50 FPS to prevent video / audio lags especially
 with shaders enabled.
 
-![fps](resources/images/fps.webp)
+    ![fps](resources/images/fps.webp)
 
 2. Setup input control manually or go to **Quick Menu** -> **Controls** -> **Port 1 Controls** -> **Device Type** and set
 an option with a mouse.
 
-![control](resources/images/control.webp)
+    ![control](resources/images/control.webp)
 
 Fallout1997 (MS-DOS) & Langrisser 3 (Sega Saturn)
 ![falloutSaturn](resources/images/falloutSaturn.webp)
@@ -891,22 +891,26 @@ Setup:
 5. Create *sdcard/roms/dos/Win98* folder.
 6. Put ***Win98SE.iso*** disk file into *sdcard/roms/dos/Win98* folder and any other disk files you are going to use (usually it's .iso and .cue + .bin disk files).
 7. Create a file ***Win98 Playlist.m3u*** in *sdcard/roms/dos*, and register all disk files you have in ***Win98*** folder by editing it via notepad, like for example:
-```
-Win98/Win98SE.iso
-Win98/Heroes3.iso
-Win98/Sid Meier's Civilization III (USA, Europe).cue
-Win98/Tools.iso
-```
-At the beginning it can be just one line (the more files you add in Win98 folder the bigger the list), you don't need to register (in DB)
-anything, added files will be detected automatically:
-```
-Win98/Win98SE.iso
-```
+    ```
+    Win98/Win98SE.iso
+    Win98/Heroes3.iso
+    Win98/Sid Meier's Civilization III (USA, Europe).cue
+    Win98/Tools.iso
+    ```
+    At the beginning it can be just one line (the more files you add in Win98 folder the bigger the list), you don't need to register (in DB)
+    anything, added files will be detected automatically:
+    ```
+    Win98/Win98SE.iso
+    ```
 8. Register your *Win98 Playlist.m3u* via [GDBTool](#game-db-tool).
 9. Run the stick and launch *Win98 Playlist.m3u* in **dos** catalog.
-![playlist](resources/images/playlist.webp)
+
+    ![playlist](resources/images/playlist.webp)
+
 10. You will see the list of disk files, select **Run Installed Operating System** and launch **Win98SE_HDD**.
-![runWindows](resources/images/runwindows.webp)
+
+    ![runWindows](resources/images/runwindows.webp)
+
 11. Under Windows select L3 to activate dosbox menu and switch between disks.
 
 You can try to install your own windows 95-98, but keep in mind that you need to create at least 512MB disk, with the 
@@ -918,7 +922,7 @@ process is frozen and kill it, so you have two options:
    2. Take your disk and increase its size with the CMD command: `truncate -s '16000M' 'win98SE.img'`, where '16000M' means 16GB, use your own number.
    3. Open this disk in Disk Genius and expand your 512MB partition to 16GB*. 
 
-\* *Disks beyond 2GB might not be seen by DOSBOX on the stick.*
+    \* *Disks beyond 2GB might not be seen by DOSBOX on the stick.*
 
 or:
 
@@ -940,7 +944,8 @@ To run the application:
 1. Go to *sdcard/roms/n64* folder and create a file *Apps.m3u*. (or any name which ends with Apps.m3u -> 1Apps.m3u).
 2. Register it by using [GDBTool](#game-db-tool).
 3. In the main UI choose the N64 category and click on *Apps*.
-![appsline](resources/images/appsline.webp)
+
+    ![appsline](resources/images/appsline.webp)
 
 4. After first run it will recalibrate the pixels density according to your screen.
 5. The TotalCommander is already installed, other applications will be installed on the first click and then launched on the next*.
@@ -1044,10 +1049,12 @@ How to choose your sdcard from system 'Files' app:
 
 1. Use D-pad to focus a section.
 2. Navigate to a burger button by using 'TAB' (Right Shoulder button according to updated keylayout) and click 'A' button.
-![burger](resources/images/burger.webp)
+
+    ![burger](resources/images/burger.webp)
 
 3. In an appeared curtain push 'A' but not release, you will see the current selection.
-![curtain](resources/images/curtain.webp)
+
+    ![curtain](resources/images/curtain.webp)
 
 4. Use D-pad to move up or down (you will not see the selection, just count).
 5. Release 'A' button to select needed item (disk = your SD card).
@@ -1095,18 +1102,22 @@ plug 4 twin pairs, expanding the amount of controllers up to 8.
 If you have some different controller model, it's better to make kcm / kl files yourself:
 
 1. Identify your PID / VID using AIDA or Apps:
-![input info](resources/images/input_info.webp)
+
+    ![input info](resources/images/input_info.webp)
 
 2. Select your controller:
-![input info2](resources/images/input_info2.webp)
+
+    ![input info2](resources/images/input_info2.webp)
 
 3. Create two empty files with your VID / PID numbers - Vendor_057e_Product_2009.kl, Vendor_057e_Product_2009.kcm. Ignore version.
 
 4. Start to test your controller to fill your kl file:
-![input info3](resources/images/input_info3.webp)
+
+    ![input info3](resources/images/input_info3.webp)
 
 5. Press buttons to see key codes:
-![input info4](resources/images/input4.webp)
+
+    ![input info4](resources/images/input4.webp)
 
     0001 = key, 0003 = axis
 
