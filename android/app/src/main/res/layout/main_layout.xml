@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="370sp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2D2D2D"
+                android:padding="4dp"
+                android:text="Apps"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+
+            <Switch
+                android:id="@+id/switch1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:text="Use RA64 as Default" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="#1E1E1E">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logcat"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:padding="4dp"
+                android:background="#2D2D2D" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/logRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#1E1E1E" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gamepadCodesView3"
+        android:background="#2D2D2D"
+        android:padding="4dp"
+        android:text="Gamepad: "
+        android:textColor="#FFFFFF"
+        android:textSize="8sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gamepadCodesView1"
+        android:background="#2D2D2D"
+        android:padding="4dp"
+        android:text="Gamepad: "
+        android:textColor="#FFFFFF"
+        android:textSize="8sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gamepadCodesView2"
+        android:background="#2D2D2D"
+        android:padding="4dp"
+        android:text="Gamepad: "
+        android:textColor="#FFFFFF"
+        android:textSize="8sp" />
+</LinearLayout>

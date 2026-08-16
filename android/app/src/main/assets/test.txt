@@ -1,0 +1,56 @@
+17: Sony Computer Entertainment Wireless Controller Touchpad
+      Classes: 0x80000014
+      Path: /dev/input/event5
+      Enabled: true
+      Descriptor: 1c8441e87c609b8d94da9485bc9544b8b2e6eecc
+      Location: usb-usb3_xhci-1.4/input0
+      ControllerNumber: 0
+      UniqueId: a4:ae:12:87:c6:7a
+      Identifier: bus=0x0003, vendor=0x054c, product=0x09cc, version=0x8111
+      KeyLayoutFile:
+      KeyCharacterMapFile:
+      ConfigurationFile:
+      HaveKeyboardLayoutOverlay: false
+      VideoDevice: <none>
+    19: Sony Computer Entertainment Wireless Controller
+      Classes: 0x80000141
+      Path: /dev/input/event7
+      Enabled: true
+      Descriptor: 1c8441e87c609b8d94da9485bc9544b8b2e6eecc
+      Location: usb-usb3_xhci-1.4/input0
+      ControllerNumber: 1
+      UniqueId: a4:ae:12:87:c6:7a
+      Identifier: bus=0x0003, vendor=0x054c, product=0x09cc, version=0x8111
+      KeyLayoutFile: /system/usr/keylayout/Vendor_054c_Product_09cc_Version_8111.kl
+      KeyCharacterMapFile: /system/usr/keychars/Generic.kcm
+      ConfigurationFile:
+      HaveKeyboardLayoutOverlay: false
+      VideoDevice: <none>
+    20: Sony Computer Entertainment Wireless Controller Touchpad
+      Classes: 0x80000014
+      Path: /dev/input/event8
+      Enabled: true
+      Descriptor: 1c8441e87c609b8d94da9485bc9544b8b2e6eecc
+      Location: usb-usb3_xhci-1.3/input0
+      ControllerNumber: 0
+      UniqueId: a4:ae:12:87:c6:7a
+      Identifier: bus=0x0003, vendor=0x054c, product=0x09cc, version=0x8111
+      KeyLayoutFile:
+      KeyCharacterMapFile:
+      ConfigurationFile:
+      HaveKeyboardLayoutOverlay: false
+      VideoDevice: <none>
+    22: Sony Computer Entertainment Wireless Controller
+      Classes: 0x80000141
+      Path: /dev/input/event10
+      Enabled: true
+      Descriptor: 1c8441e87c609b8d94da9485bc9544b8b2e6eecc
+      Location: usb-usb3_xhci-1.3/input0
+      ControllerNumber: 2
+      UniqueId: a4:ae:12:87:c6:7a
+      Identifier: bus=0x0003, vendor=0x054c, product=0x09cc, version=0x8111
+      KeyLayoutFile: /system/usr/keylayout/Vendor_054c_Product_09cc_Version_8111.kl
+      KeyCharacterMapFile: /system/usr/keychars/Generic.kcm
+      ConfigurationFile:
+      HaveKeyboardLayoutOverlay: false
+      VideoDevice: <none>
