@@ -1092,6 +1092,10 @@ vendor and product but different versions.
 
 *Use Total Commander to put kcm / kl / xml files in system folder.*
 
+*In case if controllers work properly after the connection, you don't need to create and copy / replace kl files, but if you
+don't have trackpad, you still need to create / copy kcm file to activate 'TAB' button to be able to move across elements in
+system applications.*
+
 *If you have problems with separate controllers detection then use one in NS mode and the second in DS4 mode.*
 
 With this setup you can also plug your original dongle, expanding the amount of controllers up to 4. It is also possible to
@@ -1099,7 +1103,7 @@ plug 4 twin pairs, expanding the amount of controllers up to 8.
 
 ### Custom Controller Setup
 
-If you have some different controller model, it's better to make kcm / kl files yourself:
+If you have some different controller model, and it works improperly then it's better to make / replace kcm / kl files yourself:
 
 1. Identify your PID / VID using AIDA or Apps:
 
