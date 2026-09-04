@@ -341,6 +341,12 @@ You will get chip information, eMMC information and extracted preloader in the m
 > [!WARNING]
 > This operation is mandatory, as only your backup can get your device back to life if it becomes bricked. **Please, Do Not Skip This Step.**
 
+> [!CAUTION]
+> If you have some problems with 'Read Back' operation in SP Flash Tool, please don't continue! Either contact me or 
+> give up. Some sticks may have 4GB eMMC variant instead of 8GB, that will be clear if you could not perform the operation
+> with the standard region sizes. Attempting to perform an upgrade on 4GB eMMC device will brick it 100%.
+> Contacting me after you've bricked the device without a proper backup is pointless.
+
 Open flash tool and choose **Download-Agent** and **Scatter**, see image below: 
 
 ![flashTool1](resources/images/flashTool1.webp)
@@ -1071,10 +1077,14 @@ the example of how to connect and set up a third party controller.
 ### GAMESIR NOVA 2 LITE Setup
 
 You can use much more comfortable and precise controllers which support Android OS.
-GAMESIR NOVA 2 LITE is a budget, precise and quite heavy controller supporting vibration and having 3 modes: XBox (Green), 
+GAMESIR NOVA 2 LITE* is a budget, precise and quite heavy controller supporting vibration and having 3 modes: XBox (Green), 
 Nintendo Switch (Red), Dual Shock 4 (Blue). Green variant is only for PC. The more appropriate one would be a controller
 supporting **trackpad** which gives you the ability to use cursor right in menus or system applications for easy navigation 
 and access to all UI elements. 
+
+\* *Be careful if you want to use GAMESIR products for two players mode on Android. The problem is that their controllers 
+might have the same unique id and descriptor which Android considers as a single device. If
+a game or an emulator relies on Android API, then both controllers will control the same player.*
 
 ![gamepads](resources/images/gamepads.webp)
 
