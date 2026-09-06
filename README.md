@@ -336,6 +336,10 @@ If the provided preloader does not fit then use [mtk client](https://github.com/
 
 You will get chip information, eMMC information and extracted preloader in the mtk client root folder.
 
+![preloader_in_folder](resources/images/preloader_in_folder.webp)
+
+![printgpt_output](resources/images/printgpt.webp)
+
 ### Read From eMMC
 
 > [!WARNING]
@@ -343,9 +347,19 @@ You will get chip information, eMMC information and extracted preloader in the m
 
 > [!CAUTION]
 > If you have some problems with 'Read Back' operation in SP Flash Tool, please don't continue! Either contact me or 
-> give up. Some sticks may have 4GB eMMC variant instead of 8GB, that will be clear if you could not perform the operation
+> give up. Some sticks may have 4GB eMMC* variant instead of 8GB, that will be clear if you could not perform the operation
 > with the standard region sizes. Attempting to perform an upgrade on 4GB eMMC device will brick it 100%.
-> Contacting me after you've bricked the device without a proper backup is pointless.
+> Contacting me after you've bricked the device without a proper backup is too late.
+
+\* *If you still want to make a backup for 4GB eMMC variant the standard region sizes are:*
+
+```
+EMMC_BOOT_1 - 0x000200000 =     2mb
+EMMC_BOOT_2 - 0x000200000 =     2mb
+EMMC_USER   - 0x0ec000000 =  3959mb
+```
+
+![psu](resources/images/psu.webp)
 
 Open flash tool and choose **Download-Agent** and **Scatter**, see image below: 
 
@@ -1076,13 +1090,13 @@ the example of how to connect and set up a third party controller.
 
 ### GAMESIR NOVA 2 LITE Setup
 
-You can use much more comfortable and precise controllers which support Android OS.
-GAMESIR NOVA 2 LITE* is a budget, precise and quite heavy controller supporting vibration and having 3 modes: XBox (Green), 
+You can use more comfortable and precise controllers which support Android OS.
+GAMESIR NOVA 2 LITE* is a budget, quite precise and heavy controller supporting vibration and having 3 modes: XBox (Green), 
 Nintendo Switch (Red), Dual Shock 4 (Blue). Green variant is only for PC. The more appropriate one would be a controller
 supporting **trackpad** which gives you the ability to use cursor right in menus or system applications for easy navigation 
 and access to all UI elements. 
 
-\* *Be careful if you want to use GAMESIR products for two players mode on Android. The problem is that their controllers 
+\* *Be careful if you want to use GAMESIR products for two players mode on Android. Their controllers 
 might have the same unique id and descriptor which Android considers as a single device. If
 a game or an emulator relies on Android API, then both controllers will control the same player.*
 
@@ -1106,7 +1120,7 @@ vendor and product but different versions.
 don't have trackpad, you still need to create / copy kcm file to activate 'TAB' button to be able to move across elements in
 system applications.*
 
-*If you have problems with separate controllers detection then use one in NS mode and the second in DS4 mode.*
+*If you have problems with separate controllers detection, then use one in NS mode and the second in DS4 mode.*
 
 With this setup you can also plug your original dongle, expanding the amount of controllers up to 4. It is also possible to
 plug 4 twin pairs, expanding the amount of controllers up to 8.
@@ -1187,6 +1201,8 @@ main menu.
 9. If for some reason RetroArch64 is unresponsive, you have to edit its configuration file manually. Go to *system/etc/retroarch.cfg*,
 copy it to your SD card, fix it manually, and put it back with Total Commander, then click **Reset RetroArch64 Config** option in **Apps**
 to generate actual retroarch.cfg with resolved SD card paths.
+10. Some controllers after disabling also deactivate dongles meaning that when you enable them again in a game, the RetroArch
+will assign them new ports as if they are new (ex: 3, 4 instead of 1, 2) keeping 1, 2 ports busy by ghost controllers. For that reason the controllers get completely unresponsive in the game till you restart the RetroArch.
 
 ## Graphic Settings
 
