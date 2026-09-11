@@ -13,9 +13,11 @@ class GlobalUI:
     proxy_address = ''
     proxy_name = ''
     proxy_password = ''
-    version = "v1.9"
+    version = "v1.95"
     fw_version = "v2.3"
+    img_ver = "2.3"
     firmware_folder = "M88FW"
+    supported_firmware_versions = [version]
     app_name = "M88GDBTool"
     user_file = "USER.img"
     new_db_name = "cachegames(updated).db"

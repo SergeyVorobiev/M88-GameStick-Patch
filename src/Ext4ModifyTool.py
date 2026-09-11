@@ -84,8 +84,8 @@ class Ext4ModifyTool:
             if os.path.exists(cmd_file):
                 os.remove(cmd_file)
 
-    # Create a mirror of folders and files from resources folder it will be sent to the image one by one
-    # by reconstructing the structure, resources folder is considered as the beginning (/)
+    # Create a mirror of folders and files from resources folder. They will be sent to the image one by one.
+    # Resources folder is considered as root (/).
     def mirror_files(self, resources_folder_path=None):
         if not resources_folder_path:
             resources_folder_path = Global.resources_folder_name
@@ -145,6 +145,29 @@ class Ext4ModifyTool:
             return True
         else:
             return False
+
+    # part must contain at least one alphabetic character, and must not have spaces
+    def get_folder_names_contain_part(self, path, part, debugfs=None, printc=None):
+        result = []
+        if not debugfs:
+            debugfs = "debugfs"
+        out = CMD.run([debugfs, "-R", "ls -d " + path, self.img_path], printc=printc).stdout
+        for p in out.split(" "):
+            if p.__contains__(part):
+                result.append(p)
+        return result
+
+    # part must contain at least one alphabetic character, and must not have spaces
+    def get_apk_names_contain_part(self, path, part, debugfs=None, printc=None):
+        result = []
+        if not debugfs:
+            debugfs = "debugfs"
+        out = CMD.run([debugfs, "-R", "ls -c " + path, self.img_path], printc=printc).stdout
+        for p in out.split(" "):
+            if p.__contains__(part) and p.endswith(".apk"):
+                result.append(p)
+        return result
+
 
 
 

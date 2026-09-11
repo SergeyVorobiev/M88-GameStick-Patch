@@ -1193,6 +1193,28 @@
     return v0
 .end method
 
+.method private isRetroArch32()Z
+    .locals 3
+
+    .prologue
+
+    invoke-virtual {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->getPackageManager()Landroid/content/pm/PackageManager;
+    move-result-object v0
+
+    :try_start
+    const-string v1, "com.retroarch.ra32"
+    const/4 v2, 0x0
+    invoke-virtual {v0, v1, v2}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;
+    const/4 v0, 0x1
+    return v0
+    :try_end
+    .catch Ljava/lang/Throwable; {:try_start .. :try_end} :catch_all
+
+    :catch_all
+    const/4 v0, 0x0
+    return v0
+.end method
+
 .method private setRetroArch64()Z
     .locals 2
 
@@ -1365,6 +1387,10 @@
     invoke-direct {v3, v2}, Ljava/io/File;-><init>(Ljava/lang/String;)V
 
     invoke-virtual {v3}, Ljava/io/File;->exists()Z
+    move-result v3
+    if-eqz v3, :cond_continue
+
+    invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->isRetroArch32()Z
     move-result v3
     if-eqz v3, :cond_continue
     invoke-direct {p0}, Lpaulscode/android/mupen64plusae/SplashActivity;->startRetroArch()V

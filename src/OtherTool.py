@@ -45,6 +45,13 @@ class OtherTool:
         os.makedirs(where, exist_ok=True)
 
     @staticmethod
+    def make_file(where, printc=None):
+        if printc is None:
+            printc = print
+        Path(where).touch()
+        printc("File created:", where)
+
+    @staticmethod
     def del_folder(what, printc=None):
         if printc is None:
             printc = print
@@ -114,6 +121,11 @@ class OtherTool:
         with open(from_where, 'r', encoding='utf-8') as file:
             lines = [line for line in file]
         return lines
+
+    @staticmethod
+    def write_to_file(where, what):
+        with open(where, 'w', encoding='utf-8') as file:
+            file.write(what)
 
     @staticmethod
     def add_lines_to_file(where, what):

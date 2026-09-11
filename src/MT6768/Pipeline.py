@@ -151,6 +151,18 @@ class Pipeline:
         apk_tool.decompile_into(folder_path, f'img/original/apk/{app_name}.apk')
 
     @staticmethod
+    def delete_n64_from_system_app(system_path="img/updated/system_a.img", debugfs=None, printc=None):
+        modify_tool = Ext4ModifyTool(system_path)
+
+        folders = modify_tool.get_folder_names_contain_part("/system/app", "n64", debugfs, printc)
+        for folder in folders:
+            n64_folder_path = "/system/app/" + folder
+            n64_apk_names = modify_tool.get_apk_names_contain_part(n64_folder_path, "n64", debugfs, printc)
+            for n64_apk_name in n64_apk_names:
+                n64_apk_path = n64_folder_path + "/" + n64_apk_name
+                modify_tool.remove_file(n64_apk_path, True, debugfs, printc)
+
+    @staticmethod
     def compile_and_sign_original_app(app_name):
         apk_tool = APKTool()
         apk_tool.compile_and_sign(f'img/original/d_apk/{app_name}', f'img/updated/apk/{app_name}.apk')
@@ -333,6 +345,63 @@ class Pipeline:
     def resize_system_img(size, path="img/updated/system_a.img", truncate=None, resize2fs=None, printc=None):
         modify_tool = Ext4ModifyTool(path)
         modify_tool.resize_img(size, truncate, resize2fs, printc)
+
+    @staticmethod
+    def get_fw_size(fw_size_path="img/original/extracted/super/system_a/system/etc/fw_size"):
+        try:
+            with open(fw_size_path, 'r', encoding='utf-8') as file:
+                return int(file.readline())
+        except FileNotFoundError:
+            ...
+        return 0
+
+    @staticmethod
+    def resize_system_img_conditionally(installation_type, img_ver, system_path="img/updated/system_a.img", updated_folder_path="img/updated", extracted_folder_path="img/original/extracted", truncate=None, resize2fs=None, debugfs=None, printc=None):
+        fw_path = extracted_folder_path + "/super/system_a/system/etc/fw_size"
+        size = Pipeline.get_fw_size(fw_path)
+        if size == 0 and Pipeline.is_retro_arch32_exists(system_path, debugfs, printc):
+            size = 500
+
+        if size == 500:
+            ... # max size
+        elif size == 300 and installation_type == 0:
+            Pipeline.resize_system_img('+200MB', system_path, truncate, resize2fs, printc)
+            size = 500
+        elif size == 100:
+            if installation_type == 0:
+                Pipeline.resize_system_img('+400MB', system_path, truncate, resize2fs, printc)
+                size = 500
+            elif installation_type == 1:
+                Pipeline.resize_system_img('+200MB', system_path, truncate, resize2fs, printc)
+                size = 300
+        elif size == 0:
+            if installation_type == 0:
+                Pipeline.resize_system_img('+500MB', system_path, truncate, resize2fs, printc)
+                size = 500
+            elif installation_type == 1:
+                Pipeline.resize_system_img('+300MB', system_path, truncate, resize2fs, printc)
+                size = 300
+            elif installation_type == 2:
+                Pipeline.resize_system_img('+100MB', system_path, truncate, resize2fs, printc)
+                size = 100
+
+        modify_tool = Ext4ModifyTool(system_path)
+        path_to_fw_size = "system/etc/fw_size"
+        modify_tool.remove_file(path_to_fw_size, True, debugfs, printc)
+        new_fw_size_path = updated_folder_path + "/fw_size"
+        OtherTool.del_file(new_fw_size_path, printc)
+        OtherTool.make_file(new_fw_size_path, printc)
+        OtherTool.write_to_file(new_fw_size_path, str(size))
+        modify_tool.add_file(new_fw_size_path, path_to_fw_size, True, False, debugfs, printc)
+
+        # add_ver
+        path_to_img_ver = "system/etc/img_ver"
+        modify_tool.remove_file(path_to_img_ver, True, debugfs, printc)
+        new_img_ver_path = updated_folder_path + "/img_ver"
+        OtherTool.del_file(new_img_ver_path, printc)
+        OtherTool.make_file(new_img_ver_path, printc)
+        OtherTool.write_to_file(new_img_ver_path, img_ver)
+        modify_tool.add_file(new_img_ver_path, path_to_img_ver, True, False, debugfs, printc)
 
     @staticmethod
     def check_original_hash():
@@ -594,27 +663,32 @@ class Pipeline:
                    updated_emu_apk_path='img/updated/apk/emu.apk',
                    updated_emu_d_apk_path="img/updated/d_apk/emu",
                    replace_emu_path="replace/emu",
+                   patched_emu_apk_path="replace/apk/emu.apk",
                    updated_system_path="img/updated/system_a.img",
+                   replace_only=False,
                    apk_tool_path=None,
                    apk_signer_path=None,
                    keystore=None,
                    debugfs=None,
                    printc=None,
                    java=None):
-        OtherTool.copy_file(extracted_path + "/super/system_a/system/app/emu/emu.apk", original_emu_apk_path, create_folders=True, printc=printc)
-        Pipeline.decompile_emu(original_emu_d_apk_path, original_emu_apk_path, apk_tool_path, apk_signer_path, printc=printc, java=java)
-        OtherTool.del_folder(updated_emu_d_apk_path, printc)
-        OtherTool.copy_folder(original_emu_d_apk_path, updated_emu_d_apk_path, printc)
-        Pipeline.patch_emu(updated_emu_apk_path,
-                           updated_emu_d_apk_path,
-                           replace_emu_path,
-                           updated_system_path,
-                           apk_tool_path,
-                           apk_signer_path,
-                           keystore,
-                           debugfs,
-                           printc,
-                           java)
+        if replace_only:
+            Pipeline.replace_emu(updated_system_path, patched_emu_apk_path, debugfs, printc)
+        else:
+            OtherTool.copy_file(extracted_path + "/super/system_a/system/app/emu/emu.apk", original_emu_apk_path, create_folders=True, printc=printc)
+            Pipeline.decompile_emu(original_emu_d_apk_path, original_emu_apk_path, apk_tool_path, apk_signer_path, printc=printc, java=java)
+            OtherTool.del_folder(updated_emu_d_apk_path, printc)
+            OtherTool.copy_folder(original_emu_d_apk_path, updated_emu_d_apk_path, printc)
+            Pipeline.patch_emu(updated_emu_apk_path,
+                               updated_emu_d_apk_path,
+                               replace_emu_path,
+                               updated_system_path,
+                               apk_tool_path,
+                               apk_signer_path,
+                               keystore,
+                               debugfs,
+                               printc,
+                               java)
 
     @staticmethod
     def repack_n64(extracted_path="img/original/extracted",
@@ -623,27 +697,32 @@ class Pipeline:
                    updated_n64_apk_path='img/updated/apk/n64.apk',
                    updated_n64_d_apk_path="img/updated/d_apk/n64",
                    replace_n64_path="replace/n64",
+                   patched_n64_apk_path="replace/apk/n64.apk",
                    updated_system_path="img/updated/system_a.img",
+                   replace_only=False,
                    apk_tool_path=None,
                    apk_signer_path=None,
                    keystore=None,
                    debugfs=None,
                    printc=None,
                    java=None):
-        OtherTool.copy_file(extracted_path + "/super/system_a/system/app/n64/n64.apk", original_n64_apk_path, printc=printc)
-        Pipeline.decompile_n64(original_n64_d_apk_path, original_n64_apk_path, apk_tool_path, apk_signer_path, printc=printc, java=java)
-        OtherTool.del_folder(updated_n64_d_apk_path, printc)
-        OtherTool.copy_folder(original_n64_d_apk_path, updated_n64_d_apk_path, printc)
-        Pipeline.patch_n64(updated_n64_apk_path,
-                           updated_n64_d_apk_path,
-                           replace_n64_path,
-                           updated_system_path,
-                           apk_tool_path,
-                           apk_signer_path,
-                           keystore,
-                           debugfs,
-                           printc,
-                           java)
+        if replace_only:
+            Pipeline.replace_n64(updated_system_path, patched_n64_apk_path, debugfs, printc)
+        else:
+            OtherTool.copy_file(extracted_path + "/super/system_a/system/app/n64/n64.apk", original_n64_apk_path, printc=printc)
+            Pipeline.decompile_n64(original_n64_d_apk_path, original_n64_apk_path, apk_tool_path, apk_signer_path, printc=printc, java=java)
+            OtherTool.del_folder(updated_n64_d_apk_path, printc)
+            OtherTool.copy_folder(original_n64_d_apk_path, updated_n64_d_apk_path, printc)
+            Pipeline.patch_n64(updated_n64_apk_path,
+                               updated_n64_d_apk_path,
+                               replace_n64_path,
+                               updated_system_path,
+                               apk_tool_path,
+                               apk_signer_path,
+                               keystore,
+                               debugfs,
+                               printc,
+                               java)
 
     @staticmethod
     def repack_retro_arch_32(original_d_apk_retroarch_path="img/original/d_apk/retroarch32",
@@ -680,38 +759,41 @@ class Pipeline:
         OtherTool.del_folder("img/updated")
 
     @staticmethod
-    def is_retro_arch_exists(system_path="img/original/extracted/super/system_a.img", debugfs=None, printc=None):
+    def is_retro_arch32_exists(system_path="img/original/extracted/super/system_a.img", debugfs=None, printc=None):
         return Ext4ModifyTool(system_path).check_file_exists("/system/priv-app/RetroArch_ra32/RetroArch_ra32.apk", debugfs, printc)
 
     @staticmethod
-    def repack_user(fix_audio, is_remove_temps=True):
+    def repack_user(fix_audio, replace_emu_apk=False, replace_n64_apk=False, is_remove_temps=True, installation_type=0):
+        start_time = time.perf_counter()
         try:
-            start_time = time.perf_counter()
             Pipeline.check_original_result_path_different()
             Pipeline.unpack_user()
             Pipeline.unpack_super()
             Pipeline.unpack_system()
             OtherTool.copy_file("img/original/extracted/super/system_a.img", "img/updated/system_a.img", True)
-            Pipeline.patch_privileges()
-            if not Pipeline.is_retro_arch_exists():
-                Pipeline.download_retro_arch_32_1222()
-                Pipeline.resize_system_img("+500M")
-                Pipeline.repack_retro_arch_32()
-            Pipeline.repack_emu()
-            Pipeline.repack_n64()
 
+            Pipeline.resize_system_img_conditionally(installation_type, "2.3")
+            Pipeline.patch_privileges()
+            Pipeline.delete_n64_from_system_app()
+            Pipeline.repack_n64(replace_only=replace_n64_apk)
             Pipeline.add_applauncher()
             Pipeline.add_commander()
-
-            Pipeline.add_aida()
-            Pipeline.add_cpuz()
-            Pipeline.add_citra()
-            Pipeline.add_dolphin()
-            Pipeline.add_nether()
-            Pipeline.add_retro_arch_64()
-
             Pipeline.patch_keyboard()
             Pipeline.add_retro_arch_config()
+            Pipeline.add_nether()
+            if installation_type != 2:
+                Pipeline.repack_emu(replace_only=replace_emu_apk)
+
+                if not Pipeline.is_retro_arch32_exists():
+                    Pipeline.download_retro_arch_32_1222()
+                    Pipeline.repack_retro_arch_32()
+
+            if installation_type == 0:
+                Pipeline.add_aida()
+                Pipeline.add_cpuz()
+                Pipeline.add_citra()
+                Pipeline.add_dolphin()
+                Pipeline.add_retro_arch_64()
 
             Pipeline.unpack_vendor()
             OtherTool.copy_file("img/original/extracted/super/vendor_a.img", "img/updated/vendor_a.img")
@@ -722,7 +804,7 @@ class Pipeline:
             OtherTool.copy_file(Pipeline.ORIGINAL_USER_IMG_PATH, Pipeline.FINAL_USER_IMG_PATH)
             Pipeline.inject_boot_into_user()
             Pipeline.inject_super_into_user()
-            Pipeline.print_past_time(start_time)
         finally:
             if is_remove_temps:
                 Pipeline.remove_temps()
+            Pipeline.print_past_time(start_time)

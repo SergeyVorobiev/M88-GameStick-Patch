@@ -1,6 +1,43 @@
 from src.Global import Global
 from src.MT6768.Pipeline import Pipeline
 
+# Full installation includes: (+500MB) 8GB eMMC variant
+# 1. Patch privileges
+# 2. Add RetroArch32
+# 3. Patch emu
+# 4. Patch n64
+# 5. Add AppLauncher
+# 6. Add TotalCommander
+# 7. Add [Aida, CPU-Z, Citra, Dolphin, Nether, RetroArch64] into system
+# 8. Patch gamepad buttons
+# 9. Patch audio
+# 10. Replace Aether with Nether
+FULL = 0
+
+# Partial installation includes: (+300MB) 8GB / 4GB eMMC variant
+# 1. Patch privileges
+# 2. Add RetroArch32
+# 3. Patch emu
+# 4. Patch n64
+# 5. Add AppLauncher
+# 6. Add TotalCommander
+# 7. Don't add [Aida, CPU-Z, Citra, Dolphin, Nether, RetroArch64] into system (they can be placed in ext_sd_card/Apps)
+# 8. Patch gamepad buttons
+# 9. Patch audio
+# 10. Replace Aether with Nether
+PARTIAL = 1
+
+# Minimal installation includes: (+100MB) 8GB / 4GB eMMC variant
+# 1. Patch privileges
+# 2. Patch n64
+# 3. Add AppLauncher
+# 4. Add TotalCommander
+# 5. Don't add [Aida, CPU-Z, Citra, Dolphin, Nether, RetroArch64] into system (they can be placed in ext_sd_card/Apps)
+# 6. Patch gamepad buttons
+# 7. Patch audio
+# 8. Replace Aether with Nether
+# In this variant the main UI is untouched, everything behaves by default. Updated functionality is accessible via AppLauncher.
+MINIMAL = 2
 
 # v2.3
 if __name__ == '__main__':
@@ -28,5 +65,17 @@ if __name__ == '__main__':
     # It's better to make sure that files in keychars, boot, system, audio folders uses LF.
 
     # If you have installed some additional frameworks in apktool be careful.
-    # You also have to put (aida, cpuz, citra, dolphin, nether, retroarch64, applauncher, totalcommander) apk files from M88FW archive into img/original/apk folder.
-    Pipeline.repack_user(fix_audio)
+    # You also have to put (aida, cpuz, citra, dolphin, nether, retroarch64, applauncher, totalcommander)
+    # apk files from M88FW archive into img/original/apk folder.
+
+    # Just replace already patched n64 and emu instead of patching existing.
+    # Copy n64 and emu from M88FW/replace/apk into replace/apk folder
+    replace_emu_apk = False
+    replace_n64_apk = False
+
+    # Remove temporary files after finishing
+    remove_temps = False
+
+    Pipeline.repack_user(fix_audio, replace_emu_apk, replace_n64_apk, remove_temps, MINIMAL)
+
+

@@ -9,6 +9,7 @@
    1. [The Problem](#the-problem)
    2. [Patch Overview](#patch-overview)
    3. [How To Fix](#how-to-fix)
+      1. [Installation variants](#installation-variants)
    4. [Resources](#resources)
 2. [Firmware Upgrade](#firmware-upgrade)
    1. [Enter BROM Mode](#enter-brom-mode)
@@ -38,9 +39,10 @@
     1. [GAMESIR NOVA 2 LITE Setup](#gamesir-nova-2-lite-setup)
     2. [Custom Controller Setup](#custom-controller-setup)
     3. [RetroArch Controller Setup](#retroarch-controller-setup) 
-11. [Graphic Settings](#graphic-settings)
-12. [Scripts](#scripts)
-13. [Contact](#contact)
+11. [Your APK files (PS Vita example)](#your-apk-files)
+12. [Graphic Settings](#graphic-settings)
+13. [Scripts](#scripts)
+14. [Contact](#contact)
 
 ## Introduction
 
@@ -52,8 +54,10 @@ It has no cooling and may overheat quickly in 3D games.
 Hardware:
 
 1. [Helio P65](https://nanoreview.net/en/soc/mediatek-helio-p65) / [Helio G88](https://nanoreview.net/en/soc/mediatek-helio-g88) chipset (12x11mm).
-2. [eMMC 5.1 8GB](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar (13x11mm).
+2. [eMMC 5.1 8GB](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar* (13x11mm).
 3. [DDR4 16Gb d / 2GB](https://semiconductor.samsung.com/dram/lpddr/lpddr4/k4f6e3s4hm-ghcl/) or similar (15x10mm).
+
+\* There is also 4GB versions.
 
 SD Card:
 
@@ -226,6 +230,8 @@ The fixes include:
 7. Patching mupen64plusae to redirect game launching to RetroArch32 1.22.2 (optionally).
 8. Patching audio config to fix only left channel sound issue (Stereo sound fix, since v2.2).
 9. Adding Dolphin, Citra, RetroArch64 emulators (since v2.3). 
+10. Ability to install your own emulators and apks (since v2.3).
+
 \**RetroArch32 quick menu will show 1.19 but games will run under the 1.22.2.*
 
 > [!NOTE]
@@ -233,22 +239,21 @@ The fixes include:
 > If you want full control plus Dolphin, Citra, RetroArch64 support, please carefully read [this paragraph](#full-house)
 > after performing the upgrade.
 
+> [!NOTE]
+> 
+> Carefully read [this paragraph](#your-apk-files) to get access to PS Vita.
+
 ### How To Fix
 
 > [!WARNING]  
 > Firmware upgrade might potentially brick your device, do it at your own risk, always make a backup to be able to roll back.
 
-There are three options, all of them imply you have M88-P65-V1.8, but they do not guarantee a success if your stick has different hardware / software.
+There are two options, both imply you have M88-P65-V1.8 8GB, but they do not guarantee a success if your stick has different hardware / software.
+You are also able to upgrade M88-P65-V2.1 4GB version but with some limitations (will be seen below).
 
-Option one is to replace the whole USER area on the eMMC of your stick on [the provided one](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/USER_v2.3.7z):
-1. Upgrade the firmware ([Firmware Upgrade](#firmware-upgrade)).
-2. Put RetroArch folder on your SD card. ([RetroArch Setup](#retroarch-setup)).
-3. Read [Game Won't Start](#game-wont-start).
+Option one (recommended):
 
-Option two is the same, but you have to make an upgraded image from your original one to use it instead of provided one. 
-It also gives a better chance of success:
-
-1. Read [this](#firmware-upgrade) to just make a backup.
+1. Read [this](#firmware-upgrade) just to make a backup (Read From eMMC).
 2. Download and unpack this [archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88FW.7z), password: m88.
 3. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.95.exe).
 4. Put these three files next to each other:
@@ -259,15 +264,63 @@ It also gives a better chance of success:
 
     ![upgrade](resources/images/upgrade.webp)
 
-6. Perform steps from *Option one* but use the upgraded image from *M88FW/result/USER.img*.
+    GDBTool provides you several upgrade options:
+   
+    ![u_options](resources/images/u_options.webp)
 
-In option three you use scripts to make an upgraded image:  
+    1. **Remove temporary files on finish** - delete all unpacked files after the process is done.
+    2. **Fix stereo sound** - Use this option if you hear the sound only from the left channel.
+    3. **Replace Emu apk instead of patching** - emu.apk is a main UI shell, different manufacturers or sellers install different
+    variants of this program, for 8GB version keep it checked at first try, for 4GB try to uncheck it.
+    4. **FULL, PARTIAL, MINIMAL** - see [variants](#installation-variants). MINIMAL is used if nothing else works. It will only
+    add the ability to launch AppLauncher, see [this](#full-house) for details.
 
-1. Read [this](#firmware-upgrade) to just make a backup.
-2. Read and perform steps from [Scripts](#scripts) paragraph by using your backup.
-3. Perform steps from *Option one* but use your own *USER.img* generated on step 2 instead of provided one.
+6. [Upgrade](#write-to-emmc) the firmware.
+7. Add [RetroArch folder](#retroarch-setup).
+8. Setup [AppLauncher](#full-house).
+9. Read [Game Won't Start](#game-wont-start).
+
+In option two you use scripts, to make an upgraded image, the steps are the same as in option one, but in the point 5 you use 
+[Scripts](#scripts) instead of GDBTool.
 
 If nothing works, feel free to [contact me](#Contact).
+
+#### Installation variants:
+
+FULL installation includes (+500MB eMMC variant):
+1. Patch privileges
+2. Add RetroArch32
+3. Patch emu
+4. Patch n64
+5. Add AppLauncher
+6. Add TotalCommander
+7. Add [Aida, CPU-Z, Citra, Dolphin, Nether, RetroArch64] into system
+8. Patch gamepad buttons
+9. Patch audio
+10. Replace Aether with Nether
+
+PARTIAL installation includes: (+300MB eMMC variant):
+1. Patch privileges
+2. Add RetroArch32
+3. Patch emu
+4. Patch n64
+5. Add AppLauncher
+6. Add TotalCommander
+7. Don't add [Aida, CPU-Z, Citra, Dolphin, Nether, RetroArch64] into system (they can be placed in ext_sd_card/Apps)
+8. Patch gamepad buttons
+9. Patch audio
+10. Replace Aether with Nether
+
+MINIMAL installation includes: (+100MB eMMC variant):
+1. Patch privileges
+2. Patch n64
+3. Add AppLauncher
+4. Add TotalCommander
+5. Don't add [Aida, CPU-Z, Citra, Dolphin, Nether, RetroArch64] into system (they can be placed in ext_sd_card/Apps)
+6. Patch gamepad buttons
+7. Patch audio
+8. Replace Aether with Nether
+In this variant the main UI is untouched, everything behaves by default. Updated functionality is accessible via AppLauncher.
 
 ### Resources
 
@@ -347,32 +400,34 @@ You will get chip information, eMMC information and extracted preloader in the m
 
 > [!CAUTION]
 > If you have some problems with 'Read Back' operation in SP Flash Tool, please don't continue! Either contact me or 
-> give up. Some sticks may have 4GB eMMC* variant instead of 8GB, that will be clear if you could not perform the operation
-> with the standard region sizes. Attempting to perform an upgrade on 4GB eMMC device will brick it 100%.
-> Contacting me after you've bricked the device without a proper backup is too late.
-
-\* *If you still want to make a backup for 4GB eMMC variant the standard region sizes are:*
-
-```
-EMMC_BOOT_1 - 0x000200000 =     2mb
-EMMC_BOOT_2 - 0x000200000 =     2mb
-EMMC_USER   - 0x0ec000000 =  3776mb
-```
-
-![psu](resources/images/psu.webp)
+> give up. Contacting me after you've bricked the device without a proper backup is too late.
 
 Open flash tool and choose **Download-Agent** and **Scatter**, see image below: 
 
 ![flashTool1](resources/images/flashTool1.webp)
 
-Go to **Readback** tab, setup regions as shown in the image below, click **Read Back**
+Go to **Readback** tab, setup regions as shown in the image below, click **Read Back***
 and connect your device as described in [Enter BROM Mode](#enter-brom-mode).
+
+\* *The operation must be chosen before the device connection.*
+
 ```
-Standard region sizes*:
+Standard region sizes 8GB*:
 EMMC_BOOT_1 - 0x000400000 =     4mb
 EMMC_BOOT_2 - 0x000400000 =     4mb
 EMMC_USER   - 0x1d2000000 =  7456mb
 ```
+
+```
+Standard region sizes 4GB*:
+EMMC_BOOT_1 - 0x000200000 =     2mb
+EMMC_BOOT_2 - 0x000200000 =     2mb
+EMMC_USER   - 0x0ec000000 =  3776mb
+```
+
+\* If you don't know your size variant (8GB / 4GB), try 8GB first, if the program says something like 'numbers are too large'
+then most likely you have 4GB variant, and you need to use region sizes for 4GB accordingly.
+
 \* Use `mtk printgpt` command as mentioned above if you have any doubts about region sizes of your stick.
 
 ![flashTool2](resources/images/flashTool2.webp)
@@ -395,16 +450,11 @@ Use [7-zip](https://www.7-zip.org/download.html) to open your USER* image, it wi
 
 ### Write to eMMC
 
-1. Download, unpack and verify sha512 of [patched image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/USER_v2.3.7z) or use your upgraded one.
-2. Check the size of the image, edit if needed:
-    ```
-    partition_size: 0x1d2000000
-    ```
-    0x1d2000000 = 7818182656 bytes.
+![psu](resources/images/psu.webp)
 
-3. Open Flash Tool.
-
-You have two options (both include **FORMATTING**). The first one is more preferable.
+1. Use your upgraded USER.img.
+2. Open SP Flash Tool.
+3. You have two options (both include **FORMATTING**). The first one is more preferable.
 
 Option one:
 1. Select *Format* tab.
@@ -951,12 +1001,19 @@ or:
 
 ## Full House
 
-Since v2.3* you have the ability to run new emulators (Citra, Dolphin, RA64). It relies on the injected application providing the
+> [!NOTE]  
+> In case you have applied PARTIAL or MINIMAL upgrade variant, go to downloaded **M88FW/replace/Apps** folder and copy it
+> into your SD card root - **sdcard/Apps**. The standard applications must be taken from your SD card because in your case 
+> they are not installed in the system area. See also [Your apk files](#your-apk-files) paragraph.
+
+Since v2.3* you have the ability to run new emulators (Citra, Dolphin, RA64**) and install your own .apk files. It relies on the injected application providing the
 installation and launching methods. You should also read [Controller Problems](#controller-problems) paragraph first.
 It also has the TotalCommander on the board, which opens the door for installation and launching of potentially whatever you want. Be aware,
 by modifying the system with Total Commander you may brick the device (be ready to reflash it at any moment).
 
 \* *Minimum GDBTool version for the update is v1.9*.
+
+\** *RetroArch 64 will most likely not able to be installed on 4GB stick version due to very limited userdata area.*
 
 ![app](resources/images/app.webp)
 
@@ -1081,7 +1138,8 @@ How to choose your sdcard from system 'Files' app:
 
 >[!NOTE]
 >Some screens like system 'Recent' or Yaba require you to switch between sections, where 'TAB' button could not help. Ctrl + 'TAB'
->should do the trick, but unfortunately, even this trick seems not working on stick's Android OS version. 
+>should do the trick, but unfortunately, even this trick seems not working on stick's Android OS version. To bypass this issue
+>you can temporarily remove your dongle and connect a mouse, or use a controller supporting **trackpad**, see also [3rd party controller setup](#third-party-controller-setup).
 
 ## Third Party Controller Setup
 
@@ -1123,7 +1181,7 @@ system applications.*
 *If you have problems with separate controllers detection, then use one in NS mode and the second in DS4 mode.*
 
 With this setup you can also plug your original dongle, expanding the amount of controllers up to 4. It is also possible to
-plug 4 twin pairs, expanding the amount of controllers up to 8.
+plug 4 twin pairs, expanding the amount of controllers up to 8. You can also connect your keyboard / mouse along with gamepads.
 
 ### Custom Controller Setup
 
@@ -1203,6 +1261,9 @@ copy it to your SD card, fix it manually, and put it back with Total Commander, 
 to generate actual retroarch.cfg with resolved SD card paths.
 10. Some controllers after disabling also deactivate dongles meaning that when you enable them again in a game, the RetroArch
 will assign them new ports as if they are new (ex: 3, 4 instead of 1, 2) keeping 1, 2 ports busy by ghost controllers. For that reason the controllers get completely unresponsive in the game till you restart the RetroArch.
+
+## Your APK Files
+...
 
 ## Graphic Settings
 
