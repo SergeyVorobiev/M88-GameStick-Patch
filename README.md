@@ -535,7 +535,7 @@ input_toggle_fast_forward - speed up a game
 You can override particular config parameters for specific platform or a game.
 
 Example:
-1. Create a config file `sdcard/RetroARch/config/Genesis Plus GX/Genesis Plus GX.cfg`.
+1. Create a config file `sdcard/RetroArch/config/Genesis Plus GX/Genesis Plus GX.cfg`.
 2. Write inside the file `video_smooth = "true"`. 
 
 Above parameter will override the default one for specific platform.

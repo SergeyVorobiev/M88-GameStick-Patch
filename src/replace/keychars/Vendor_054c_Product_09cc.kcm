@@ -52,3 +52,7 @@ key BUTTON_R2 {
     shift, capslock:                    'T'
 
 }
+
+key BUTTON_MODE {
+    base:                               fallback BACK
+}
