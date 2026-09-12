@@ -320,7 +320,11 @@ MINIMAL installation includes: (+100MB eMMC variant):
 6. Patch gamepad buttons
 7. Patch audio
 8. Replace Aether with Nether
-In this variant the main UI is untouched, everything behaves by default. Updated functionality is accessible via AppLauncher.
+
+*In MINIMAL variant the main UI is untouched, everything behaves by default. Updated functionality is accessible via AppLauncher. See [this](#full-house)*.
+
+*You can upgrade the same firmware from MINIMAL to FULL but not from FULL to MINIMAL, always use your original firmware to downgrade a variant.
+If your stick has been upgraded before without any variants then it is considered as FULL (choose FULL to upgrade it again).*
 
 ### Resources
 
@@ -335,7 +339,7 @@ In this variant the main UI is untouched, everything behaves by default. Updated
 9. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.95.exe).
 10. [BoxArts](https://thumbnails.libretro.com/).
 
-\* *New cores are contained in RetroArch folder only for upgraded firmware.*
+\* *New cores are contained in RetroArch folder (only for upgraded firmware).*
 
 ## Firmware Upgrade
 
@@ -575,6 +579,21 @@ input_shader_toggle_btn = "299" # R3
 ```
 
 *Select + R3* will disable / enable the default shader.
+
+By default, some hotkeys are already set up:
+
+```
+select + L1 - decrease save slot
+select + R1 - increase save slot
+select + L2 - save in current slot
+select + R2 - load from current slot
+select + L3 - enable / disable FPS
+select + R3 - enable / disable shaders
+select + <-RS - slow down
+select + RS-> - speed up
+select + RS^ - volume up
+select + RSv - volume down 
+```
 
 See [controller codes](resources/m88/Twin%20USB%20Joystick.cfg).
 
@@ -1013,7 +1032,8 @@ by modifying the system with Total Commander you may brick the device (be ready 
 
 \* *Minimum GDBTool version for the update is v1.9*.
 
-\** *RetroArch 64 will most likely not able to be installed on 4GB stick version due to very limited userdata area.*
+\** *RetroArch 64 will most likely not able to be installed on 4GB stick version due to very limited userdata area. 
+To install it, try to do 'Restore Factory Settings' in 'System Settings' (it will clean userdata) and install RA64 first.*
 
 ![app](resources/images/app.webp)
 
@@ -1088,8 +1108,16 @@ using SD card for everything.
 1. You can choose among both variants (Standard / Tv). Tv version is more preferable for navigation.
 2. Create folders with games on your SD card like *sdcard/roms/wii*, *sdcard/roms/cube* and put games inside.
 3. Open the Dolphin and select '+' button, navigate to your folders and select them one by one.
-4. Carefully map controller buttons in the settings.
+4. Carefully map controller buttons* in the settings.
 5. Enjoy.
+
+\* *You can't replace B button which has the default function of invoking the menu in a game. To correctly map B button 
+you have two options:*
+
+1. *Ugly, assign another button like R3 to B, in this case B (by default) will have BACK_BUTTON function to invoke the menu.*
+2. *Use custom controller with Home / PS button, in this case you can assign BACK_BUTTON (fallback BACK) as the second 
+function of Home / PS via .kcm file, see [this](#custom-controller-setup).*
+*After that you can safely assign B button and use Home / PS button for invoking the menu.*
 
 ![dolphingames](resources/images/dolphingames.webp)
 
