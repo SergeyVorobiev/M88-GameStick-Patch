@@ -1234,33 +1234,33 @@ folders accordingly with Total Commander.
 
 To avoid some unexpected bugs and wrong behavior you need to be aware about next things:
 
-1. Set autodetect option in retroarch.cfg file to true:
+1. Set 'autodetect option' in retroarch.cfg file to true:
 `input_autodetect_enable = "true"`.
-Because different controllers could use different key codes, and the same controller can have different device id after disabling / enabling,
-if this option is false, then you risk to get RetroArch being partially or completely unresponsive.
+Because different controllers could use different key codes, and the same controller can have different device id after 
+disabling / enabling, if this option is false, then you risk getting RetroArch being partially or completely unresponsive. 
 2. Erase all button keys from your retroarch.cfg file (i.e. all lines like - input_player1_a_btn = "nul" must not have numbers).
-Default button numbers might conflict with autodetection, leading to unexpected bugs. Do not touch hotkeys though,
+Default button numbers might conflict with autodetection, leading to unexpected bugs. Do not touch hotkeys though;
 they better be hardcoded in the config file.
-3. Use autoconfig only for RetroArch64. As RetroArch32 is partially installed on the stick, autoconfig most likely will
-not work for it.
+3. Use autoconfig only for RetroArch64. As RetroArch32 is partially installed on the stick, autoconfig most likely will not work for it. 
 4. Some controllers may have additional inputs like 'Motion sensors' or 'Touchpad' that could be interpreted by RetroArch
 incorrectly. To disable them create a [file](src/replace/keychars/excluded-input-devices.xml) and enlist all such devices.
 Put the file in *system/etc* folder. Use Apps->Input Info to detect such devices.
 5. Make an appropriate keys map file and put it in *sdcard/RetroArch/autoconfig/custom* folder. See existing [examples](src/replace/keychars/retroarch/android).
-VID and PID must be decimal not hexademical. See [this](https://developer.android.com/reference/android/view/KeyEvent) to assign
+VID and PID must be decimal not hexadecimal. See [this](https://developer.android.com/reference/android/view/KeyEvent) to assign
 correct Android key codes. Without this file, RetroArch would not know what keycodes to assign after auto-detecting the controller.
 6. When you create autconfig file for RetroArch, usually the axis codes for right analog stick (R3) are always ±2 for X and ±3 for Y
 even if the real codes are different.
-7. Android always produces D-PAD codes for D-PAD - 19,20,21,22 even if a joystick generates axis HAT_X/Y, but RetroArch does not
-understand it, for that reason it's practically impossible to just hardcode android keys for 'every' controller right 
-in retroarch.cfg file, (to forget about bug-y input autodetection) even though it should be possible in theory.
-8. For some reason, some games, being run from stick's UI directly, do not pick up key codes automatically, run such games from RetroArch64
-main menu.
-9. If for some reason RetroArch64 is unresponsive, you have to edit its configuration file manually. Go to *system/etc/retroarch.cfg*,
-copy it to your SD card, fix it manually, and put it back with Total Commander, then click **Reset RetroArch64 Config** option in **Apps**
-to generate actual retroarch.cfg with resolved SD card paths.
-10. Some controllers after disabling also deactivate dongles meaning that when you enable them again in a game, the RetroArch
-will assign them new ports as if they are new (ex: 3, 4 instead of 1, 2) keeping 1, 2 ports busy by ghost controllers. For that reason the controllers get completely unresponsive in the game till you restart the RetroArch.
+7. Android always produces D-PAD codes for D-PAD - 19,20,21,22 even if a joystick generates axis HAT_X/Y, but RetroArch 
+does not understand it, for that reason it's practically impossible to just hardcode android keys for 'every' controller 
+right in retroarch.cfg file, (to forget about bug-y input autodetection) even though it should be possible in theory. 
+8. For some reason, some games, being run from stick UI directly, do not pick up key codes automatically, run such games 
+from RetroArch64 main menu.
+9. If for some reason RetroArch64 is unresponsive, you have to edit its configuration file manually. Go to *system/etc/retroarch.cfg*, 
+copy it to your SD card, fix it manually, and put it back with Total Commander, then click **Reset RetroArch64 Config** option 
+in **Apps** to generate actual retroarch.cfg with resolved SD card paths.
+10. Some controllers, after disabling, also deactivate dongles, meaning that when you enable them again in a game, 
+the RetroArch will assign new ports to them as if they are new (ex: 3, 4 instead of 1, 2) keeping 1, 2 ports busy by ghost
+controllers. For that reason, the controllers get completely unresponsive until you restart the RetroArch. 
 
 ## Your APK Files
 ...
