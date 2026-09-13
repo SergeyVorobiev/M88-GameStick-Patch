@@ -752,6 +752,8 @@ atari5200->a5200_libretro_android.so
 dos->dosbox_pure_libretro_android.so
 ```
 
+Since v2.3 you can use RetroArch64 main menu to install any core you want, making this functionality deprecated.
+
 ### Game Won't Start
 
 If you see a black screen or a game crashes at the start don't immediately blame the stick or the firmware. 
@@ -1035,6 +1037,8 @@ by modifying the system with Total Commander you may brick the device (be ready 
 \** *RetroArch 64 will most likely not able to be installed on 4GB stick version due to very limited userdata area. 
 To install it, try to do 'Restore Factory Settings' in 'System Settings' (it will clean userdata) and install RA64 first.*
 
+![restoreFS](resources/images/restoreFactorySettings.webp)
+
 ![app](resources/images/app.webp)
 
 To run the application:
@@ -1073,7 +1077,8 @@ To install cores do the next:
 3. Go to **Settings** -> **Core** -> **Manage Cores** -> **Install or Restore a Core**.
 4. Choose the path */storage/A046-6AFE/RetroArch/cores64* and select a core to install*. (Your UUID of SD card will be different).
 
-\* *Install all accessible cores in advance to not catch 'white screen' because you forgot to install an appropriate core*.
+\* *Install all accessible cores in advance to not catch 'white screen' because you forgot to install an appropriate core.
+Be careful if you have 4GB eMMC variant, it has very limited space in userdata, therefore you probably will not need to install them all*.
 
 *Note: RetroArch64 will not recheck manual config changes on each run, (it applies once after installing the app), therefore, if you have changed or formatted your sd card its UUID will be
 changed and paths will be broken. To reapply the valid config click **Reset RetroArch64 Config** option*.
@@ -1288,10 +1293,56 @@ copy it to your SD card, fix it manually, and put it back with Total Commander, 
 in **Apps** to generate actual retroarch.cfg with resolved SD card paths.
 10. Some controllers, after disabling, also deactivate dongles, meaning that when you enable them again in a game, 
 the RetroArch will assign new ports to them as if they are new (ex: 3, 4 instead of 1, 2) keeping 1, 2 ports busy by ghost
-controllers. For that reason, the controllers get completely unresponsive until you restart the RetroArch. 
+controllers. For that reason, the controllers get completely unresponsive (in a game) until you restart the RetroArch. 
 
 ## Your APK Files
-...
+Since v2.3 you are able to install .apk files by using Total Commander or you can place an .apk file in *sdcard/Apps* 
+to see it in AppLauncher. After clicking on it the installation starts automatically.
+
+Prerequisites for PS Vita:
+
+1. Good SD card.
+2. Active cooling.
+3. A Gamepad with Home / PS button (Home button on native gamepads is used only for switching on/off and is not functional) +
+trackpad (touchpad) or USB-A hub with connected mouse.
+
+>[!NOTE]
+>It might be hard to navigate some screens during the installation. Touchpad / mouse might be the only choice.
+> 
+
+Installation:
+
+1. Download [Vita3k](https://vita3k.org/download), choose Android variant.
+2. Download rom files and put them in *sdcard/roms/psv*.
+3. Download [system archive](https://1drv.ms/u/c/28d6b1fe696eddef/IQDuXJ59L7CcRYI4-CVffv2WAYgEUBTLC-QfAKorLmrFnHg?e=H37xip) 
+and unpack files in *sdcard/Download/psv*, password: psvita.
+4. Create system folder - *sdcard/System/psv*.
+5. Put the Vita3k.apk file in *sdcard/Apps* folder, then after launching gamestick and opening Apps, you should see 
+something like this:
+
+    ![appLauncher](resources/images/appLauncher.webp)
+
+6. Click on Vita3k to install it.
+7. Click one more time to open it:
+
+    ![vita3k](resources/images/PSVitaFW.webp)
+
+8. Don't install firmware yet, skip this screen because you want to change system folder path to sdcard. 
+Don't use inner memory (userdata), your free space will swiftly run out.
+9. Choose the system folder from your sdcard as **Emulated System Storage Folder** in Settings->Emulator tab:
+    
+    ![systemPSV.webp](resources/images/systemPSV.webp)
+
+10. Go back to **Welcome Screen** via Burger menu (3 dots) and install firmware as shown on the screenshot above (point 7).
+11. Open Library, click + button choose **Archive (ZIP/VPK)** and **Select archive file** or the whole folder 
+(but be careful it may take time):
+
+    ![installContentV3k](resources/images/installContentV3k.webp)
+
+12. Navigate to folder with your rom files - *sdcard/roms/PSV* and choose a game to install.
+13. Enjoy.
+
+![FarmingSimulatorKillAllZombies](resources/images/farmingSimulatorKillAllZombies.webp)
 
 ## Graphic Settings
 
