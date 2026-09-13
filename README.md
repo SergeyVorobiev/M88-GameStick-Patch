@@ -1335,12 +1335,12 @@ Don't use inner memory (userdata), your free space will swiftly run out.
 
 10. Go back to **Welcome Screen** via Burger menu (3 dots) and install firmware as shown on the screenshot above (step 7).
 You will find needed files downloaded and unpacked into *sdcard/Download/psv* on step 3.
-11. Open Library, click + button, choose **Archive (ZIP/VPK)** and **Select archive file** or the whole folder 
-(but be careful it may take time):
+11. Open Library, click + button, choose **Archive (ZIP/VPK)** and **Select archive file** or the whole games folder 
+(but be careful, if the folder contains many games it may take time):
 
     ![installContentV3k](resources/images/installContentV3k.webp)
 
-12. Navigate to folder with your rom files - *sdcard/roms/PSV* and choose a game to install.
+12. Navigate to folder with your rom files - *sdcard/roms/psv* and choose a game to install.
 13. Enjoy.
 
 ![FarmingSimulatorKillAllZombies](resources/images/farmingSimulatorKillAllZombies.webp)
