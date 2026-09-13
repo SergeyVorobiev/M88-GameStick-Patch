@@ -1333,8 +1333,9 @@ Don't use inner memory (userdata), your free space will swiftly run out.
     
     ![systemPSV.webp](resources/images/systemPSV.webp)
 
-10. Go back to **Welcome Screen** via Burger menu (3 dots) and install firmware as shown on the screenshot above (point 7).
-11. Open Library, click + button choose **Archive (ZIP/VPK)** and **Select archive file** or the whole folder 
+10. Go back to **Welcome Screen** via Burger menu (3 dots) and install firmware as shown on the screenshot above (step 7).
+You will find needed files downloaded and unpacked into *sdcard/Download/psv* on step 3.
+11. Open Library, click + button, choose **Archive (ZIP/VPK)** and **Select archive file** or the whole folder 
 (but be careful it may take time):
 
     ![installContentV3k](resources/images/installContentV3k.webp)
