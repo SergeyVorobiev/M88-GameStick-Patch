@@ -333,11 +333,10 @@ If your stick has been upgraded before without any variants then it is considere
 3. 32x Cores' [backup](https://1drv.ms/u/c/28d6b1fe696eddef/IQCsbMkF_SXWS7yB4WNzuxTTAU-g4nF-Kn7NkSBCxn8Rfmc?e=34dujr) january 2026. (password: m88)
 4. Stick's default cores [backup](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link)*.
 5. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/RetroArch_v2.3.7z).
-6. [M88 upgraded image](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/USER_v2.3.7z).
-7. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
-8. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-9. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.95.exe).
-10. [BoxArts](https://thumbnails.libretro.com/).
+6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
+7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.95.exe).
+9. [BoxArts](https://thumbnails.libretro.com/).
 
 \* *New cores are contained in RetroArch folder (only for upgraded firmware).*
 
