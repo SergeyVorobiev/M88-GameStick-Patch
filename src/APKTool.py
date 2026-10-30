@@ -7,7 +7,7 @@ from src.OtherTool import OtherTool
 
 class APKTool:
 
-    def __init__(self, apk_tool_path=None, apk_signer_path=None, java=None):
+    def __init__(self, apk_tool_path=None, apk_signer_path=None, java=None, zipalign=None, jarsigner=None):
         if java is None:
             self.java = Global.java
         else:
@@ -20,6 +20,14 @@ class APKTool:
             self.apk_signer_path = Global.apksigner
         else:
             self.apk_signer_path = apk_signer_path
+        if zipalign is None:
+            self.zipalign = Global.zipalign
+        else:
+            self.zipalign = zipalign
+        if jarsigner is None:
+            self.jarsigner = "jarsigner"
+        else:
+            self.jarsigner = jarsigner
 
     def decompile_into(self, folder_path, apk_path, printc=None):
         cmd = [self.java, "-jar", self.apk_tool_path, "d", apk_path, "-o", folder_path]
@@ -31,6 +39,11 @@ class APKTool:
 
     def verify_signature(self, apk_path, printc=None):
         cmd = [self.apk_signer_path, "verify", "--verbose", "--print-certs", apk_path]
+        result = CMD.run(cmd, printc=printc)
+        return result
+
+    def verify_jar_signature(self, jar_path, printc=None):
+        cmd = [self.jarsigner, "-verify", "-verbose", "-certs", jar_path]
         CMD.run(cmd, printc=printc)
 
     def print_frameworks(self):
@@ -45,6 +58,14 @@ class APKTool:
         else:
             password = "pass:" + password
         cmd = [self.apk_signer_path, "sign", "--ks", keystore, "--ks-key-alias", alias, "--ks-pass", password, apk_path]
+        CMD.run(cmd, printc=printc)
+
+    def sign_with_pk8(self, unsigned_path, align_path, signed_path, pk8_path, pem_path, printc=None):
+        if align_path is not None:
+            CMD.run([self.zipalign, "-v", "4", unsigned_path, align_path], printc=printc)
+        else:
+            align_path = unsigned_path
+        cmd = [self.apk_signer_path, "sign", "--key", pk8_path, "--cert", pem_path, "--out", signed_path, align_path]
         CMD.run(cmd, printc=printc)
 
     def compile_and_sign(self, folder_path, apk_path, keystore=None, printc=None):

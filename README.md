@@ -40,9 +40,13 @@
     2. [Custom Controller Setup](#custom-controller-setup)
     3. [RetroArch Controller Setup](#retroarch-controller-setup) 
 11. [Your APK files (PS Vita example)](#your-apk-files)
-12. [Graphic Settings](#graphic-settings)
-13. [Scripts](#scripts)
-14. [Contact](#contact)
+12. [Total Domination](#total-domination)
+    1. [Android Installation](#android-installation)
+    2. [Screen Density](#screen-density)
+    3. [Wi-Fi Setup](#wi-fi-setup)
+13. [Graphic Settings](#graphic-settings)
+14. [Scripts](#scripts)
+15. [Contact](#contact)
 
 ## Introduction
 
@@ -57,7 +61,7 @@ Hardware:
 2. [eMMC 5.1 8GB](https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klm8g1geme-b041/) or similar* (13x11mm).
 3. [DDR4 16Gb d / 2GB](https://semiconductor.samsung.com/dram/lpddr/lpddr4/k4f6e3s4hm-ghcl/) or similar (15x10mm).
 
-\* There is also 4GB versions.
+\* There is also 4GB version.
 
 SD Card:
 
@@ -1343,6 +1347,51 @@ You will find needed files downloaded and unpacked into *sdcard/Download/psv* on
 13. Enjoy.
 
 ![FarmingSimulatorKillAllZombies](resources/images/farmingSimulatorKillAllZombies.webp)
+
+## Total Domination
+
+If after all you still feel that it's not enough, and you want:
+
+1. Full control over OS.
+2. Independently choose what to install.
+3. Access to Wi-Fi / Web / Play market.
+4. Access to multimedia.
+5. Access to ADB over Wi-Fi.
+
+Then **Android Generic System Image** is what you need.
+
+In this paragraph, we will install clean Android-GSI 13 OS on the gamestick with Wi-Fi support. You will be able to use
+your gamestick as your smartphone, but the downside is that you will have to manage and control everything by yourself.
+
+Prerequisites:
+
+1. A gamepad with touchpad or a mouse (USB-Hub, +USB-Keyboard optionally).
+
+### Android Installation
+...
+
+### Screen Density
+
+Most likely after first launch screen elements on your screen will be too big, it happens because the default settings
+are intended for high density small screens (300+), whereas often for TVs / Monitors it is ±160. To correct it:
+
+Should restart first time and load on second
+
+1. Go to **Settings** (Gear button).
+2. Go to **About Phone**.
+3. Tap 7 times on **Build number** option, to unlock developer options.
+4. Go back to **Settings** and open **System**.
+5. Go to **Developer options**.
+6. Switch on **Use developer options**.
+7. And find the option **Smallest width** below.
+8. For 1920x1080 (Full HD) screen set the value 1080.
+9. Here in **Developer options** find and enable **Stay awake** option.
+
+*Note: if for some reason a virtual keyboard is not shown, you should find the keyboard icon on the down right corner, click on it.*
+
+
+### Wi-Fi Setup
+...
 
 ## Graphic Settings
 

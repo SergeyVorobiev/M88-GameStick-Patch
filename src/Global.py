@@ -49,6 +49,7 @@ class Global:
     apktool = os.path.join(exec_folder_name, 'apktool.jar')
     signer_folder_path = os.path.join(exec_folder_name, 'signer')
     apksigner = os.path.join(signer_folder_path, "apksigner.bat")
+    zipalign = os.path.join(signer_folder_path, "zipalign.exe")
     keystore = os.path.join(signer_folder_path, "my.keystore")
     magiskboot = os.path.join(exec_folder_name, 'magiskboot.exe')
     abe = os.path.join(exec_folder_name, "abe.jar")

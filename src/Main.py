@@ -1,6 +1,7 @@
 from src.Global import Global
 from src.MT6768.Pipeline import Pipeline
 
+
 # Full installation includes: (+500MB) 8GB eMMC variant
 # 1. Patch privileges
 # 2. Add RetroArch32
@@ -68,14 +69,18 @@ if __name__ == '__main__':
     # You also have to put (aida, cpuz, citra, dolphin, nether, retroarch64, applauncher, totalcommander)
     # apk files from M88FW archive into img/original/apk folder.
 
-    # Just replace already patched n64 and emu instead of patching existing.
+    # Just replace already patched n64 and emu instead of patching existing ones.
     # Copy n64 and emu from M88FW/replace/apk into replace/apk folder
     replace_emu_apk = False
     replace_n64_apk = False
 
     # Remove temporary files after finishing
-    remove_temps = False
+    remove_temps = True
 
-    Pipeline.repack_user(fix_audio, replace_emu_apk, replace_n64_apk, remove_temps, MINIMAL)
+    # Format user data (the option is ignored if 'extend_ud' flag is true)
+    format_ud = False
 
+    # Shrink system.img if possible and extend userdata.img size
+    extend_ud = True
 
+    Pipeline.repack_user(fix_audio, replace_emu_apk, replace_n64_apk, remove_temps, format_ud, extend_ud, PARTIAL)

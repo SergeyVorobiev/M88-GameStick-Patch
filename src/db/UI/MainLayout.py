@@ -10,6 +10,14 @@ class MainLayout:
         self.root = root
 
     @staticmethod
+    def set_style():
+        style = ttk.Style()
+        style.configure(
+            "TNotebook.Tab",
+            padding=[10, 1]
+        )
+
+    @staticmethod
     def get_window(title, icon, width, height):
         root = tk.Tk()
         root.title(title)

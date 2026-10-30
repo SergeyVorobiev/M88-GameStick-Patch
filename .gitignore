@@ -225,3 +225,6 @@ __marimo__/
 /src/exec/jdk17/
 /src/replace/apk/*
 !/src/replace/apk/.gitkeep
+/Apps/
+/src/replace/system/gsi/*
+

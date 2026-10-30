@@ -54,8 +54,10 @@ partitions = [
     ("flashinfo.img", 0x00000001d0ff8000, 0x0000000001000000)
 ]
 
-def calculate_sha512(file_path, start, length):
+def calculate_sha512(file_path, start=0, length=0):
     sha512_hash = hashlib.sha512()
+    if length == 0:
+        length = os.path.getsize(file_path)
     with open(file_path, 'rb') as f:
         f.seek(start)
         data = f.read(length)

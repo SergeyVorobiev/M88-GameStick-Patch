@@ -1,7 +1,7 @@
 import os
 import re
-import struct
 import subprocess
+from pathlib import Path
 
 from src.CMD import CMD
 from src.Global import Global
@@ -9,8 +9,10 @@ from src.Global import Global
 
 class SuperTool:
 
+    STANDARD_SUPER_SIZE = 3221225472 # bytes (3GB)
+
     @staticmethod
-    def lpunpack_image(image_path, result_folder_path, lpunpack=None, printc=None):
+    def unpack(image_path, result_folder_path, lpunpack=None, printc=None):
         os.makedirs(result_folder_path, exist_ok=True)
         if lpunpack is None:
             lpunpack = Global.lpunpack
@@ -58,10 +60,43 @@ class SuperTool:
         CMD.run(cmd_line)
 
     # original_super_path - to calculate exact size
+
     @staticmethod
-    def pack_super_m88(product_a_path, product_b_path, system_a_path, system_b_path, vendor_a_path, vendor_b_path, original_super_path, result_super_path, lpmake=None, printc=None):
-        full_size = os.path.getsize(original_super_path)
-        max_group_size = full_size - 4096 * 512
+    def pack_super_m88_standard_size(product_a_path, product_b_path, system_a_path, system_b_path, vendor_a_path, vendor_b_path, result_super_path, lpmake=None, printc=None):
+        SuperTool.pack_super_m88_with_size(product_a_path, product_b_path, system_a_path, system_b_path, vendor_a_path, vendor_b_path, SuperTool.STANDARD_SUPER_SIZE, result_super_path, lpmake, printc)
+
+    @staticmethod
+    def pack_super_from_folder(images_folder_path, result_path, lpmake=None, printc=None, size=STANDARD_SUPER_SIZE):
+        images = {
+            "product_a": "",
+            "product_b": "",
+            "system_a" : "",
+            "system_b": "",
+            "vendor_a": "",
+            "vendor_b": ""
+        }
+        images_folder_path = Path(images_folder_path)
+        for item in images_folder_path.iterdir():
+
+            # noinspection PyBroadException
+            try:
+                if item.is_file():
+                    name = item.stem
+                    if images.get(name) is not None:
+                        images[name] = str(item)
+            except:
+                ...
+
+        for key, value in images.items():
+            if value == "":
+                raise Exception("Could not find path for: " + key)
+
+        SuperTool.pack_super_m88_with_size(images["product_a"], images["product_b"], images["system_a"], images["system_b"], images["vendor_a"], images["vendor_b"], size, result_path, lpmake, printc)
+
+    @staticmethod
+    def pack_super_m88_with_size(product_a_path, product_b_path, system_a_path, system_b_path, vendor_a_path, vendor_b_path, super_size, result_super_path, lpmake=None, printc=None):
+
+        max_group_size = super_size - 4096 * 512
         meta_data_size = 65536
         slots = 3
 
@@ -81,7 +116,7 @@ class SuperTool:
             "--super-name", "super",
             "--metadata-slots", str(slots),
             "--virtual-ab",
-            "--device", f"super:{full_size}",
+            "--device", f"super:{super_size}",
             "--group", f"main_a:{max_group_size}",
             "--group", f"main_b:{max_group_size}",
 
@@ -103,6 +138,11 @@ class SuperTool:
             "--output", result_super_path
         ]
         CMD.run(cmd_pack_super, printc=printc)
+
+    @staticmethod
+    def pack_super_m88(product_a_path, product_b_path, system_a_path, system_b_path, vendor_a_path, vendor_b_path, original_super_path, result_super_path, lpmake=None, printc=None):
+        full_size = os.path.getsize(original_super_path)
+        SuperTool.pack_super_m88_with_size(product_a_path, product_b_path, system_a_path, system_b_path, vendor_a_path, vendor_b_path, full_size, result_super_path, lpmake, printc)
 
     @staticmethod
     def pack_super():

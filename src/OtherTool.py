@@ -1,3 +1,5 @@
+import hashlib
+import stat
 import os
 import shutil
 import subprocess
@@ -53,11 +55,18 @@ class OtherTool:
 
     @staticmethod
     def del_folder(what, printc=None):
+        if what is None:
+            return
         if printc is None:
             printc = print
         printc("Deleting:", what)
+
+        # noinspection PyUnusedLocal
+        def remove_readonly(func, path, excinfo):
+            os.chmod(path, stat.S_IWRITE)
+            func(path)
         try:
-            shutil.rmtree(what)
+            shutil.rmtree(what, onerror=remove_readonly)
         except Exception as e:
             printc("Can't delete:", e)
         printc("Done\n")
@@ -76,6 +85,18 @@ class OtherTool:
         except:
             printc("Already Exists:", what)
             return False
+
+    @staticmethod
+    def move_file_with_update(what, where, printc=None):
+        if what is None:
+            return True
+        OtherTool.del_file(where + os.sep + Path(what).name, printc)
+        if printc is None:
+            printc = print
+        printc("Moving:", what, "To:", where)
+        shutil.move(what, where)
+        printc("Done\n")
+        return True
 
     @staticmethod
     def get_folder_path_from_file_path(file_path):
@@ -131,3 +152,24 @@ class OtherTool:
     def add_lines_to_file(where, what):
         with open(where, "a") as file:
             file.writelines(what)
+
+    @staticmethod
+    def print_files_folders_names(folder_path, files=True, folders=True, symlink=True):
+        folder_path = Path(folder_path)
+
+        for item in folder_path.iterdir():
+            # noinspection PyBroadException
+            try:
+                if item.is_file() and files:
+                    print(f"File: {item.name}")
+                elif item.is_dir() and folders:
+                    print(f"Folder: {item.name}")
+            except Exception:
+                if symlink:
+                    print(f"Symlink: {item.name}")
+
+    @staticmethod
+    def get_sha512(data):
+        sha512_hash = hashlib.sha512()
+        sha512_hash.update(data)
+        return sha512_hash.hexdigest()

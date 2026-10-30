@@ -13,6 +13,8 @@ from src.db.UI.Strings import Strings
 if __name__ == '__main__':
 
     GlobalUI.root = MainLayout.get_window(Strings.Current.APP_TITLE, GlobalUI.icon, GlobalUI.app_width, GlobalUI.app_height)
+    MainLayout.set_style()
+
     path_frame, btn_frame, image_frame, left_frame, right_frame, foot_frame = MainLayout(GlobalUI.root).get_frames()
 
     GlobalUI.folder_chooser = FolderChooser(GlobalUI.root, path_frame)

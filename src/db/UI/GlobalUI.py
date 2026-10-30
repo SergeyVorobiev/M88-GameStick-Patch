@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 from pathlib import Path
 
 from src.db import PlatformsMeta
@@ -13,10 +14,26 @@ class GlobalUI:
     proxy_address = ''
     proxy_name = ''
     proxy_password = ''
-    version = "v1.95"
+    version = "v2.0"
     fw_version = "v2.3"
     img_ver = "2.3"
+    min_version = "v2.0"
     firmware_folder = "M88FW"
+    apps_folder = "Apps"
+    exec_folder = firmware_folder + "/exec"
+    lpunpack = exec_folder + "/lpunpack.exe"
+    debugfs = exec_folder + "/debugfs.exe"
+    truncate = exec_folder + "/truncate.exe"
+    resize2fs = exec_folder + "/resize2fs.exe"
+    magiskboot = exec_folder + "/magiskboot.exe"
+    mke2fs = exec_folder + "/mke2fs.exe"
+    lpmake = exec_folder + "/lpmake.exe"
+    jdk17 = exec_folder + "/jdk17"
+    apktool = exec_folder + "/apktool.jar"
+    apksigner = exec_folder + "/signer/apksigner.bat"
+    mykeystore = exec_folder + "/signer/my.keystore"
+    pk8_path = "user.pk8"
+    pem_path = "user.x509.pem"
     supported_firmware_versions = [version]
     app_name = "M88GDBTool"
     user_file = "USER.img"
@@ -25,6 +42,7 @@ class GlobalUI:
     github_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch"
     repo_latest_url = "https://api.github.com/repos/SergeyVorobiev/M88-GameStick-Patch/releases/latest"
     m88fw_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88FW.7z"
+    apps_url = "https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/Apps.7z"
     if getattr(sys, 'frozen', False):
 
         # noinspection PyUnresolvedReferences,PyProtectedMember
@@ -89,6 +107,28 @@ class GlobalUI:
     @staticmethod
     def get_absolute_media_image_path(platform, name):
         return Path(GlobalUI.roms_folder_path + os.sep + platform + os.sep + GlobalUI.image_media_folder_name + os.sep + name + os.sep + GlobalUI.standard_image_name)
+
+    @staticmethod
+    def format_size(size, maxi=None):
+        appropriate = str(size) + " B"
+        for unit in ['B', 'KB', 'MB', "GB", "TB", "PB"]:
+            if size.is_integer():
+                appropriate = str(int(size)) + " " + unit
+            if size < 1024 or (maxi is not None and maxi == unit):
+                if size.is_integer():
+                    return str(int(size)) + " " + unit
+                else:
+                    return appropriate
+            size /= 1024
+        return appropriate
+
+    @staticmethod
+    def get_time(start_time):
+        end_time = time.perf_counter()
+        elapsed = end_time - start_time
+        minutes = int(elapsed // 60)
+        seconds = int(elapsed % 60)
+        return f"{minutes:02d}:{seconds:02d}"
 
     @staticmethod
     def get_games_num():
