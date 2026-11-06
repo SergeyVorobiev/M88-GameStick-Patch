@@ -1419,7 +1419,7 @@ and folders in it whatever way you want, no need databases, no need game registe
 To install Android we are going to use Android 13 generic system image (TP1A.220624.014):
 
 1. Download and unpack [system_a.img](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/system_a.7z), password: m88.
-2. Download and unpack [M88FW]().
+2. Download and unpack [M88FW](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88FW.7z), password: m88.
 3. Make a backup of your gamestick, see [this](#read-from-emmc) or use your current one*.
 4. Place system_a.img, M88FW, USER.img next to the GDBTool:
 ![GSI1](resources/images/gsi1.webp)
