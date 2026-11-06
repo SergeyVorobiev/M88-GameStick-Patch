@@ -125,7 +125,7 @@ class GSITab:
             self.chk_extend['state'] = 'disabled'
         if small or not_system:
             self.chk_audio_gsi['state'] = 'disabled'
-            self.chk_kernel_fix['state'] = 'disabled'
+            #self.chk_kernel_fix['state'] = 'disabled'
             self.proceed_btn_gsi['state'] = 'disabled'
             self.chk_format_userdata_gsi['state'] = 'disabled'
             self.chk_keychars_gsi['state'] = 'disabled'
@@ -144,7 +144,7 @@ class GSITab:
                 self.parent.top.protocol("WM_DELETE_WINDOW", lambda: None)
                 self.parent.enable_only_tab(self.tab_num)
                 self.chk_audio_gsi['state'] = 'disabled'
-                self.chk_kernel_fix['state'] = 'disabled'
+                #self.chk_kernel_fix['state'] = 'disabled'
                 self.proceed_btn_gsi['state'] = 'disabled'
                 self.chk_format_userdata_gsi['state'] = 'disabled'
                 self.chk_keychars_gsi['state'] = 'disabled'
@@ -161,7 +161,8 @@ class GSITab:
                 self.run = False
                 self.parent.enable_all_tabs()
                 self.parent.top.protocol("WM_DELETE_WINDOW", self.cancel)
-                self.proceed_btn_gsi.configure(text=Strings.Current.DIALOG_DONE)
+                self.proceed_btn_gsi['state'] = 'normal'
+                self.proceed_btn_gsi.configure(text=Strings.Current.DIALOG_DONE, command=self.cancel)
 
         def run_time():
             start_time = time.perf_counter()

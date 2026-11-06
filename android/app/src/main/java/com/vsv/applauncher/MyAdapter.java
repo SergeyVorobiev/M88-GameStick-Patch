@@ -1,8 +1,12 @@
 package com.vsv.applauncher;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,22 +16,27 @@ import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-    private final ArrayList<String> items;
+    private final ArrayList<ListItem> items;
     private final OnItemClickListener listener;
 
-    public float textSize = 18;
+    public float textSize = 16;
 
     public interface OnItemClickListener {
         void onItemClick(int position, String name);
     }
 
-    public MyAdapter(ArrayList<String> items, OnItemClickListener listener) {
+    public MyAdapter(ArrayList<ListItem> items, OnItemClickListener listener) {
         this.items = items;
         this.listener = listener;
     }
 
     public void setItemName(String name, int index) {
-        items.set(index, name);
+        items.set(index, new ListItem(name));
+        notifyDataSetChanged();
+    }
+
+    public void addItemName(String name) {
+        items.add(new ListItem(name));
         notifyDataSetChanged();
     }
 
@@ -35,18 +44,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.text, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String name = items.get(position);
-        holder.textView.setText(name);
+        ListItem listItem = items.get(position);
+
+        holder.textView.setText(listItem.displayName);
         holder.textView.setTextSize(textSize);
+        if (listItem.drawable == null) {
+            holder.imageView.setVisibility(GONE);
+        } else {
+            holder.imageView.setVisibility(VISIBLE);
+            holder.imageView.setImageDrawable(listItem.drawable);
+        }
+        holder.textViewEnd.setText(listItem.textIcon);
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onItemClick(position, name);
+                listener.onItemClick(position, listItem.name);
             }
         });
     }
@@ -58,10 +75,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        ImageView imageView;
 
+        TextView textViewEnd;
         ViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(android.R.id.text1);
+            textView = itemView.findViewById(R.id.text2);
+            imageView = itemView.findViewById(R.id.my_icon);
+            textViewEnd = itemView.findViewById(R.id.text_end);
         }
     }
 }

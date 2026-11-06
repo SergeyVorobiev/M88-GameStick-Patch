@@ -1,11 +1,18 @@
 package com.vsv.applauncher;
 
+import android.content.Context;
+
+import java.io.File;
+
 public class AppInfo {
+
     public String packageName;
 
     public String activityName;
 
     public String apkPath;
+
+    public boolean generic;
 
     public String fromDataPath;
 
@@ -29,6 +36,7 @@ public class AppInfo {
         this.name = "";
         this.configText = "";
         this.useConfigText = true;
+        this.generic = false;
     }
 
     public AppInfo(String name, String packageName, String activityName, String apkPath, String apkName, String fromDataPath, String toDataPath, String configText) {
@@ -40,10 +48,19 @@ public class AppInfo {
         this.name = name;
         this.apkName = apkName;
         this.configText = configText;
+        this.generic = false;
     }
 
     public boolean needCreateConfig() {
         return this.useConfigText && this.toDataPath != null && !this.toDataPath.isEmpty() && this.configText != null;
+    }
+
+    public String getApkPath(Context context) {
+        String path = MainActivity.getExternalSdCardPaths(context) + "/Apps/" + this.apkName;
+        if (new File(path).exists()) {
+            return path;
+        }
+        return getSystemPath();
     }
 
     public boolean needCopyConfig() {
@@ -51,5 +68,9 @@ public class AppInfo {
             return false;
         }
         return !(this.fromDataPath == null || this.fromDataPath.isEmpty() || this.toDataPath == null || this.toDataPath.isEmpty());
+    }
+
+    public String getSystemPath() {
+        return this.apkPath;
     }
 }

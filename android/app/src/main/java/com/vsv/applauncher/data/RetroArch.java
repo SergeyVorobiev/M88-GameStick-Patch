@@ -92,7 +92,7 @@ public class RetroArch extends AppInfoGetter {
         if (config == null) {
             return 0;
         }
-        String sdPath = ((MainActivity)context).getExternalSdCardPaths();
+        String sdPath = MainActivity.getExternalSdCardPaths(context);
         String result = config.replace(placeHolder, sdPath);
         saveViaRoot(result);
         return 0;

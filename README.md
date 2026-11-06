@@ -11,6 +11,7 @@
    3. [How To Fix](#how-to-fix)
       1. [Installation variants](#installation-variants)
    4. [Resources](#resources)
+   5. [Emulators](#emulators)
 2. [Firmware Upgrade](#firmware-upgrade)
    1. [Enter BROM Mode](#enter-brom-mode)
    2. [Install Drivers & Flash Tool](#install-drivers--flash-tool)
@@ -40,12 +41,13 @@
     2. [Custom Controller Setup](#custom-controller-setup)
     3. [RetroArch Controller Setup](#retroarch-controller-setup) 
 11. [Your APK files (PS Vita example)](#your-apk-files)
-12. [Total Domination](#total-domination)
+12. [Total Domination (Android GSI)](#total-domination)
     1. [Android Installation](#android-installation)
     2. [Screen Density](#screen-density)
-    3. [Wi-Fi Setup](#wi-fi-setup)
+    3. [Other GDBT Options](#other-gdbt-options)
 13. [Graphic Settings](#graphic-settings)
 14. [Scripts](#scripts)
+15. [SD Card Problems](#sd-card-problems)
 15. [Contact](#contact)
 
 ## Introduction
@@ -247,24 +249,29 @@ The fixes include:
 > 
 > Carefully read [this paragraph](#your-apk-files) to get access to PS Vita.
 
+>[!NOTE]
+> 
+> Carefully read [this paragraph](#total-domination) if you want to install Android GSI, getting full control as if it is your smartphone.
+
 ### How To Fix
 
 > [!WARNING]  
 > Firmware upgrade might potentially brick your device, do it at your own risk, always make a backup to be able to roll back.
 
-There are two options, both imply you have M88-P65-V1.8 8GB, but they do not guarantee a success if your stick has different hardware / software.
+There are two options, both imply you have M88-P65-V1.8 8GB, but they do not guarantee a success in case if your stick has different hardware / software.
 You are also able to upgrade M88-P65-V2.1 4GB version but with some limitations (will be seen below).
 
 Option one (recommended):
 
 1. Read [this](#firmware-upgrade) just to make a backup (Read From eMMC).
-2. Download and unpack this [archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88FW.7z), password: m88.
-3. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.95.exe).
-4. Put these three files next to each other:
+2. Download and unpack [tool archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88FW.7z), password: m88.
+3. Download and unpack [apps archive](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/Apps.7z), password: m88.
+4. Download [GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_2.0.exe).
+5. Put these files next to each other:
 
     ![files](resources/images/files.webp)
 
-5. Open GDBTool, click **Upgrade Firmware** button, then **Start** and wait until it finishes.
+6. Open GDBTool, click **Upgrade Firmware** button, then **Start** and wait until it finishes.
 
     ![upgrade](resources/images/upgrade.webp)
 
@@ -276,13 +283,16 @@ Option one (recommended):
     2. **Fix stereo sound** - Use this option if you hear the sound only from the left channel.
     3. **Replace Emu apk instead of patching** - emu.apk is a main UI shell, different manufacturers or sellers install different
     variants of this program, for 8GB version keep it checked at first try, for 4GB try to uncheck it.
-    4. **FULL, PARTIAL, MINIMAL** - see [variants](#installation-variants). MINIMAL is used if nothing else works. It will only
+    4. **Format user data** - Use this option if you want to completely free user disk space.
+    5. **Extend user data** - Only 8GB eMMC option. It will format user data disk and will try to take super image free space to
+increase user data disk space (up to 2GB). Increasing the user data size gives you more space for your personal applications.
+    6. **FULL, PARTIAL, MINIMAL** - see [variants](#installation-variants). MINIMAL is used if nothing else works. It will only
     add the ability to launch AppLauncher, see [this](#full-house) for details.
 
-6. [Upgrade](#write-to-emmc) the firmware.
-7. Add [RetroArch folder](#retroarch-setup).
-8. Setup [AppLauncher](#full-house).
-9. Read [Game Won't Start](#game-wont-start).
+7. [Upgrade](#write-to-emmc) the firmware.
+8. Add [RetroArch folder](#retroarch-setup).
+9. Setup [AppLauncher](#full-house).
+10. Read [Game Won't Start](#game-wont-start).
 
 In option two you use scripts, to make an upgraded image, the steps are the same as in option one, but in the point 5 you use 
 [Scripts](#scripts) instead of GDBTool.
@@ -325,6 +335,8 @@ MINIMAL installation includes: (+100MB eMMC variant):
 7. Patch audio
 8. Replace Aether with Nether
 
+*For 4GB eMMC variant use PARTIAL or MINIMAL variant, the main difference is that some of main applications will be placed on your SD card later instead of being in the eMMC/system disk. You will not lose any functionality anyway.*
+
 *In MINIMAL variant the main UI is untouched, everything behaves by default. Updated functionality is accessible via AppLauncher. See [this](#full-house)*.
 
 *You can upgrade the same firmware from MINIMAL to FULL but not from FULL to MINIMAL, always use your original firmware to downgrade a variant.
@@ -339,10 +351,24 @@ If your stick has been upgraded before without any variants then it is considere
 5. [RetroArch folder](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/RetroArch_v2.3.7z).
 6. DIY variant of [cooling](https://www.youtube.com/watch?v=RwfFUWYsOH8).
 7. SD card contents, 128GB [variant](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
-8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.95.exe).
+8. [M88GDBTool](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_2.0.exe).
 9. [BoxArts](https://thumbnails.libretro.com/).
+10. [Android applications](https://www.apkmirror.com/).
 
 \* *New cores are contained in RetroArch folder (only for upgraded firmware).*
+
+### Emulators
+
+1. [RetroArch](https://buildbot.libretro.com/stable/1.22.2/android/) - Multiplatform.
+2. [Yaba](https://www.yabasanshiro.com/download) - Sega Saturn.
+3. [NetherSX2](https://thenethersx2.com/) - PS2.
+4. [PPSSPP](https://www.ppsspp.org/) - PSP.
+5. [Mupen64](https://mupen64plus.org/) - Nintendo64.
+6. [Flycast](https://github.com/flyinghead/flycast/releases) - Dreamcast / Naomi / Naomi2.
+7. [Drastic](https://drasticds.com/) - NintendoDS.
+8. [Dolphin](https://dolphin-emu.org/download/) - Wii & GameCube.
+9. [Citra](https://citra-emulator.com/) - Nintendo3DS.
+10. [Vita3K](https://vita3k.org/) - PS Vita.
 
 ## Firmware Upgrade
 
@@ -822,7 +848,7 @@ To replace - edit an appropriate row, you only need to change **path**, **image*
 
 The tool is designed to automatically detect and register added and removed games, fix database errors, create custom game collections, clean up unnecessary and temporary files from the SD card, and download missed or bad images from the Web.
 
-You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_1.95.exe) or run it from [sources](UIMain.py).
+You can download a compiled [Windows version](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88GDBTool_2.0.exe) or run it from [sources](UIMain.py).
 
 ![gbdt](resources/images/gbdt.webp)
 
@@ -1026,7 +1052,7 @@ or:
 ## Full House
 
 > [!NOTE]  
-> In case you have applied PARTIAL or MINIMAL upgrade variant, go to downloaded **M88FW/replace/Apps** folder and copy it
+> In case you have applied PARTIAL or MINIMAL upgrade variant, go to downloaded **Apps/SD** folder and copy it
 > into your SD card root - **sdcard/Apps**. The standard applications must be taken from your SD card because in your case 
 > they are not installed in the system area. See also [Your apk files](#your-apk-files) paragraph.
 
@@ -1352,46 +1378,93 @@ You will find needed files downloaded and unpacked into *sdcard/Download/psv* on
 
 If after all you still feel that it's not enough, and you want:
 
-1. Full control over OS.
+1. Full control over OS like on your smartphone.
 2. Independently choose what to install.
-3. Access to Wi-Fi / Web / Play market.
-4. Access to multimedia.
-5. Access to ADB over Wi-Fi.
+3. Access to Internet via usb-ethernet adapter*.
+
+\* *Usage of usb-ethernet adapter is not tested but should work in theory. The gamestick has Wi-Fi adapter but its drivers are cut 
+from the linux kernel, therefore, without reassembling the whole kernel Wi-Fi will not work*.
 
 Then **Android Generic System Image** is what you need.
 
-In this paragraph, we will install clean Android-GSI 13 OS on the gamestick with Wi-Fi support. You will be able to use
-your gamestick as your smartphone, but the downside is that you will have to manage and control everything by yourself.
+>[!NOTE]
+>Android GSI is intended only for 8GB eMMC gamestick version. It will not fit into 4GB eMMC version.
+> 
+
+![Android](resources/images/android.webp)
 
 Prerequisites:
 
 1. A gamepad with touchpad or a mouse (USB-Hub, +USB-Keyboard optionally).
 
+Potential drawbacks:
+
+1. Necessity to install and adjust everything (emulators) by yourself.
+2. Full-fledged Android eats more RAM.
+3. Impact on emulators performance is unknown.
+4. No root (currently), hence you will not be able to modify system files.
+5. No Wi-Fi (currently), but there is a potential ability to use usb-ethernet adapter.
+
+Potential benefits:
+
+1. Full control over OS + ability to install any applications.
+2. Last version of any android emulator can be installed in one click, main list can be seen [here](#emulators).
+3. Independence from SD card. Now you can launch the gamestick without SD card at all, you also can organize the files 
+and folders in it whatever way you want, no need databases, no need game registering anymore.
+4. Ability to use your SD card as the internal android storage.
+5. Potential ability to use Internet via usb-ethernet adapter.
+
 ### Android Installation
-...
+
+To install Android we are going to use Android 13 generic system image (TP1A.220624.014):
+
+1. Download and unpack [system_a.img](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/system_a.7z), password: m88.
+2. Download and unpack [M88FW]().
+3. Make a backup of your gamestick, see [this](#read-from-emmc) or use your current one*.
+4. Place system_a.img, M88FW, USER.img next to the GDBTool:
+![GSI1](resources/images/gsi1.webp)
+5. Open GDBTool and select GSI tab:
+![GSI2](resources/images/gsi2.webp)
+The options here are the same as in Default OS tab. **Fix GamePad buttons** option will add updated kl, kcm files for the default controller into system.
+6. Click **Start** and after the process finishes you will find an upgraded image in *M88FW/gsi/USER.img*:
+![GSI3](resources/images/gsi3.webp)
+7. Upgrade your gamestick with the new USER.img, see [this](#write-to-emmc).
+8. After first launch the gamestick may restart for several times (usually 2-4 times) before you see something, wait patiently.
+9. Enjoy.
+
+\* *Your default image or already upgraded one can be used, but be aware that Android GSI image can not be converted back
+to the image with the standard UI established by manufacturer.*
 
 ### Screen Density
 
 Most likely after first launch screen elements on your screen will be too big, it happens because the default settings
-are intended for high density small screens (300+), whereas often for TVs / Monitors it is ±160. To correct it:
-
-Should restart first time and load on second
+are intended for high density small screens, whereas often for TVs / Monitors the density is much less. To correct it:
 
 1. Go to **Settings** (Gear button).
 2. Go to **About Phone**.
-3. Tap 7 times on **Build number** option, to unlock developer options.
+3. Tap 7 times on **Build number** option, to unlock developer options, you should see a toast - "You are now a developer".
 4. Go back to **Settings** and open **System**.
 5. Go to **Developer options**.
 6. Switch on **Use developer options**.
 7. And find the option **Smallest width** below.
-8. For 1920x1080 (Full HD) screen set the value 1080.
+8. Change the value to 700 or whatever the number you feel is right for you*.
 9. Here in **Developer options** find and enable **Stay awake** option.
 
-*Note: if for some reason a virtual keyboard is not shown, you should find the keyboard icon on the down right corner, click on it.*
+\**Note: If your mouse has additional buttons, it can be recognized as a keyboard and a virtual keyboard will not be shown, 
+you should find the virtual keyboard icon on the down right corner, and click on it, or use the mouse without extra buttons.*
 
+![GSI4](resources/images/gsi4.webp)
 
-### Wi-Fi Setup
-...
+### Other GDBT Options
+
+**User Partitions Tab** gives you the ability to inject images into USER.img. Injected image must have the same size as the original image.
+If you inject system, vendor, product then their size can be arbitrary but the total size must not exceed the original super.img size.
+
+**Sign Framework Tab** allows you to sign system, product, vendor Android applications with your own (pem, pk8) keys. It can be useful for custom system
+private applications which must be signed with the same key as the framework.
+
+**Extend UD Tab** allows you to take 2GB of unused space from read only super.img and give it to userdata.img making it bigger
+for your own applications. (Only for 8GB eMMC gamestick version).
 
 ## Graphic Settings
 
@@ -1640,6 +1713,31 @@ SuperTool.pack_super_m88(product_a_path="img/original/extracted/super/product_a.
 
 *Some code sketches and architectural explanations were provided by [![Grok](https://img.shields.io/badge/Grok-000000?style=for-the-badge&logo=grok&logoColor=fff
 )](https://grok.com/)*
+
+## SD Card Problems
+
+Sometimes your SD card may suddenly cease to be read by your gamestick,
+whereas your computer will see it and verification applications will not see any issues. Often, it can be fixed by 
+formatting your SD card:
+
+1. Move all files from your card to your computer.
+2. Format your card as exFAT.
+3. Move all files back to your card.
+
+In case if you lost all your data or your SD card is broken, you can repair everything by yourself:
+
+1. Buy new SD card 128-512GB class 10.
+2. Format it as exFAT.
+3. Download and put on your card: [RetroArch](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/RetroArch_v2.3.7z), 
+[iroms](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/iroms.7z), make a **roms** folder and download games in it yourself or take them from this [archive](https://archive.org/details/m88-ps2-game-stick-backup-august2025).
+4. Download and put [cores](https://drive.google.com/file/d/1gzb0hgsq3L2E9TT9_wZ0WJxhM8gKAOJj/view?usp=drive_link) folder on your card
+folder, only if you need to run an old RetroArch provided by a manufacturer. 
+If you are using upgraded firmware, the cores are already presented in the RetroArch folder,
+therefore you do not need to put it on your card.
+5. Launch GDBTool and generate new DB (cachegames.db) according to **roms** folder, see this [paragraph](#game-db-tool).
+
+*Note: If you are using Android GSI your SD card may be completely empty, and you can place on it whatever you want, as it will
+work just as an external storage.*
 
 ## Contact
 

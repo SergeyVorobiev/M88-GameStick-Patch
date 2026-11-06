@@ -45,7 +45,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
     @Override
     public LogViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.text, parent, false);
+                .inflate(R.layout.log_text, parent, false);
         return new LogViewHolder(view);
     }
 

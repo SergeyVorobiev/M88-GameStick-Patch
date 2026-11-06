@@ -26,8 +26,8 @@ import javax.xml.transform.stream.StreamResult;
 
 public class Yaba extends AppInfoGetter {
 
-    private String gamePathLine;
-    private String gamePath;
+    private final String gamePathLine;
+    private final String gamePath;
 
     public Yaba(Context context) {
         super(context);
@@ -40,7 +40,7 @@ public class Yaba extends AppInfoGetter {
         appInfo.fromDataPath = "";
         // appInfo.toDataPath = "/data/user/0/org.devmiyax.yabasanshioro2.pro/shared_prefs/org.devmiyax.yabasanshioro2.pro_preferences.xml";
         appInfo.toDataPath = "/data_mirror/data_ce/null/0/org.devmiyax.yabasanshioro2.pro/shared_prefs/org.devmiyax.yabasanshioro2.pro_preferences.xml";
-        gamePath = ((MainActivity)context).getExternalSdCardPaths() + "/roms/ss";
+        gamePath = MainActivity.getExternalSdCardPaths(context) + "/roms/ss";
         gamePathLine = "    <string name=\"pref_game_directory\">" + gamePath + "</string>\n" + "</map>";
     }
 

@@ -2,6 +2,7 @@ package com.vsv.applauncher;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -43,7 +44,7 @@ public class InstallManager {
         installApkRootPM(appInfoGetter, this::installAPK2);
     }
 
-    public List<String> getVisibleInstalledApps(boolean log) {
+    public static List<String> getVisibleInstalledApps(Context context, boolean log) {
         if (log)
             Log.d(MainActivity.INFO_TAG, "\n===================Packages===================");
         PackageManager pm = context.getPackageManager();
@@ -69,8 +70,8 @@ public class InstallManager {
         return result;
     }
 
-    public boolean isAppInstalled(String packageName) {
-        List<String> apps = getVisibleInstalledApps(false);
+    public static boolean isAppInstalled(Context context, String packageName) {
+        List<String> apps = InstallManager.getVisibleInstalledApps(context, false);
         return apps.contains(packageName);
         /*
         PackageManager pm = this.getPackageManager();
@@ -86,6 +87,9 @@ public class InstallManager {
 
     private void installApkRootPM(final AppInfoGetter appInfoGetter, InstallMethod installMethod) {
         AppInfo appInfo = appInfoGetter.getAppInfo();
+        if (!appInfo.apkName.endsWith(".apk")) {
+            return;
+        }
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("Installing: " + appInfo.name);
         dialog.setCancelable(false);
@@ -100,7 +104,7 @@ public class InstallManager {
                 exitCode = MainActivity.execute_command_and_log(new String[]{"su", "root", "setenforce", "0"});
             }
             if (exitCode == 0) {
-                exitCode = MainActivity.execute_command_and_log(new String[]{"su", "root", "cp", appInfo.apkPath, installPath});
+                exitCode = MainActivity.execute_command_and_log(new String[]{"su", "root", "cp", appInfo.getApkPath(context), installPath});
             }
             if (exitCode == 0) {
                 exitCode = MainActivity.execute_command_and_log(new String[]{"su", "root", "appops", "set", "com.vsv.applauncher", "REQUEST_INSTALL_PACKAGES", "allow"});
@@ -135,7 +139,7 @@ public class InstallManager {
             //grantPermissionsViaRoot();
         }
         if (Environment.isExternalStorageManager()) {
-            installPackage(appInfo.apkPath);
+            installPackage(appInfo.getApkPath(context));
         } else {
             Log.d(MainActivity.INFO_TAG, "Install " + appInfo.name + ". Started the permission access procedure.");
             try {
@@ -192,7 +196,7 @@ public class InstallManager {
     }
 
     private boolean needFinishingActivity(String name) {
-        return name.equals("Total Commander") && new File(((MainActivity)context).getExternalSdCardPaths() + "/finishOnTC").exists();
+        return name.equals("Total Commander") && new File(MainActivity.getExternalSdCardPaths(context) + "/finishOnTC").exists();
     }
 
     public void forceStopLastApp() {
@@ -228,12 +232,21 @@ public class InstallManager {
         if (infoGetter == null) return true;
         AppInfo info = infoGetter.getAppInfo();
 
-        if (this.isAppInstalled(info.packageName)) {
+        if (InstallManager.isAppInstalled(this.context, info.packageName)) {
             infoGetter.beforeRun();
             Log.d(MainActivity.INFO_TAG, "Run: " + info.packageName);
             lastLaunchedPackage = info.packageName;
             Intent intent = new Intent();
-            intent.setClassName(info.packageName, info.activityName);
+            if (info.activityName != null && !info.activityName.isEmpty()) {
+                intent.setClassName(info.packageName, info.activityName);
+            } else {
+                intent = context.getPackageManager()
+                        .getLaunchIntentForPackage(info.packageName);
+            }
+            if (intent == null) {
+                lastLaunchedPackage = "";
+                return false;
+            }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
             return needFinishingActivity(name);
