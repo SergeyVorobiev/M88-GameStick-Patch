@@ -1382,8 +1382,8 @@ If after all you still feel that it's not enough, and you want:
 2. Independently choose what to install.
 3. Access to Internet via usb-ethernet adapter*.
 
-\* *Usage of usb-ethernet adapter is not tested but should work in theory. The gamestick has Wi-Fi adapter but its drivers are cut 
-from the linux kernel, therefore, without reassembling the whole kernel Wi-Fi will not work*.
+\* *Usage of usb-ethernet adapter is not tested but should work in theory. The gamestick has Wi-Fi adapter, but its driver is cut 
+from the linux kernel, therefore, without reassembling the whole kernel, Wi-Fi will not work*.
 
 Then **Android Generic System Image** is what you need.
 
@@ -1411,7 +1411,7 @@ Potential benefits:
 2. Last version of any android emulator can be installed in one click, main list can be seen [here](#emulators).
 3. Independence from SD card. Now you can launch the gamestick without SD card at all, you also can organize the files 
 and folders in it whatever way you want, no need databases, no need game registering anymore.
-4. Ability to use your SD card as the internal android storage.
+4. Ability to use your SD card as the internal Android storage.
 5. Potential ability to use Internet via usb-ethernet adapter.
 
 ### Android Installation
@@ -1422,12 +1422,17 @@ To install Android we are going to use Android 13 generic system image (TP1A.220
 2. Download and unpack [M88FW](https://github.com/SergeyVorobiev/M88-GameStick-Patch/releases/latest/download/M88FW.7z), password: m88.
 3. Make a backup of your gamestick, see [this](#read-from-emmc) or use your current one*.
 4. Place system_a.img, M88FW, USER.img next to the GDBTool:
-![GSI1](resources/images/gsi1.webp)
+
+    ![GSI1](resources/images/gsi1.webp)
+
 5. Open GDBTool and select GSI tab:
-![GSI2](resources/images/gsi2.webp)
-The options here are the same as in Default OS tab. **Fix GamePad buttons** option will add updated kl, kcm files for the default controller into system.
+
+    ![GSI2](resources/images/gsi2.webp)
+    The options here are the same as in Default OS tab. **Fix GamePad buttons** option will add updated kl, kcm files for the default controller into system.
 6. Click **Start** and after the process finishes you will find an upgraded image in *M88FW/gsi/USER.img*:
-![GSI3](resources/images/gsi3.webp)
+
+    ![GSI3](resources/images/gsi3.webp)
+
 7. Upgrade your gamestick with the new USER.img, see [this](#write-to-emmc).
 8. After first launch the gamestick may restart for several times (usually 2-4 times) before you see something, wait patiently.
 9. Enjoy.
