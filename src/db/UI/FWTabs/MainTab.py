@@ -147,7 +147,10 @@ class MainTab:
             return False
         missed_app = MainTab.check_apks()
         if missed_app is not None:
-            missed_app = Strings.Current.DOWNLOAD_FW_ARCHIVE_TEXT3.replace("{%s1}", missed_app)
+            if missed_app == GlobalUI.applauncher:
+                ...
+            else:
+                missed_app = Strings.Current.DOWNLOAD_FW_ARCHIVE_TEXT3.replace("{%s1}", missed_app)
             MissedAppsPopup(self.parent.parent, missed_app=missed_app, height=250)
             return False
         return True
@@ -301,4 +304,6 @@ class MainTab:
         for apk in apps:
             if not apk_path_exists(apk, "SD"):
                 return apk
+        if not os.path.exists(GlobalUI.applauncher_path):
+            return GlobalUI.applauncher
         return None

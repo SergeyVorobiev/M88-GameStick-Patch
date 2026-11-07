@@ -31,7 +31,7 @@ class UIPipeline:
         self.updated_apk_path = self.updated_path + "/apk"
         self.updated_d_apk_path = self.updated_path + "/d_apk"
         self.replace_path = self.root_path + "/replace"
-        self.applauncher = self.replace_path + "/apk/applauncher.apk"
+        self.applauncher = self.root_path + "/apk/applauncher.apk"
 
         self.totalcommander = GlobalUI.apps_folder + "/Standard/totalcommander.apk"
         self.NetherSX2 = GlobalUI.apps_folder + "/Standard/NetherSX2.apk"

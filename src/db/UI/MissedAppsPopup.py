@@ -30,6 +30,8 @@ class MissedAppsPopup:
         self.top.protocol("WM_DELETE_WINDOW", self.cancel)
         if missed_app is None:
             self.layout_1()
+        elif missed_app == GlobalUI.applauncher:
+            self.layout_3()
         else:
             self.layout_2(missed_app)
         self.top.bind("<Escape>", lambda e: self.cancel())
@@ -107,3 +109,44 @@ class MissedAppsPopup:
     def cancel(self):
         self.top.destroy()
         self.after_destroy()
+
+    def layout_3(self):
+        msg_label = ttk.Label(self.top, text=Strings.Current.DOWNLOAD_FW_ARCHIVE_TEXT4 + "M88FW!", font=("Consolas", 10),
+                              wraplength=self.width - 20,
+                              justify="center")
+        msg_label.pack(pady=(20, 5))
+        req_message = GlobalUI.min_version + "+ " + Strings.Current.REQUIRED_WORD + "."
+        req_label = ttk.Label(self.top, text=req_message, font=("Consolas", 10),
+                              wraplength=self.width - 20,
+                              justify="center")
+        req_label.pack(pady=(5, 5))
+
+        msg_label = ttk.Label(self.top, text=Strings.Current.DOWNLOAD_FW_ARCHIVE_TEXT2, font=("Consolas", 10),
+                              wraplength=self.width - 20,
+                              justify="center")
+        msg_label.pack(pady=(10, 5))
+
+        link = ClickableLink(self.top,
+                             text=Strings.Current.M88FW_LABEL,
+                             url=GlobalUI.m88fw_url)
+        link.pack(pady=(5, 5))
+
+        msg_label2 = ttk.Label(self.top, text=Strings.Current.DOWNLOAD_FW_ARCHIVE_TEXT5, font=("Consolas", 10),
+                               wraplength=self.width - 20,
+                               justify="center")
+        msg_label2.pack(pady=(0, 5))
+
+        msg_label2 = ttk.Label(self.top, text=Strings.Current.DOWNLOAD_FW_DETAILS_TEXT, font=("Consolas", 10),
+                               wraplength=self.width - 20,
+                               justify="center")
+        msg_label2.pack(pady=(10, 5))
+
+        link2 = ClickableLink(self.top,
+                              text=Strings.Current.GITHUB_README,
+                              url=GlobalUI.github_url)
+        link2.pack(pady=(5, 5))
+
+        btn_frame = ttk.Frame(self.top)
+        btn_frame.pack(side="bottom", pady=15)
+        cancel_btn = ttk.Button(btn_frame, text=Strings.Current.DIALOG_CANCEL, command=self.cancel, width=12)
+        cancel_btn.pack(padx=8)

@@ -19,6 +19,8 @@ class GlobalUI:
     img_ver = "2.3"
     min_version = "v2.0"
     firmware_folder = "M88FW"
+    applauncher = "applauncher"
+    applauncher_path = firmware_folder + "/apk/" + applauncher + ".apk"
     apps_folder = "Apps"
     exec_folder = firmware_folder + "/exec"
     lpunpack = exec_folder + "/lpunpack.exe"

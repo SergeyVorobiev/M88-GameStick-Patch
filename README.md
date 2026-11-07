@@ -297,7 +297,7 @@ increase user data disk space (up to 2GB). Increasing the user data size gives y
 In option two you use scripts, to make an upgraded image, the steps are the same as in option one, but in the point 5 you use 
 [Scripts](#scripts) instead of GDBTool.
 
-If nothing works, feel free to [contact me](#Contact).
+If nothing works or you noticed broken links please [contact me](#Contact).
 
 #### Installation variants:
 
