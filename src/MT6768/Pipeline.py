@@ -1006,7 +1006,7 @@ class Pipeline:
         return dn, sh
 
     @staticmethod
-    def change_apk_signatures(image_path, path, pk8_path, pem_path, target_sh=None, apk_signer_path=None, debugfs=None, printc=None):
+    def change_apk_signatures(image_path, path, pk8_path, pem_path, target_sh=None, apk_signer_path=None, debugfs=None, printc=None, java=None):
         root_dir = Path(path)
         if printc is None:
             printc = print
@@ -1035,7 +1035,7 @@ class Pipeline:
                                 gid = '0'
                         printc(f"Fix: {item} {mode} {context} {uid} {gid} {dn} {sh}")
                         Pipeline.sign_and_send_to_image(str(item), path_on_image, image_path, pk8_path, pem_path, mode,
-                                                        uid, gid, context, None, apk_signer_path, debugfs, printc, None)
+                                                        uid, gid, context, None, apk_signer_path, debugfs, printc, java)
             except Exception as e:
                 if item.name.endswith(".apk"):
                     printc(f"Exception: {item} {str(e)}")
@@ -1171,16 +1171,20 @@ class Pipeline:
 
     @staticmethod
     def sign_framework(user_image_path="img/result/USER.img", work_folder_path="img/updated", pk8_path="keys/platform.pk8", pem_path="keys/platform.x509.pem", apk_signer_path=None, debugfs=None, lpunpack=None, lpmake=None, printc=None):
-        temp_folder = Pipeline.make_random_temp_folder_inside(work_folder_path)
-        if printc is None:
-            printc = print
-        super_path = Pipeline.extract_image(user_image_path, temp_folder, "super", printc)
-        Pipeline.unpack_super(super_path, temp_folder, lpunpack, printc)
-        OtherTool.del_file(super_path, printc)
-        img_files = ["system_a.img", "system_b.img", "vendor_a.img", "vendor_b.img", "product_a.img", "product_b.img"]
-        sh = None
-        images_dict = {}
+        temp_folder = None
+        super_path = None
         try:
+            temp_folder = Pipeline.make_random_temp_folder_inside(work_folder_path)
+            if printc is None:
+                printc = print
+            super_path = Pipeline.extract_image(user_image_path, temp_folder, "super", printc)
+            Pipeline.unpack_super(super_path, temp_folder, lpunpack, printc)
+            OtherTool.del_file(super_path, printc)
+            super_path = None
+            img_files = ["system_a.img", "system_b.img", "vendor_a.img", "vendor_b.img", "product_a.img", "product_b.img"]
+            sh = None
+            images_dict = {}
+
             for img_file in img_files:
                 img_path = temp_folder + os.sep + img_file
                 img_folder_path = temp_folder + os.sep + img_file[:-4]
@@ -1194,6 +1198,7 @@ class Pipeline:
             Pipeline.inject_s_image_into_user(images_dict, user_image_path, temp_folder, lpunpack, lpmake, printc)
         finally:
             OtherTool.del_folder(temp_folder, printc)
+            OtherTool.del_file(super_path, printc)
 
     # In dev
     @staticmethod

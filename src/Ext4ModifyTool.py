@@ -36,6 +36,7 @@ class Ext4ModifyTool:
 
 
     # Does not support recursive deletion therefore dir must be empty
+    # For recursive deletion see - remove_folder_with_files()
     def remove_file(self, path_to_file, is_file=True, debugfs=None, printc=None):
         if printc is None:
             printc = print

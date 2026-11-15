@@ -48,7 +48,7 @@
 13. [Graphic Settings](#graphic-settings)
 14. [Scripts](#scripts)
 15. [SD Card Problems](#sd-card-problems)
-15. [Contact](#contact)
+16. [Contact](#contact)
 
 ## Introduction
 
@@ -301,7 +301,7 @@ If nothing works or you noticed broken links please [contact me](#Contact).
 
 #### Installation variants:
 
-FULL installation includes (+500MB eMMC variant):
+FULL installation includes (+500MB eMMC):
 1. Patch privileges
 2. Add RetroArch32
 3. Patch emu
@@ -313,7 +313,7 @@ FULL installation includes (+500MB eMMC variant):
 9. Patch audio
 10. Replace Aether with Nether
 
-PARTIAL installation includes: (+300MB eMMC variant):
+PARTIAL installation includes: (+300MB eMMC):
 1. Patch privileges
 2. Add RetroArch32
 3. Patch emu
@@ -325,7 +325,7 @@ PARTIAL installation includes: (+300MB eMMC variant):
 9. Patch audio
 10. Replace Aether with Nether
 
-MINIMAL installation includes: (+100MB eMMC variant):
+MINIMAL installation includes: (+100MB eMMC):
 1. Patch privileges
 2. Patch n64
 3. Add AppLauncher
@@ -335,12 +335,12 @@ MINIMAL installation includes: (+100MB eMMC variant):
 7. Patch audio
 8. Replace Aether with Nether
 
-*For 4GB eMMC variant use PARTIAL or MINIMAL variant, the main difference is that some of main applications will be placed on your SD card later instead of being in the eMMC/system disk. You will not lose any functionality anyway.*
+*For 4GB eMMC use PARTIAL or MINIMAL variant, the main difference is that some of main applications will be placed on your SD card later instead of being in the eMMC/system disk. You will not lose any functionality anyway.*
 
 *In MINIMAL variant the main UI is untouched, everything behaves by default. Updated functionality is accessible via AppLauncher. See [this](#full-house)*.
 
 *You can upgrade the same firmware from MINIMAL to FULL but not from FULL to MINIMAL, always use your original firmware to downgrade a variant.
-If your stick has been upgraded before without any variants then it is considered as FULL (choose FULL to upgrade it again).*
+If your stick has been upgraded before without any variants, then it is considered as FULL (choose FULL to upgrade it again).*
 
 ### Resources
 
@@ -781,7 +781,8 @@ atari5200->a5200_libretro_android.so
 dos->dosbox_pure_libretro_android.so
 ```
 
-Since v2.3 you can use RetroArch64 main menu to install any core you want, making this functionality deprecated.
+Since v2.3 you can use RetroArch64 main menu to install any core you want, making this functionality deprecated if you are not
+using RetroArch32 anymore.
 
 ### Game Won't Start
 
@@ -988,7 +989,8 @@ By using *dosbox_pure_libretro_android.so* core you can emulate Windows 95 / 98.
 
 1. It's strongly recommended to DIY some passive / active cooling. Or at least you can place the stick with the vents facing down on some laptop cooling pad.
 2. It's recommended to replace the original sd card by 128-512GB class 10 or even A1 (A1 though may cost even more than the stick itself).*
-3. The stick can provide only 25k-75k cps (something between 486DX2 and Pentium 66Mhz, which is not enough for comfortable playing such games like Heroes 3 as for example).**
+3. The stick can provide only 25k-75k cps (something between 486DX2 and Pentium 66Mhz, which is not enough for comfortable playing such games like Heroes 3 as for example).** But you still can
+enjoy many games (Pentium 66-100Mhz) like Diablo or Fallout 2.
 
 \* *Usually sdcard of the M88 out of the box is total junk (class 0-1). It will not allow you to create a disk to install Win98 with appropriate size (512MB and above),
 because in time of creation the system will think that the process is frozen and just kill it. The workaround will be explained below*.
@@ -1052,9 +1054,11 @@ or:
 ## Full House
 
 > [!NOTE]  
-> In case you have applied PARTIAL or MINIMAL upgrade variant, go to downloaded **Apps/SD** folder and copy it
-> into your SD card root - **sdcard/Apps**. The standard applications must be taken from your SD card because in your case 
+> In case you have applied PARTIAL or MINIMAL upgrade variant, go to downloaded **Apps/SD** folder and copy apk files from it
+> into your SD card **Apps** folder. The standard applications must be taken from your SD card because in your case 
 > they are not installed in the system area. See also [Your apk files](#your-apk-files) paragraph.
+
+![apps](resources/images/apps.webp)
 
 Since v2.3* you have the ability to run new emulators (Citra, Dolphin, RA64**) and install your own .apk files. It relies on the injected application providing the
 installation and launching methods. You should also read [Controller Problems](#controller-problems) paragraph first.

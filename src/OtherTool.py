@@ -33,6 +33,8 @@ class OtherTool:
 
     @staticmethod
     def del_file(what, printc=None):
+        if what is None:
+            return
         if printc is None:
             printc = print
         printc("Deleting:", what)
